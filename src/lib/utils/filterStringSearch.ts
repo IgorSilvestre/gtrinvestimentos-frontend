@@ -14,7 +14,6 @@ export function customSelectFilter({
   label
 }) {
 
-  console.log('value', value)
   if (items && loadOptions) return items;
   if (!items) return [];
 

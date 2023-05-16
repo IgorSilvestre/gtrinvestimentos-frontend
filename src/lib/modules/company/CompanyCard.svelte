@@ -1,6 +1,8 @@
 <script lang='ts'>
   import Tag from '../Tag.svelte';
   import type {ICompany} from '$lib/interfaces-validation/IVCompany';
+  import SaveEditButton from "$lib/modules/SaveEditButton.svelte";
+  import { goto } from "$app/navigation";
 
   export let company: ICompany;
 </script>
@@ -25,5 +27,9 @@
       <p class='text-gray-600 text-xs'>Criação: {company.createdAt}</p>
       <p class='text-gray-600 text-xs'>Alterado: {company.lastUpdated}</p>
     </div>
+    <SaveEditButton on:click={() => {
+      goto('edit/' + company?._id)
+    }
+    }>Editar</SaveEditButton>
   </div>
 </div>
