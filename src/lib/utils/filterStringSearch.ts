@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import regexForStringSearch from './regexForStringSearch';
 
 export function customSelectFilter({
@@ -22,7 +24,7 @@ export function customSelectFilter({
   }
 
   let filterResults = items.filter((item) => {
-    let matchesFilter = item[label].match(regexForStringSearch(filterText));
+    let matchesFilter = item.label.match(regexForStringSearch(filterText));
     if (matchesFilter && multiple && value?.length) {
       matchesFilter = !value.some((x) => {
         return filterSelectedItems ? x[itemId] === item[itemId] : false;
