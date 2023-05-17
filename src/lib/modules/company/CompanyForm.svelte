@@ -39,15 +39,13 @@
               ...companyFormUpdated,
               tags: normalizedTags
             }
-          )
+          ).then(() => goto("/company/" + company._id))
           :
           await API.post("company", {
             ...companyFormUpdated,
             tags: normalizedTags
-          }); // create company
+          }).then(response => goto(`/company/${response.data._id}`)); // create company
 
-        await goto("/company/" + company._id);
-        // Do something after the company is saved, e.g. redirect to the document page
       } catch (error) {
         console.error(error);
       } finally {
