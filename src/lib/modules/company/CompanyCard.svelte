@@ -1,13 +1,13 @@
 <script lang='ts'>
   import Tag from '../Tag.svelte';
   import type {ICompany} from '$lib/interfaces-validation/IVCompany';
-  import SaveEditButton from "$lib/modules/SaveEditButton.svelte";
+  import SaveEditButton from "$lib/modules/MainButton.svelte";
   import { goto } from "$app/navigation";
 
   export let company: ICompany;
 </script>
 
-<div class='bg-white rounded-lg overflow-hidden shadow-lg'>
+<div class='bg-white rounded-lg overflow-hidden shadow-lg border-solid border-2'>
   <div class='p-4'>
     <h2 class='text-lg font-medium text-gray-900 mb-2'>{company.name}</h2>
     <div class='flex flex-wrap mb-2'>

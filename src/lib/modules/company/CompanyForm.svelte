@@ -7,7 +7,7 @@
   import Select from "svelte-select";
   import { customSelectFilter } from "$lib/utils/filterStringSearch";
   import type { IOption } from "$lib/interfaces-validation/IOption";
-  import SaveEditButton from "$lib/modules/SaveEditButton.svelte";
+  import SaveEditButton from "$lib/modules/MainButton.svelte";
 
   export let company: ICompany;
 
@@ -16,7 +16,6 @@
     return data;
   }
 
-  let isSaving = false;
   let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions();
 
   let initialValues = {
@@ -31,9 +30,8 @@
     initialValues,
     validationSchema: VCompany,
     onSubmit: async (companyFormUpdated: ICompany) => {
-      const normalizedTags: string[] = companyFormUpdated.tags.map((tag: any) => tag.value);
+      const normalizedTags: string[] = companyFormUpdated.tags.map((tag: IOption) => tag.value);
       try {
-        isSaving = true;
         company ?
           await API.put(`company/${company._id}`, { // update company
               ...companyFormUpdated,
@@ -49,7 +47,7 @@
       } catch (error) {
         console.error(error);
       } finally {
-        isSaving = false;
+        // console.log("Company saved");
       }
     }
   });
@@ -98,7 +96,7 @@
         </div>
       </div>
       <div class="mb-4">
-        <label
+        <p
           class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
         >
           Tags
@@ -111,7 +109,7 @@
               <div class="text-red-500 text-xs">{$errors.tags}</div>
             {/if}
           {/await}
-        </label>
+        </p>
       </div>
       <div class="mb-4">
         <label
