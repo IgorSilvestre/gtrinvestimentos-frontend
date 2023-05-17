@@ -25,11 +25,13 @@
     </p>
     <div class='flex flex-col justify-end mt-4'>
       <p class='text-gray-600 text-xs'>Criação: {company.createdAt}</p>
-      <p class='text-gray-600 text-xs'>Alterado: {company.lastUpdated}</p>
+      <p class='text-gray-600 text-xs'>Última alteração: {company.lastUpdated}</p>
     </div>
-    <SaveEditButton on:click={() => {
+    <div class="flex justify-end">
+      <SaveEditButton on:click={() => {
       goto('edit/' + company?._id)
     }
     }>Editar</SaveEditButton>
+    </div>
   </div>
 </div>
