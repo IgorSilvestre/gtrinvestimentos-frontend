@@ -13,7 +13,6 @@ export function customSelectFilter({
   filterSelectedItems,
   convertStringItemsToObjects,
   filterGroupedItems,
-  label
 }) {
 
   if (items && loadOptions) return items;
