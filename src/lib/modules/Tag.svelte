@@ -1,10 +1,8 @@
 <script>
   export let name;
+  export let color
 </script>
 
 {#if name}
-  <span
-    class="px-2 py-1 rounded-full bg-gray-200 text-gray-800 text-sm mr-2 mb-2"
-    >{name}</span
-  >
+  <span class='badge variant-filled-{color}'>{name}</span>
 {/if}

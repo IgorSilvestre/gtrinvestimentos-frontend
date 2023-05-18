@@ -7,6 +7,7 @@ export interface ICompany {
   description: string;
   target: string;
   tags: IOption[];
+  employees: IOption[];
   createdAt?: Date;
   lastUpdated?: Date;
 }

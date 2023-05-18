@@ -3,7 +3,8 @@
   import NewCompany from "$lib/modules/company/NewCompany.svelte";
 
   export let data;
-  const { companies } = data || {};
+  let { companies } = data || {};
+  if (!Array.isArray(companies)) companies = [companies]
 
 </script>
 
