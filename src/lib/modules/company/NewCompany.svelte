@@ -3,5 +3,5 @@
 </script>
 
 <a href='/company/new'>
-  <MainButton >Criar Empresa</MainButton>
+  <MainButton type='button'>Criar Empresa</MainButton>
 </a>

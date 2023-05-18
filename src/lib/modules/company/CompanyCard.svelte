@@ -7,7 +7,7 @@
   export let company: ICompany;
 </script>
 
-<div class='bg-white rounded-lg overflow-hidden shadow-lg border-solid border-2'>
+<div class='bg-white rounded-lg overflow-hidden shadow-lg border-solid border-2 mx-4 my-2'>
   <div class='p-4'>
     <h2 class='text-lg font-medium text-gray-900 mb-2'>{company.name}</h2>
     <div class='flex flex-wrap mb-2'>
@@ -28,7 +28,7 @@
       <p class='text-gray-600 text-xs'>Última alteração: {company.lastUpdated}</p>
     </div>
     <div class="flex justify-end">
-      <SaveEditButton on:click={() => {
+      <SaveEditButton type='button' on:click={() => {
       goto('edit/' + company?._id)
     }
     }>Editar</SaveEditButton>
