@@ -30,10 +30,14 @@
 			label: tag?.label ?? ''
 		},
 		validationSchema: VTag,
-		onSubmit: (values) => {
-			console.log('Submitted values:', values);
+		onSubmit: (tagUpdated) => {
+			try {
+				API.put('/tag/' + tag._id, tagUpdated)
+			}
+			catch (e) {
+				console.error(e)
+			}
 			toggleEdit();
-			// Perform your submit logic here
 		}
 	});
 </script>
@@ -44,7 +48,7 @@
 			<div class="flex justify-between flex-row items-center">
 				<div>
 					{#if isEditing}
-						<label for="label">Name</label>
+						<label for="label">Nome</label>
 						<input
 							type="text"
 							id="label"
