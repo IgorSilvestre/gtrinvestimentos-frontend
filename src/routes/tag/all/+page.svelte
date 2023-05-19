@@ -1,9 +1,9 @@
 <script lang="ts">
-  import TagForm from "$lib/modules/tag/TagCardForm.svelte";
+  import TagCardForm from "$lib/modules/tag/TagCardForm.svelte";
 
   export let data;
-  let { tags } = data || {};
-  if (!Array.isArray(tags)) tags = [tags];
+  let tagOrTags = data.tags || {};
+  let tags = tagOrTags instanceof Array ? tagOrTags : [tagOrTags];
   console.log(tags);
 
 </script>
@@ -13,11 +13,9 @@
     <!--    <NewCompany />-->
     <!--    NEW TAG COMPONENT -->
   </div>
-  {#if tags.length > 0}
+  {#if tags}
     {#each tags as tag}
-      <a href={`/tag/${tag._id}`}>
-        <TagForm {tag} />
-      </a>
+     <TagCardForm {tag} />
     {/each}
   {:else}
     <div class="flex justify-center py-5">

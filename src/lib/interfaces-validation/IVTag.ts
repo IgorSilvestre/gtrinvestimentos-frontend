@@ -6,5 +6,5 @@ export interface ITag {
 }
 
 export const VTag = yup.object().shape({
-  name: yup.string().required("Name is required"),
+  label: yup.string().required("Name is required"),
 });

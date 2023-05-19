@@ -1,52 +1,79 @@
 <script lang="ts">
-  import { createForm } from "svelte-forms-lib";
-  import type { ITag } from "$lib/interfaces-validation/IVTag";
-  import { VTag } from "$lib/interfaces-validation/IVTag";
-  import Icon from "@iconify/svelte"
+	import { createForm } from 'svelte-forms-lib';
+	import type { ITag } from '$lib/interfaces-validation/IVTag';
+	import { VTag } from '$lib/interfaces-validation/IVTag';
+	import Icon from '@iconify/svelte';
+  import { API } from '$lib/api/API';
 
+	export let tag: ITag;
+	let isEditing = false;
 
-  export let tag: ITag;
+	function toggleEdit() {
+		isEditing = !isEditing;
+	}
 
-  let isEditing = false;
+	async function deleteTag() {
+		try {
+			await API.delete(`tag/${tag._id}`);
 
-  const { form, errors, touched, handleChange, handleSubmit } = createForm({
-    initialValues: {
-      label: tag?.label ?? ""
-    },
-    validationSchema: VTag,
-    onSubmit: (values) => {
-      console.log("Submitted values:", values);
-      // Perform your submit logic here
-    }
-  });
+			// If the request is successful, remove the tag card from the page
+			const tagCard = document.getElementById(`tag-card-${tag._id}`);
+			if (tagCard) tagCard.remove()
+
+		} catch (error) {
+			console.error('Error deleting tag:', error);
+		}
+	}
+
+	const { form, errors, touched, handleChange, handleSubmit } = createForm({
+		initialValues: {
+			label: tag?.label ?? ''
+		},
+		validationSchema: VTag,
+		onSubmit: (values) => {
+			console.log('Submitted values:', values);
+			toggleEdit();
+			// Perform your submit logic here
+		}
+	});
 </script>
 
-<div>
-  {#if isEditing}
-    <form on:submit={handleSubmit}>
-      <div>
-        <label for="name">Name</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={$form.label}
-          on:change={handleChange}
-        />
-        {#if $touched.label && $errors.label}
-          <p>{$errors.label}</p>
-        {/if}
-      </div>
-      <button type="submit">Submit</button>
-    </form>
-  {:else}
-    <div class="bg-white rounded-lg overflow-hidden shadow-lg border-solid border-2 mx-4 my-2">
-      <div class="p-4 flex justify-between items-center">
-        <h2 class="text-lg font-medium text-gray-900 mb-2">{tag?.label}</h2>
-        <div>
-          <Icon icon="ic:baseline-edit" color="black" />
-        </div>
-      </div>
-    </div>
-  {/if}
+<div id="tag-card-{tag._id}">
+	<div class="bg-white p-4 rounded-lg overflow-hidden shadow-lg border-solid border-2 mx-4 my-2">
+		<form on:submit={handleSubmit}>
+			<div class="flex justify-between flex-row items-center">
+				<div>
+					{#if isEditing}
+						<label for="label">Name</label>
+						<input
+							type="text"
+							id="label"
+							name="label"
+							value={$form.label}
+							on:change={handleChange}
+						/>
+						{#if $touched.label && $errors.label}
+							<p>{$errors.label}</p>
+						{/if}
+					{:else}
+						<h2 class="text-lg font-medium text-gray-900 mb-2">{$form.label}</h2>
+					{/if}
+				</div>
+				<div>
+					{#if isEditing}
+						<button type="submit" class="btn variant-filled-secondary btn-sm">Submit</button>
+					{:else}
+					<div>
+						<button type="button" class="btn-icon variant-filled-secondary" on:click={toggleEdit}>
+							<Icon icon="ic:baseline-edit" color="white" />
+						</button>
+						<button type="button" class="btn-icon variant-filled-error" on:click={deleteTag}>
+							<Icon icon="carbon:trash-can" color="white" />
+						</button>
+					</div>
+					{/if}
+				</div>
+			</div>
+		</form>
+	</div>
 </div>
