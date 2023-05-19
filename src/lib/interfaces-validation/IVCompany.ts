@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import type {IOption} from './IOption';
+import type {IPerson} from './IVPerson';
 
 export interface ICompany {
   _id?: string;
@@ -7,7 +8,7 @@ export interface ICompany {
   description: string;
   target: string;
   tags: IOption[];
-  employees: IOption[];
+  employees: IPerson[];
   createdAt?: Date;
   lastUpdated?: Date;
 }

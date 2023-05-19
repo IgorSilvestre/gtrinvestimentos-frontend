@@ -38,7 +38,8 @@
       <p class="text-gray-600 text-xs">Última alteração: {company.lastUpdated}</p>
     </div>
     <div class="flex justify-end">
-      <SaveEditButton type="button" color="secondary" on:click={() => {
+      <SaveEditButton type="button" color="secondary" on:click={(e) => {
+      e.preventDefault()
       goto('edit/' + company?._id)
     }
     }>Editar
