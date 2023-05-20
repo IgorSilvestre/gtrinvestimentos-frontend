@@ -6,7 +6,6 @@
 	import { VCompanyForm } from '$lib/interfaces-validation/IVCompany';
 	import Select from 'svelte-select';
 	import type { IOption } from '$lib/interfaces-validation/IOption';
-	import SaveEditButton from '$lib/modules/MainButton.svelte';
 	import type { IPerson } from '$lib/interfaces-validation/IVPerson';
   import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId';
   import { customSelectFilter } from '$lib/shared/functions/filterStringSearch';
@@ -178,7 +177,7 @@
 				{/if}
 			</div>
 			<div class="flex justify-end">
-				<SaveEditButton type="submit" color="secondary">Salvar</SaveEditButton>
+				<button type="submit" class="btn variant-filled-secondary">Salvar</button>
 			</div>
 		</form>
 	</div>

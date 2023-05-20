@@ -1,15 +1,17 @@
 <script lang="ts">
 	import Tag from '../../modules/Tag.svelte';
 	import type { ICompany } from '$lib/interfaces-validation/IVCompany';
-	import SaveEditButton from '$lib/modules/MainButton.svelte';
 	import { goto } from '$app/navigation';
-  import { fly } from 'svelte/transition';
-  import { transitionOptions } from '$lib/shared/transitionOptions';
+	import { fly } from 'svelte/transition';
+	import { transitionOptions } from '$lib/shared/transitionOptions';
 
 	export let company: ICompany;
 </script>
 
-<div class="bg-white rounded-lg overflow-hidden shadow-lg border-solid border-2 mx-4 my-2" in:fly={transitionOptions.defaultFlyEntry}>
+<div
+	class="bg-white rounded-lg overflow-hidden shadow-lg border-solid border-2 mx-4 my-2"
+	in:fly={transitionOptions.defaultFlyEntry}
+>
 	<div class="p-4">
 		<h2 class="text-lg font-medium text-gray-900 mb-2">{company.name}</h2>
 		<div class="flex flex-wrap mb-2">
@@ -48,12 +50,16 @@
 			<p class="text-gray-600 text-xs">Última alteração: {company.lastUpdated}</p>
 		</div>
 		<div class="flex justify-end">
-			<SaveEditButton
+			<button
 				type="button"
-				color="secondary"
-				on:click={() => goto('/company/edit/' + company?._id)}
-				>Editar
-			</SaveEditButton>
+				class="btn variant-filled-secondary"
+				on:click={(e) => {
+					e.preventDefault();
+					goto('/company/edit/' + company?._id);
+				}}
+			>
+				Editar
+			</button>
 		</div>
 	</div>
 </div>

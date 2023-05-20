@@ -13,7 +13,6 @@
 
 <main>
 	<div class="flex justify-center py-5">
-		<!--    <NewCompany />-->
 		<!--    NEW TAG COMPONENT -->
 	</div>
 	{#if tags}

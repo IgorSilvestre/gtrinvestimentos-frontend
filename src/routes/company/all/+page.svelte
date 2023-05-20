@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import CompanyCard from '$lib/containers/company/CompanyCard.svelte';
 	import NewCompany from '$lib/modules/NewRecord.svelte';
 
@@ -10,7 +11,9 @@
 
 <main>
 	<div class="flex justify-center py-5">
-		<NewCompany formPath="/company/new">Criar Empresa</NewCompany>
+		<button type="button" class="btn variant-filled-primary" on:click={() => goto('/company/new')}
+			>Criar Empresa</button
+		>
 	</div>
 	{#if companies.length > 0}
 		{#each companies as company}
