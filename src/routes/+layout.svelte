@@ -15,7 +15,7 @@
 	</main>
 
 	<footer>
-		<p>Footer HERE</p>
+		<!-- <p>Footer HERE</p> -->
 	</footer>
 </div>
 

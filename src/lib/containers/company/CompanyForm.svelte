@@ -132,7 +132,7 @@
 							filter={customSelectFilter}
 							bind:value={$form.tags}
 						/>
-						// TODO check if this component can work with validation
+						<!-- TODO check if this component can work with validation -->
 						<!-- {#if $errors.tags && $touched.tags}
 							<div class="text-red-500 text-xs">{$errors.tags}</div>
 						{/if} -->
