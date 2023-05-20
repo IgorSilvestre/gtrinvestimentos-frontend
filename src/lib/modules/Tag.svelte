@@ -1,6 +1,6 @@
-<script>
-  export let name;
-  export let color
+<script lang="ts">
+  export let name: string;
+  export let color: 'primary' | 'secondary' | 'tertiary' | 'error' | 'success' | 'warning' | 'surface'
 </script>
 
 {#if name}
