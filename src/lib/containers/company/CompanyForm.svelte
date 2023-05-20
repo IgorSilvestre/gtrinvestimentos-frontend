@@ -10,7 +10,7 @@
 	import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId'
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
 
-	export let company: ICompany
+	export let company: ICompany | undefined
 
 	async function getSelectTagOptions() {
 		const { data } = await API.get('tag/forSelect')
@@ -63,8 +63,8 @@
 
 			try {
 				company
-					? await API.put(`company/${company._id}`, companyParsed).then(() =>
-							goto('/company/' + company._id)
+					? await API.put(`company/${company?._id}`, companyParsed).then(() =>
+							goto('/company/' + company?._id)
 					  ) // update company
 					: await API.post('company', companyParsed).then((response) =>
 							goto(`/company/${response.data._id}`)
