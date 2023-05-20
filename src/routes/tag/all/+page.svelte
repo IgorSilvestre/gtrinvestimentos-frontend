@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TagCardForm from '$lib/modules/tag/TagCardForm.svelte'
+	import TagCardForm from '$lib/containers/tag/TagCardForm.svelte'
 
 	export let data
 	let tagOrTags = data.tags || {}
