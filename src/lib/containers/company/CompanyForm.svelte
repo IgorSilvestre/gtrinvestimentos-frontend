@@ -10,7 +10,7 @@
 	import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId'
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
 
-	export let company: ICompany | undefined
+	export let company: ICompany | undefined = undefined
 
 	async function getSelectTagOptions() {
 		const { data } = await API.get('tag/forSelect')

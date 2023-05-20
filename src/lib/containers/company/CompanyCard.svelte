@@ -5,7 +5,7 @@
 	import { fly } from 'svelte/transition'
 	import { transitionOptions } from '$lib/shared/transitionOptions'
 
-	export let company: ICompany
+	export let company: ICompany | undefined
 </script>
 
 <div
@@ -13,7 +13,7 @@
 	in:fly={transitionOptions.defaultFlyEntry}
 >
 	<div class="p-4">
-		<h2 class="text-lg font-medium text-gray-900 mb-2">{company.name}</h2>
+		<h2 class="text-lg font-medium text-gray-900 mb-2">{company?.name}</h2>
 		<div class="flex flex-wrap mb-2">
 			{#if company?.tags}
 				{#each company?.tags as tag}
@@ -25,11 +25,11 @@
 		</div>
 		<p class="text-gray-700 text-sm">
 			<span class="font-bold"> Descrição:</span>
-			{company.description}
+			{company?.description}
 		</p>
 		<p class="text-gray-700 text-sm">
 			<span class="font-bold">Target:</span>
-			{company.target}
+			{company?.target}
 		</p>
 		<div class="flex flex-col">
 			<p class="text-gray-700 text-sm">
@@ -46,8 +46,8 @@
 			</div>
 		</div>
 		<div class="flex flex-col justify-end mt-4">
-			<p class="text-gray-600 text-xs">Criação: {company.createdAt}</p>
-			<p class="text-gray-600 text-xs">Última alteração: {company.lastUpdated}</p>
+			<p class="text-gray-600 text-xs">Criação: {company?.createdAt}</p>
+			<p class="text-gray-600 text-xs">Última alteração: {company?.lastUpdated}</p>
 		</div>
 		<div class="flex justify-end">
 			<button
