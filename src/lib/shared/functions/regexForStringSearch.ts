@@ -5,6 +5,6 @@ export default function regexForStringSearch(query: string) {
 		.replace(/i/gi, '[IÍÌÎ]')
 		.replace(/o/gi, '[OÓÒÔÕ]')
 		.replace(/u/gi, '[UÚÙÛ]')
-		.replace(/c/gi, '[CÇ]');
-	return new RegExp(query, 'gmi');
+		.replace(/c/gi, '[CÇ]')
+	return new RegExp(query, 'gmi')
 }

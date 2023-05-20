@@ -1,12 +1,12 @@
-import * as yup from 'yup';
+import * as yup from 'yup'
 
 export interface IPerson {
-	_id?: string;
-	name: string;
-	tags?: string[];
-	email?: string;
-	lastUpdated?: Date;
-	createdAt?: Date;
+	_id?: string
+	name: string
+	tags?: string[]
+	email?: string
+	lastUpdated?: Date
+	createdAt?: Date
 }
 
 export const VPerson = yup.object().shape({
@@ -16,4 +16,4 @@ export const VPerson = yup.object().shape({
 	email: yup.string().email().optional(),
 	lastUpdated: yup.date().optional(),
 	createdAt: yup.date().optional()
-});
+})

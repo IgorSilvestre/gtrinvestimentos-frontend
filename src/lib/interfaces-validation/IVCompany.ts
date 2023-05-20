@@ -1,17 +1,17 @@
-import * as yup from 'yup';
-import type { IOption } from './IOption';
-import type { IPerson } from './IVPerson';
-import { textKeys } from '$lib/shared/textKeys';
+import * as yup from 'yup'
+import type { IOption } from './IOption'
+import type { IPerson } from './IVPerson'
+import { textKeys } from '$lib/shared/textKeys'
 
 export interface ICompany {
-	_id?: string;
-	name: string;
-	description?: string;
-	target?: string;
-	tags?: IOption[];
-	employees?: IPerson[];
-	createdAt?: Date;
-	lastUpdated?: Date;
+	_id?: string
+	name: string
+	description?: string
+	target?: string
+	tags?: IOption[]
+	employees?: IPerson[]
+	createdAt?: Date
+	lastUpdated?: Date
 }
 
 export const VCompanyForm = yup.object().shape({
@@ -35,4 +35,4 @@ export const VCompanyForm = yup.object().shape({
 	description: yup.string().optional(),
 	target: yup.string().optional(),
 	lastUpdated: yup.date().optional()
-});
+})

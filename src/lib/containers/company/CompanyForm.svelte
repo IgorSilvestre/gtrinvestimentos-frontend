@@ -1,37 +1,37 @@
 <script lang="ts">
-	import { API } from '$lib/api/API';
-	import { goto } from '$app/navigation';
-	import { createForm } from 'svelte-forms-lib';
-	import type { ICompany } from '$lib/interfaces-validation/IVCompany';
-	import { VCompanyForm } from '$lib/interfaces-validation/IVCompany';
-	import Select from 'svelte-select';
-	import type { IOption } from '$lib/interfaces-validation/IOption';
-	import type { IPerson } from '$lib/interfaces-validation/IVPerson';
-	import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId';
-	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch';
+	import { API } from '$lib/api/API'
+	import { goto } from '$app/navigation'
+	import { createForm } from 'svelte-forms-lib'
+	import type { ICompany } from '$lib/interfaces-validation/IVCompany'
+	import { VCompanyForm } from '$lib/interfaces-validation/IVCompany'
+	import Select from 'svelte-select'
+	import type { IOption } from '$lib/interfaces-validation/IOption'
+	import type { IPerson } from '$lib/interfaces-validation/IVPerson'
+	import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId'
+	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
 
-	export let company: ICompany;
+	export let company: ICompany
 
 	async function getSelectTagOptions() {
-		const { data } = await API.get('tag/forSelect');
-		return data;
+		const { data } = await API.get('tag/forSelect')
+		return data
 	}
-	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions();
+	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
 
 	async function getSelectPersonOptions() {
-		const { data } = await API.get('person/getAll');
+		const { data } = await API.get('person/getAll')
 		return data.map((person: IPerson) => {
 			return {
 				label: person.name,
 				value: person._id
-			};
-		});
+			}
+		})
 	}
-	let selectPersonOptionsPromise: Promise<IOption[]> = getSelectPersonOptions();
+	let selectPersonOptionsPromise: Promise<IOption[]> = getSelectPersonOptions()
 
 	interface ICompanyForm extends Omit<ICompany, 'employees' | 'tags'> {
-		employees?: IOption[];
-		tags?: IOption[];
+		employees?: IOption[]
+		tags?: IOption[]
 	}
 	let initialValues: ICompanyForm = {
 		name: company?.name ?? '',
@@ -43,7 +43,7 @@
 			})) ?? [],
 		target: company?.target,
 		tags: company?.tags
-	};
+	}
 
 	const { form, errors, handleChange, handleSubmit } = createForm({
 		initialValues,
@@ -51,15 +51,15 @@
 		onSubmit: async (companyFormUpdated: ICompanyForm) => {
 			const normalizedTags: string[] | undefined = parseArrayOfOptionsToIds(
 				companyFormUpdated?.tags
-			);
+			)
 			const parsedEmployees: string[] | undefined = parseArrayOfOptionsToIds(
 				companyFormUpdated?.employees as IOption[] | undefined
-			);
+			)
 			const companyParsed = {
 				...companyFormUpdated,
 				tags: normalizedTags,
 				employees: parsedEmployees
-			};
+			}
 
 			try {
 				company
@@ -68,14 +68,14 @@
 					  ) // update company
 					: await API.post('company', companyParsed).then((response) =>
 							goto(`/company/${response.data._id}`)
-					  ); // create company
+					  ) // create company
 			} catch (error) {
-				console.error(error);
+				console.error(error)
 			} finally {
 				// console.log("Company saved");
 			}
 		}
-	});
+	})
 </script>
 
 <div class="bg-white rounded-lg overflow-hidden shadow-lg">

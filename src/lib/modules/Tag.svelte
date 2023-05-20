@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let name: string;
+	export let name: string
 	export let color:
 		| 'primary'
 		| 'secondary'
@@ -7,7 +7,7 @@
 		| 'error'
 		| 'success'
 		| 'warning'
-		| 'surface';
+		| 'surface'
 </script>
 
 {#if name}

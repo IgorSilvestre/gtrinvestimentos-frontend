@@ -1,13 +1,13 @@
 <script lang="ts">
-	import TagCardForm from '$lib/containers/tag/TagCardForm.svelte';
+	import TagCardForm from '$lib/modules/tag/TagCardForm.svelte'
 
-	export let data;
-	let tagOrTags = data.tags || {};
-	let tags = tagOrTags instanceof Array ? tagOrTags : [tagOrTags];
+	export let data
+	let tagOrTags = data.tags || {}
+	let tags = tagOrTags instanceof Array ? tagOrTags : [tagOrTags]
 
 	function handleRemoveTag(event: CustomEvent<string>) {
-		const tagIdToRemove = event.detail;
-		tags = tags.filter((tag) => tag._id !== tagIdToRemove);
+		const tagIdToRemove = event.detail
+		tags = tags.filter((tag) => tag._id !== tagIdToRemove)
 	}
 </script>
 

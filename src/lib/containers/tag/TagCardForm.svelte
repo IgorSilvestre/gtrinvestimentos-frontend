@@ -1,29 +1,29 @@
 <script lang="ts">
-	import { createForm } from 'svelte-forms-lib';
-	import type { ITag } from '$lib/interfaces-validation/IVTag';
-	import { VTag } from '$lib/interfaces-validation/IVTag';
-	import Icon from '@iconify/svelte';
-	import { API } from '$lib/api/API';
-	import { fade, fly } from 'svelte/transition';
-	import { createEventDispatcher } from 'svelte';
-	import { transitionOptions } from '$lib/shared/transitionOptions';
+	import { createForm } from 'svelte-forms-lib'
+	import type { ITag } from '$lib/interfaces-validation/IVTag'
+	import { VTag } from '$lib/interfaces-validation/IVTag'
+	import Icon from '@iconify/svelte'
+	import { API } from '$lib/api/API'
+	import { fade, fly } from 'svelte/transition'
+	import { createEventDispatcher } from 'svelte'
+	import { transitionOptions } from '$lib/shared/transitionOptions'
 
-	export let tag: ITag;
-	let isEditing = false;
+	export let tag: ITag
+	let isEditing = false
 
 	function toggleEdit() {
-		isEditing = !isEditing;
+		isEditing = !isEditing
 	}
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher()
 	async function deleteTag() {
 		try {
-			await API.delete(`tag/${tag._id}`);
+			await API.delete(`tag/${tag._id}`)
 
 			// If the request is successful, emit the 'remove' event
-			dispatch('remove', tag._id);
+			dispatch('remove', tag._id)
 		} catch (error) {
-			console.error('Error deleting tag:', error);
+			console.error('Error deleting tag:', error)
 		}
 	}
 
@@ -34,13 +34,13 @@
 		validationSchema: VTag,
 		onSubmit: (tagUpdated) => {
 			try {
-				API.put('/tag/' + tag._id, tagUpdated);
+				API.put('/tag/' + tag._id, tagUpdated)
 			} catch (e) {
-				console.error(e);
+				console.error(e)
 			}
-			toggleEdit();
+			toggleEdit()
 		}
-	});
+	})
 </script>
 
 <div

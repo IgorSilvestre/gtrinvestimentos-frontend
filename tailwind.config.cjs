@@ -8,4 +8,4 @@ export default {
 		extend: {}
 	},
 	plugins: [...require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')()]
-};
+}

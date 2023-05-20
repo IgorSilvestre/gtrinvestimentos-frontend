@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Tag from '../../modules/Tag.svelte';
-	import type { ICompany } from '$lib/interfaces-validation/IVCompany';
-	import { goto } from '$app/navigation';
-	import { fly } from 'svelte/transition';
-	import { transitionOptions } from '$lib/shared/transitionOptions';
+	import Tag from '../../modules/Tag.svelte'
+	import type { ICompany } from '$lib/interfaces-validation/IVCompany'
+	import { goto } from '$app/navigation'
+	import { fly } from 'svelte/transition'
+	import { transitionOptions } from '$lib/shared/transitionOptions'
 
-	export let company: ICompany;
+	export let company: ICompany
 </script>
 
 <div
@@ -54,8 +54,8 @@
 				type="button"
 				class="btn variant-filled-secondary"
 				on:click={(e) => {
-					e.preventDefault();
-					goto('/company/edit/' + company?._id);
+					e.preventDefault()
+					goto('/company/edit/' + company?._id)
 				}}
 			>
 				Editar

@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import regexForStringSearch from './regexForStringSearch';
+import regexForStringSearch from './regexForStringSearch'
 
 export function customSelectFilter({
 	loadOptions,
@@ -14,27 +14,27 @@ export function customSelectFilter({
 	convertStringItemsToObjects,
 	filterGroupedItems
 }) {
-	if (items && loadOptions) return items;
-	if (!items) return [];
+	if (items && loadOptions) return items
+	if (!items) return []
 
 	if (items && items.length > 0 && typeof items[0] !== 'object') {
-		items = convertStringItemsToObjects(items);
+		items = convertStringItemsToObjects(items)
 	}
 
 	let filterResults = items.filter((item) => {
-		let matchesFilter = item.label.match(regexForStringSearch(filterText));
+		let matchesFilter = item.label.match(regexForStringSearch(filterText))
 		if (matchesFilter && multiple && value?.length) {
 			matchesFilter = !value.some((x) => {
-				return filterSelectedItems ? x[itemId] === item[itemId] : false;
-			});
+				return filterSelectedItems ? x[itemId] === item[itemId] : false
+			})
 		}
 
-		return matchesFilter;
-	});
+		return matchesFilter
+	})
 
 	if (groupBy) {
-		filterResults = filterGroupedItems(filterResults);
+		filterResults = filterGroupedItems(filterResults)
 	}
 
-	return filterResults;
+	return filterResults
 }

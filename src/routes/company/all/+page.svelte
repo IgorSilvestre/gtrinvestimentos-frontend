@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import CompanyCard from '$lib/containers/company/CompanyCard.svelte';
-	import NewCompany from '$lib/modules/NewRecord.svelte';
+	import { goto } from '$app/navigation'
+	import CompanyCard from '$lib/containers/company/CompanyCard.svelte'
 
-	export let data;
+	export let data
 
-	let companyOrCompanies = data.companies || {};
-	let companies = companyOrCompanies instanceof Array ? companyOrCompanies : [companyOrCompanies];
+	let companyOrCompanies = data.companies || {}
+	let companies = companyOrCompanies instanceof Array ? companyOrCompanies : [companyOrCompanies]
 </script>
 
 <main>
