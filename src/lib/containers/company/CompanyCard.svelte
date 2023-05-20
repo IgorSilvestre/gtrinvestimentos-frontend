@@ -51,10 +51,7 @@
 			<SaveEditButton
 				type="button"
 				color="secondary"
-				on:click={(e) => {
-					e.preventDefault();
-					goto('edit/' + company?._id);
-				}}
+				on:click={() => goto('/company/edit/' + company?._id)}
 				>Editar
 			</SaveEditButton>
 		</div>

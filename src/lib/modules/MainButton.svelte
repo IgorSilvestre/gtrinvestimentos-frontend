@@ -10,7 +10,10 @@
 </script>
 
 <button
-  on:click={handleClick}
+  on:click={(e) => {
+    e.preventDefault()
+    handleClick(e)
+    }}
   {type}
   class='btn variant-filled-{color}'
 >
