@@ -4,9 +4,9 @@
 	import { VTag } from '$lib/interfaces-validation/IVTag';
 	import Icon from '@iconify/svelte';
 	import { API } from '$lib/api/API';
-	import { fly } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import { createEventDispatcher } from 'svelte';
-  import { transitionOptions } from '$lib/shared/transitionOptions';
+	import { transitionOptions } from '$lib/shared/transitionOptions';
 
 	export let tag: ITag;
 	let isEditing = false;
@@ -43,32 +43,40 @@
 	});
 </script>
 
-<div id="tag-card-{tag._id}" in:fly={transitionOptions.defaultFlyEntry} out:fly|local={transitionOptions.defaultFlyExit}>
+<div
+	id="tag-card-{tag._id}"
+	in:fly={transitionOptions.defaultFlyEntry}
+	out:fly|local={transitionOptions.defaultFlyExit}
+>
 	<div class="bg-white p-4 rounded-lg overflow-hidden shadow-lg border-solid border-2 mx-4 my-2">
 		<form on:submit={handleSubmit}>
 			<div class="flex justify-between flex-row items-center">
 				<div>
 					{#if isEditing}
-						<label for="label">Nome</label>
-						<input
-							type="text"
-							id="label"
-							name="label"
-							value={$form.label}
-							on:change={handleChange}
-						/>
+						<div in:fade={transitionOptions.defaultFade}>
+							<label for="label">Nome</label>
+							<input
+								type="text"
+								id="label"
+								name="label"
+								value={$form.label}
+								on:change={handleChange}
+							/>
+						</div>
 						{#if $touched.label && $errors.label}
 							<p>{$errors.label}</p>
 						{/if}
 					{:else}
-						<h2 class="text-lg font-medium text-gray-900 mb-2">{$form.label}</h2>
+						<h2 in:fade={transitionOptions.defaultFade} class="text-lg font-medium text-gray-900 mb-2">{$form.label}</h2>
 					{/if}
 				</div>
 				<div>
 					{#if isEditing}
-						<button type="submit" class="btn variant-filled-secondary btn-sm">Submit</button>
+						<div in:fade={transitionOptions.defaultFade}>
+							<button type="submit" class="btn variant-filled-secondary btn-sm">Submit</button>
+						</div>
 					{:else}
-						<div>
+						<div in:fade={transitionOptions.defaultFade}>
 							<button type="button" class="btn-icon variant-filled-secondary" on:click={toggleEdit}>
 								<Icon icon="ic:baseline-edit" color="white" />
 							</button>
