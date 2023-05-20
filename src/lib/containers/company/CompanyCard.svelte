@@ -3,11 +3,13 @@
 	import type { ICompany } from '$lib/interfaces-validation/IVCompany';
 	import SaveEditButton from '$lib/modules/MainButton.svelte';
 	import { goto } from '$app/navigation';
+  import { fly } from 'svelte/transition';
+  import { transitionOptions } from '$lib/shared/transitionOptions';
 
 	export let company: ICompany;
 </script>
 
-<div class="bg-white rounded-lg overflow-hidden shadow-lg border-solid border-2 mx-4 my-2">
+<div class="bg-white rounded-lg overflow-hidden shadow-lg border-solid border-2 mx-4 my-2" in:fly={transitionOptions.defaultFlyEntry}>
 	<div class="p-4">
 		<h2 class="text-lg font-medium text-gray-900 mb-2">{company.name}</h2>
 		<div class="flex flex-wrap mb-2">
