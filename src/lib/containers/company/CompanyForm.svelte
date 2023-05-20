@@ -76,11 +76,6 @@
 			}
 		}
 	});
-
-  $: {
-    console.log($errors);
-    console.log(JSON.stringify($errors));
-  }
 </script>
 
 <div class="bg-white rounded-lg overflow-hidden shadow-lg">
