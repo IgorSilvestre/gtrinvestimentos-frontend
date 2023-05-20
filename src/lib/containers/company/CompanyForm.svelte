@@ -7,8 +7,8 @@
 	import Select from 'svelte-select';
 	import type { IOption } from '$lib/interfaces-validation/IOption';
 	import type { IPerson } from '$lib/interfaces-validation/IVPerson';
-  import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId';
-  import { customSelectFilter } from '$lib/shared/functions/filterStringSearch';
+	import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId';
+	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch';
 
 	export let company: ICompany;
 
@@ -45,7 +45,7 @@
 		tags: company?.tags
 	};
 
-	const { form, errors, touched, handleChange, handleSubmit } = createForm({
+	const { form, errors, handleChange, handleSubmit } = createForm({
 		initialValues,
 		validationSchema: VCompanyForm,
 		onSubmit: async (companyFormUpdated: ICompanyForm) => {
@@ -65,7 +65,7 @@
 				company
 					? await API.put(`company/${company._id}`, companyParsed).then(() =>
 							goto('/company/' + company._id)
-					  )
+					  ) // update company
 					: await API.post('company', companyParsed).then((response) =>
 							goto(`/company/${response.data._id}`)
 					  ); // create company
@@ -132,6 +132,7 @@
 							filter={customSelectFilter}
 							bind:value={$form.tags}
 						/>
+						// TODO check if this component can work with validation
 						<!-- {#if $errors.tags && $touched.tags}
 							<div class="text-red-500 text-xs">{$errors.tags}</div>
 						{/if} -->

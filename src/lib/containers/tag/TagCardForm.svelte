@@ -67,7 +67,12 @@
 							<p>{$errors.label}</p>
 						{/if}
 					{:else}
-						<h2 in:fade={transitionOptions.defaultFade} class="text-lg font-medium text-gray-900 mb-2">{$form.label}</h2>
+						<h2
+							in:fade={transitionOptions.defaultFade}
+							class="text-lg font-medium text-gray-900 mb-2"
+						>
+							{$form.label}
+						</h2>
 					{/if}
 				</div>
 				<div>

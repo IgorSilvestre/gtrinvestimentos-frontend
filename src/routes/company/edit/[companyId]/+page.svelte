@@ -1,11 +1,10 @@
 <script lang="ts">
-  import CompanyForm from "$lib/containers/company/CompanyForm.svelte";
+	import CompanyForm from '$lib/containers/company/CompanyForm.svelte';
 
-  export let data;
-  const { company } = data;
-
+	export let data;
+	const { company } = data;
 </script>
 
 <main>
-  <CompanyForm {company} />
+	<CompanyForm {company} />
 </main>

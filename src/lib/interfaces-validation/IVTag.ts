@@ -1,10 +1,10 @@
-import * as yup from "yup";
+import * as yup from 'yup';
 
 export interface ITag {
-  label: string;
-  _id?: string
+	label: string;
+	_id?: string;
 }
 
 export const VTag = yup.object().shape({
-  label: yup.string().required("Name is required"),
+	label: yup.string().required('Name is required')
 });
