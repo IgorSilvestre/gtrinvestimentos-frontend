@@ -1,5 +1,5 @@
 <script lang="ts">
-  import CompanyForm from "$lib/modules/company/CompanyForm.svelte";
+  import CompanyForm from "$lib/containers/company/CompanyForm.svelte";
 
 </script>
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import CompanyCard from "$lib/modules/company/CompanyCard.svelte";
+  import CompanyCard from "$lib/containers/company/CompanyCard.svelte";
 
   export let data;
   const { company } = data;
