@@ -3,7 +3,10 @@
 	import type { ITag } from '$lib/interfaces-validation/IVTag';
 	import { VTag } from '$lib/interfaces-validation/IVTag';
 	import Icon from '@iconify/svelte';
-  import { API } from '$lib/api/API';
+	import { API } from '$lib/api/API';
+	import { fly } from 'svelte/transition';
+	import { createEventDispatcher } from 'svelte';
+  import { transitionOptions } from '$lib/shared/transitionOptions';
 
 	export let tag: ITag;
 	let isEditing = false;
@@ -12,14 +15,13 @@
 		isEditing = !isEditing;
 	}
 
+	const dispatch = createEventDispatcher();
 	async function deleteTag() {
 		try {
 			await API.delete(`tag/${tag._id}`);
 
-			// If the request is successful, remove the tag card from the page
-			const tagCard = document.getElementById(`tag-card-${tag._id}`);
-			if (tagCard) tagCard.remove()
-
+			// If the request is successful, emit the 'remove' event
+			dispatch('remove', tag._id);
 		} catch (error) {
 			console.error('Error deleting tag:', error);
 		}
@@ -32,17 +34,16 @@
 		validationSchema: VTag,
 		onSubmit: (tagUpdated) => {
 			try {
-				API.put('/tag/' + tag._id, tagUpdated)
-			}
-			catch (e) {
-				console.error(e)
+				API.put('/tag/' + tag._id, tagUpdated);
+			} catch (e) {
+				console.error(e);
 			}
 			toggleEdit();
 		}
 	});
 </script>
 
-<div id="tag-card-{tag._id}">
+<div id="tag-card-{tag._id}" in:fly={transitionOptions.defaultFlyEntry} out:fly|local={transitionOptions.defaultFlyExit}>
 	<div class="bg-white p-4 rounded-lg overflow-hidden shadow-lg border-solid border-2 mx-4 my-2">
 		<form on:submit={handleSubmit}>
 			<div class="flex justify-between flex-row items-center">
@@ -67,14 +68,14 @@
 					{#if isEditing}
 						<button type="submit" class="btn variant-filled-secondary btn-sm">Submit</button>
 					{:else}
-					<div>
-						<button type="button" class="btn-icon variant-filled-secondary" on:click={toggleEdit}>
-							<Icon icon="ic:baseline-edit" color="white" />
-						</button>
-						<button type="button" class="btn-icon variant-filled-error" on:click={deleteTag}>
-							<Icon icon="carbon:trash-can" color="white" />
-						</button>
-					</div>
+						<div>
+							<button type="button" class="btn-icon variant-filled-secondary" on:click={toggleEdit}>
+								<Icon icon="ic:baseline-edit" color="white" />
+							</button>
+							<button type="button" class="btn-icon variant-filled-error" on:click={deleteTag}>
+								<Icon icon="carbon:trash-can" color="white" />
+							</button>
+						</div>
 					{/if}
 				</div>
 			</div>
