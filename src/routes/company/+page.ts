@@ -3,7 +3,7 @@ import type { ILoadFunction } from '$lib/interfaces-validation/ILoadFunction'
 import type { ICompany } from '$lib/interfaces-validation/IVCompany'
 
 export async function load({ fetch }: ILoadFunction): Promise<{ companies: ICompany }> {
-	const res: Response = await fetch(API_URL + '/company/getAll')
+	const res: Response = await fetch(API_URL + '/company/all')
 	const data = await res.json()
 	return { companies: data }
 }
