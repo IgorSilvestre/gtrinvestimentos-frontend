@@ -1,5 +1,5 @@
 <script lang="ts">
-  import PersonCard from '$lib/containers/person/PersonCard.svelte'
+	import PersonCard from '$lib/containers/person/PersonCard.svelte'
 
 	export let data
 	const { people } = data
