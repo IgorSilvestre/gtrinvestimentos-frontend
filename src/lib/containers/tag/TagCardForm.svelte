@@ -3,7 +3,7 @@
 	import type { ITag } from '$lib/interfaces-validation/IVTag'
 	import { VTag } from '$lib/interfaces-validation/IVTag'
 	import Icon from '@iconify/svelte'
-	import { API } from '$lib/api/API'
+	import { API } from '$lib/api/apiFetch'
 	import { fade, fly } from 'svelte/transition'
 	import { createEventDispatcher } from 'svelte'
 	import { transitionOptions } from '$lib/shared/transitionOptions'
@@ -18,7 +18,7 @@
 	const dispatch = createEventDispatcher()
 	async function deleteTag() {
 		try {
-			await API.delete(`tag/${tag._id}`)
+			await API.delete('tag/' + tag._id)
 
 			// If the request is successful, emit the 'remove' event
 			dispatch('remove', tag._id)
@@ -34,7 +34,7 @@
 		validationSchema: VTag,
 		onSubmit: (tagUpdated) => {
 			try {
-				API.put('/tag/' + tag._id, tagUpdated)
+				API.put('tag/' + tag._id, tagUpdated)
 			} catch (e) {
 				console.error(e)
 			}

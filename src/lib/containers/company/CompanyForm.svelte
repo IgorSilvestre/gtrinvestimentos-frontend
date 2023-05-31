@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { API } from '$lib/api/API'
+	import { API } from '$lib/api/apiFetch'
 	import { goto } from '$app/navigation'
 	import { createForm } from 'svelte-forms-lib'
 	import type { ICompany } from '$lib/interfaces-validation/IVCompany'
@@ -9,17 +9,18 @@
 	import type { IPerson } from '$lib/interfaces-validation/IVPerson'
 	import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId'
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
+	import { APIEndpoints } from '$lib/api/apiEndpoints'
 
 	export let company: ICompany | undefined = undefined
 
 	async function getSelectTagOptions() {
-		const { data } = await API.get('tag/forSelect')
+		const { data } = await API.get(APIEndpoints.tags.getAllForSelect)
 		return data
 	}
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
 
 	async function getSelectPersonOptions() {
-		const { data } = await API.get('person/getAll')
+		const { data } = await API.get(APIEndpoints.person.getAll)
 		return data.map((person: IPerson) => {
 			return {
 				label: person.name,
@@ -63,11 +64,11 @@
 
 			try {
 				company
-					? await API.put(`company/${company?._id}`, companyParsed).then(() =>
+					? await API.put('company/' + company?._id, companyParsed).then(() =>
 							goto('/company/' + company?._id)
 					  ) // update company
 					: await API.post('company', companyParsed).then((response) =>
-							goto(`/company/${response.data._id}`)
+							goto('/company/' + response.data._id)
 					  ) // create company
 			} catch (error) {
 				console.error(error)
