@@ -7,6 +7,8 @@
 
 <main>
 	{#each people as person}
-		<PersonCard {person} />
+		<a href={'person/' + person?._id}>
+			<PersonCard {person} />
+		</a>
 	{/each}
 </main>
