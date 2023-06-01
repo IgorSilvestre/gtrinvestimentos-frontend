@@ -3,16 +3,31 @@
 	import { API } from '$lib/api/apiFetch'
 	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
 	import type { IOption } from '$lib/interfaces-validation/IOption'
+	import type { ICompany } from '$lib/interfaces-validation/IVCompany'
 	import { IOptionToId } from '$lib/shared/functions/IOptionToId'
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
-  import { createEventDispatcher } from 'svelte'
+	import { createEventDispatcher } from 'svelte'
 	import Select from 'svelte-select'
 
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
 
 	let tagsSelected: IOption[] = []
 
-    const dispatch = createEventDispatcher()
+	const dispatch = createEventDispatcher()
+
+	async function getFilteredCompanies() {
+		if (!tagsSelected || tagsSelected.length === 0) {
+			const { data: allCompanies } = await API.get(APIEndpoints.company.getAll)
+			dispatch('search', allCompanies)
+		} else {
+			const { data: filteredCompanies } = await API.post(APIEndpoints.company.search, {
+				tags: IOptionToId(tagsSelected)
+			})
+			filteredCompanies.length === 0
+				? alert('Nenhuma empresa encontrada')
+				: dispatch('search', filteredCompanies)
+		}
+	}
 </script>
 
 <main>
@@ -33,16 +48,7 @@
 							<div class="text-red-500 text-xs">{$errors.tags}</div>
 						{/if} -->
 		{/await}
-		<button
-			class="btn variant-filled-primary ml-3"
-			on:click={async () => {
-				const { data: filteredCompanies } = await API.post(APIEndpoints.company.search, {
-					tags: IOptionToId(tagsSelected)
-				})
-				dispatch('search', filteredCompanies)
-                console.log(filteredCompanies)
-			}}
-		>
+		<button class="btn variant-filled-primary ml-3" on:click={getFilteredCompanies}>
 			Buscar
 		</button>
 	</div>
