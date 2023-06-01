@@ -7,6 +7,7 @@ export const APIEndpoints = {
 		getAllForSelect: 'tag/all-for-select'
 	},
 	company: {
-		getAll: 'company/all'
+		getAll: 'company/all',
+		search: 'company/search'
 	}
 }

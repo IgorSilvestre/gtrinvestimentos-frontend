@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import CompanyCard from '$lib/containers/company/CompanyCard.svelte'
+  import TagSearch from '$lib/modules/TagSearch.svelte'
 
 	export let data
 
@@ -9,6 +10,9 @@
 </script>
 
 <main>
+	<div class="p-4">
+	<TagSearch />
+	</div>
 	<div class="flex justify-center py-5">
 		<button type="button" class="btn variant-filled-primary" on:click={() => goto('/company/new')}
 			>Criar Empresa</button

@@ -10,13 +10,10 @@
 	import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId'
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
+  import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
 
 	export let company: ICompany | undefined = undefined
 
-	async function getSelectTagOptions() {
-		const { data } = await API.get(APIEndpoints.tags.getAllForSelect)
-		return data
-	}
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
 
 	async function getSelectPersonOptions() {

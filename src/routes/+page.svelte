@@ -1,10 +1,11 @@
 <script>
-	let companyId = '6464f55d55ad7c07940b8df2'
 </script>
 
-<section>
-	<a href="/company/{companyId}">Company</a>
-</section>
+<main class="flex items-center justify-center h-screen">
+<div class="bg-grey p-4">
+
+</div>
+</main>
 
 <style>
 </style>
