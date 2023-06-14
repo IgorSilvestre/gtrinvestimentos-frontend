@@ -19,7 +19,7 @@
 
 <main>
 	<div class="p-4">
-		<TagSearch on:search={handleSearchCompany} />
+		<TagSearch on:search={handleSearchCompany} domainToFilter='company' />
 	</div>
 	<div class="flex justify-center py-5">
 		<button type="button" class="btn variant-filled-primary" on:click={() => goto('/company/new')}
