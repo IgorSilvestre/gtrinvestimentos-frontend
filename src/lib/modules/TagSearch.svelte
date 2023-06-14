@@ -38,15 +38,15 @@
 
 	async function getFilteredByTags(tags: IOption[]) {
 		if (!tags || tags.length === 0) {
-			const { data: allCompanies } = await API.get(endpoint?.getAll)
-			dispatch('search', allCompanies)
+			const { data: all } = await API.get(endpoint?.getAll)
+			dispatch('search', all)
 		} else {
-			const { data: filteredCompanies } = await API.post(endpoint?.search, {
+			const { data: filtered} = await API.post(endpoint?.search, {
 				tags: IOptionToId(tags)
 			})
-			filteredCompanies.length === 0
+			filtered.length === 0
 				? alert('Nenhuma empresa encontrada')
-				: dispatch('search', filteredCompanies) // TODO change from search to tag_filtered
+				: dispatch('search', filtered) // TODO change from search to tag_filtered
 		}
 	}
 </script>
