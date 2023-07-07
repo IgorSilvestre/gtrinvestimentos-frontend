@@ -44,7 +44,7 @@
 		if (query) searchParams.query = query
 		if (tags && tags.length > 0) searchParams.tags = IOptionToId(tags)
 
-		if (!tags || (tags.length === 0 && !query)) {
+		if ((!tags || tags.length === 0) && !query) {
 			const { data: all } = await API.get(endpoint?.getAll)
 			dispatch('search', all)
 		} else {
