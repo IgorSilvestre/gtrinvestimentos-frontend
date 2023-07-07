@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation'
 	import CompanyCard from '$lib/containers/company/CompanyCard.svelte'
 	import type { ICompany } from '$lib/interfaces-validation/IVCompany'
-	import TagSearch from '$lib/modules/TagSearch.svelte'
+	import Search from '$lib/modules/Search.svelte'
 	import { ensureArray } from '$lib/shared/functions/ensureArray.js'
 	import { transitionOptions } from '$lib/shared/transitionOptions.js'
 	import { fly } from 'svelte/transition'
@@ -14,14 +14,16 @@
 	let isLoadingCompanies: boolean = companies?.length > 0 ? false : true
 
 
-	// Pagination variables
 	const itemsPerPage: number = 20
-	let currentPage: number = 1 // Current page number
+	let currentPage: number = 1
 	let displayedCompanies: ICompany[] = getDisplayedCompanies()
+	let totalPages = getTotalPages()
 	$: {
-		currentPage,
+		currentPage, companies // makes sure pagination and search works
 		displayedCompanies = getDisplayedCompanies()
+		totalPages = getTotalPages()
 	}
+	// TODO MAKE PAGINATION COMPONENT
 
 	// Calculate the range of items to display on the current page
 	function getDisplayedCompanies(): ICompany[] {
@@ -66,10 +68,10 @@
 
 <main>
 	<div class="p-4">
-		<TagSearch on:search={handleSearchCompany} domainToFilter="company" />
+		<Search on:search={handleSearchCompany} domainToFilter="company" />
 	</div>
 	<div class="flex justify-center py-5">
-		<button type="button" class="btn variant-filled-primary" on:click={() => goto('/company/new')}
+		<button type="button" class="btn variant-filled-success" on:click={() => goto('/company/new')}
 			>Criar Empresa</button
 		>
 	</div>
@@ -92,15 +94,17 @@
 
 	<!-- Pagination controls -->
 	<div class="flex justify-center py-5">
+		<button type="button" class="btn" on:click={() => goToPage(1)}>Primeira</button>
 		<button type="button" class="btn" on:click={goToPreviousPage} disabled={currentPage === 1}
-			>Previous</button
+			>Anterior</button
 		>
-		<p>Page {currentPage} of {getTotalPages()}</p>
+		<p class="flex items-center justify-center"> - Página {currentPage} de {totalPages} - </p>
 		<button
 			type="button"
 			class="btn"
 			on:click={goToNextPage}
-			disabled={currentPage === getTotalPages()}>Next</button
+			disabled={currentPage === totalPages}>Próxima</button
 		>
+		<button type="button" class="btn" on:click={() => goToPage(totalPages)}>Última</button>
 	</div>
 </main>
