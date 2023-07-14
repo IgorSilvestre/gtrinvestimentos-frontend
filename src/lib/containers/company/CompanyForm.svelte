@@ -34,14 +34,14 @@
 	}
 	let initialValues: ICompanyForm = {
 		name: company?.name ?? '',
-		description: company?.description,
+		description: company?.description ?? '',
 		employees:
 			company?.employees?.map((employee: IPerson) => ({
 				value: employee._id ?? '',
 				label: employee.name ?? ''
 			})) ?? [],
-		target: company?.target,
-		tags: company?.tags
+		target: company?.target ?? '',
+		tags: company?.tags ?? []
 	}
 
 	const { form, errors, handleChange, handleSubmit } = createForm({
