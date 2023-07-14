@@ -39,7 +39,9 @@
 			<div class="flex flex-wrap mb-2">
 				{#if company?.employees}
 					{#each company?.employees as employee}
-						<Tag color="secondary" name={employee.name} />
+						<a href={'/person/' + employee._id}>
+							<Tag color="secondary" name={employee.name} />
+						</a>
 					{/each}
 				{:else}
 					<p>Não foi possível carregar funcionários..</p>
