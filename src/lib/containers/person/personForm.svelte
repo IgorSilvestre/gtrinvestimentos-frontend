@@ -9,9 +9,11 @@
 	import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId'
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
+	import { createEventDispatcher } from 'svelte'
 
 	export let person: IPerson | undefined = undefined
-
+	const dispatch = createEventDispatcher()
+	
 	async function getSelectTagOptions() {
 		const { data } = await API.get(APIEndpoints.tags.getAllForSelect)
 		return data
@@ -27,7 +29,6 @@
 		tags?: IOption[]
 		company?: IOption
 	}
-	console.log(person)
 	let initialValues: IPersonForm = {
 		name: person?.name ?? '',
 		email: person?.email ?? '',
@@ -38,10 +39,6 @@
 		}
 	}
 
-	$: {
-		$form
-		console.log($form)
-	}
 	const { form, errors, handleChange, handleSubmit } = createForm({
 		initialValues,
 		validationSchema: VPersonForm,
@@ -55,8 +52,10 @@
 
 			try {
 				person
-					? await API.put('person/' + person?._id, personParsed).then(() =>
-							goto('/person/' + person?._id)
+					? await API.put('person/' + person?._id, personParsed).then((response) => {
+						dispatch('personUpdated', response.data)
+						goto('/person/' + person?._id)
+					}
 					  ) // update person
 					: await API.post('person', personParsed).then((response) =>
 							goto('/person/' + response.data._id)
@@ -64,7 +63,7 @@
 			} catch (error) {
 				// console.error(error)
 			} finally {
-				alert('Person saved!')
+				// alert('Person saved!')
 			}
 		}
 	})

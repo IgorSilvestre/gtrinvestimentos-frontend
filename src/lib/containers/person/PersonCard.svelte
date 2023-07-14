@@ -6,6 +6,7 @@
 	import type { IPerson } from '$lib/interfaces-validation/IVPerson'
 
 	export let person: IPerson | undefined
+	export let noEdit: boolean = false
 </script>
 
 <div
@@ -39,17 +40,19 @@
 			<p class="text-gray-600 text-xs">Criação: {person?.createdAt}</p>
 			<p class="text-gray-600 text-xs">Última alteração: {person?.lastUpdated}</p>
 		</div>
-		<div class="flex justify-end">
-			<button
-				type="button"
-				class="btn variant-filled-secondary"
-				on:click={(e) => {
-					e.preventDefault()
-					goto('/person/edit/' + person?._id)
-				}}
-			>
-				Editar
-			</button>
-		</div>
+		{#if !noEdit}
+			<div class="flex justify-end">
+				<button
+					type="button"
+					class="btn variant-filled-secondary"
+					on:click={(e) => {
+						e.preventDefault()
+						goto('/person/edit/' + person?._id)
+					}}
+				>
+					Editar
+				</button>
+			</div>
+		{/if}
 	</div>
 </div>

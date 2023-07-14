@@ -1,12 +1,18 @@
 <script lang="ts">
-  import PersonCard from '$lib/containers/person/PersonCard.svelte'
-  import PersonForm from '$lib/containers/person/PersonForm.svelte'
+	import PersonCard from '$lib/containers/person/PersonCard.svelte'
+	import PersonForm from '$lib/containers/person/PersonForm.svelte'
+	import type { IPerson } from '$lib/interfaces-validation/IVPerson.js'
 
 	export let data
-	const { person } = data
+	let { person } = data
+
+	function handlePersonUpdated(event: CustomEvent<IPerson>) {
+		console.log(event.detail)
+		person = event.detail
+	}
 </script>
 
 <main>
-	<PersonCard {person} />
-	<PersonForm {person} />
+	<PersonCard {person} noEdit />
+	<PersonForm on:personUpdated={handlePersonUpdated} {person} />
 </main>
