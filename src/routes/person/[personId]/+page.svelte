@@ -7,7 +7,6 @@
 	let { person } = data
 
 	function handlePersonUpdated(event: CustomEvent<IPerson>) {
-		console.log(event.detail)
 		person = event.detail
 	}
 </script>

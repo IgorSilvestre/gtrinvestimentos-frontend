@@ -6,6 +6,7 @@
 	import { transitionOptions } from '$lib/shared/transitionOptions'
 
 	export let company: ICompany | undefined
+	export let noEdit: boolean = false
 </script>
 
 <div
@@ -49,17 +50,19 @@
 			<p class="text-gray-600 text-xs">Criação: {company?.createdAt}</p>
 			<p class="text-gray-600 text-xs">Última alteração: {company?.lastUpdated}</p>
 		</div>
-		<div class="flex justify-end">
-			<button
-				type="button"
-				class="btn variant-filled-secondary"
-				on:click={(e) => {
-					e.preventDefault()
-					goto('/company/edit/' + company?._id)
-				}}
-			>
-				Editar
-			</button>
-		</div>
+		{#if !noEdit}
+			<div class="flex justify-end">
+				<button
+					type="button"
+					class="btn variant-filled-secondary"
+					on:click={(e) => {
+						e.preventDefault()
+						goto('/company/edit/' + company?._id)
+					}}
+				>
+					Editar
+				</button>
+			</div>
+		{/if}
 	</div>
 </div>

@@ -10,11 +10,12 @@
 	import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId'
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
-  import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
+	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
+	import { createEventDispatcher } from 'svelte'
 
 	export let company: ICompany | undefined = undefined
-
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
+	const dispatch = createEventDispatcher()
 
 	async function getSelectPersonOptions() {
 		const { data } = await API.get(APIEndpoints.person.getAll)
@@ -61,8 +62,10 @@
 
 			try {
 				company
-					? await API.put('company/' + company?._id, companyParsed).then(() =>
-							goto('/company/' + company?._id)
+					? await API.put('company/' + company?._id, companyParsed).then((response) => {
+						dispatch('companyUpdated', response.data)				
+						goto('/company/' + company?._id)
+					}
 					  ) // update company
 					: await API.post('company', companyParsed).then((response) =>
 							goto('/company/' + response.data._id)
