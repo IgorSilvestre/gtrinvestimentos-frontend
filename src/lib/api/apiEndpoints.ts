@@ -8,6 +8,7 @@ export const APIEndpoints = {
 	},
 	company: {
 		getAll: 'company/all',
-		search: 'company/search'
+		search: 'company/search',
+		getAllForSelect: 'company/all-for-select'
 	}
 }

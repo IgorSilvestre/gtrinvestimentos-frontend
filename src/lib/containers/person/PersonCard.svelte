@@ -23,6 +23,12 @@
 				<p>Não foram encontradas tags.</p>
 			{/if}
 		</div>
+		{#if person?.company}
+			<p class="text-gray-700 text-sm">
+				<span class="font-bold">Empresa:</span>
+				<a href={'/company/' + person?.company?._id}>{person?.company?.name}</a>
+			</p>
+		{/if}
 		{#if person?.email}
 			<p class="text-gray-700 text-sm">
 				<span class="font-bold">Email:</span>

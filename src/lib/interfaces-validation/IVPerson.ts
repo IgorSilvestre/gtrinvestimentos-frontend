@@ -1,10 +1,12 @@
 import * as yup from 'yup'
-import type { ITag } from './IVTag'
+import type { ICompany } from './IVCompany'
+import type { IOption } from './IOption'
 
 export interface IPerson {
 	_id?: string
 	name: string
-	tags?: ITag[]
+	tags?: IOption[]
+	company?: ICompany
 	email?: string
 	lastUpdated?: Date
 	createdAt?: Date
@@ -22,6 +24,10 @@ export const VPersonForm = yup.object().shape({
 		)
 		.optional(),
 	email: yup.string().email().optional(),
+	company: yup.object().shape({
+		label: yup.string().required(),
+		value: yup.string().required()
+	}),
 	lastUpdated: yup.date().optional(),
 	createdAt: yup.date().optional()
 })

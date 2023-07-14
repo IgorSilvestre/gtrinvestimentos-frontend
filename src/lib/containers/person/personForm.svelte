@@ -16,21 +16,32 @@
 		const { data } = await API.get(APIEndpoints.tags.getAllForSelect)
 		return data
 	}
-	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
-
-	interface IPersonForm extends Omit<IPerson, 'tags'> {
-		tags?: IOption[]
+	async function getSelectCompanyOptions() {
+		const { data } = await API.get(APIEndpoints.company.getAllForSelect)
+		return data
 	}
+	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
+	let selectCompanyOptionsPromise: Promise<IOption[]> = getSelectCompanyOptions()
+
+	interface IPersonForm extends Omit<IPerson, 'tags' | 'company'> {
+		tags?: IOption[]
+		company?: IOption
+	}
+	console.log(person)
 	let initialValues: IPersonForm = {
 		name: person?.name ?? '',
 		email: person?.email ?? '',
-		tags:
-			person?.tags?.map((tag) => ({
-				value: tag._id ?? '',
-				label: tag.label ?? ''
-			})) ?? []
+		tags: person?.tags ?? [],
+		company: {
+			value: person?.company?._id ?? '',
+			label: person?.company?.name ?? ''
+		}
 	}
 
+	$: {
+		$form
+		console.log($form)
+	}
 	const { form, errors, handleChange, handleSubmit } = createForm({
 		initialValues,
 		validationSchema: VPersonForm,
@@ -38,7 +49,8 @@
 			const normalizedTags: string[] | undefined = parseArrayOfOptionsToIds(personFormUpdated?.tags)
 			const personParsed = {
 				...personFormUpdated,
-				tags: normalizedTags
+				tags: normalizedTags,
+				company: personFormUpdated.company?.value
 			}
 
 			try {
@@ -50,9 +62,9 @@
 							goto('/person/' + response.data._id)
 					  ) // create person
 			} catch (error) {
-				console.error(error)
+				// console.error(error)
 			} finally {
-				// console.log("Person saved");
+				alert('Person saved!')
 			}
 		}
 	})
@@ -116,8 +128,25 @@
               {/if} -->
 					{/await}
 				</p>
+				<p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+					Companies
+					{#await selectCompanyOptionsPromise}
+						<p>Loading companies...</p>
+					{:then selectCompanies}
+						<Select
+							items={selectCompanies}
+							filter={customSelectFilter}
+							bind:value={$form.company}
+						/>
+						<!-- TODO check if this component can work with validation -->
+						<!-- {#if $errors.tags && $touched.tags}
+                <div class="text-red-500 text-xs">{$errors.tags}</div>
+              {/if} -->
+					{/await}
+				</p>
 			</div>
 			<div class="flex justify-end">
+				<!-- IF BUTTON IS NOT WORKING - PROBABLY THE VALIDATION IS FAILLING -->
 				<button type="submit" class="btn variant-filled-secondary">Save</button>
 			</div>
 		</form>
