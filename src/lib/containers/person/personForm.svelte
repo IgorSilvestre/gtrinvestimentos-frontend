@@ -13,7 +13,7 @@
 
 	export let person: IPerson | undefined = undefined
 	const dispatch = createEventDispatcher()
-	
+
 	async function getSelectTagOptions() {
 		const { data } = await API.get(APIEndpoints.tags.getAllForSelect)
 		return data
@@ -33,10 +33,10 @@
 		name: person?.name ?? '',
 		email: person?.email ?? '',
 		tags: person?.tags ?? [],
-		company: {
+		company: person ? {
 			value: person?.company?._id ?? '',
 			label: person?.company?.name ?? ''
-		}
+		} : undefined
 	}
 
 	const { form, errors, handleChange, handleSubmit } = createForm({
@@ -53,15 +53,16 @@
 			try {
 				person
 					? await API.put('person/' + person?._id, personParsed).then((response) => {
-						dispatch('personUpdated', response.data)
-						goto('/person/' + person?._id)
-					}
-					  ) // update person
-					: await API.post('person', personParsed).then((response) =>
+							dispatch('personUpdated', response.data)
+							goto('/person/' + person?._id)
+					  }) // update person
+					: await API.post('person', personParsed).then((response) => {
+							// dispatch('personCreated', response.data)
+							console.log('run')
 							goto('/person/' + response.data._id)
-					  ) // create person
+					  }) // create person
 			} catch (error) {
-				// console.error(error)
+				console.error(error)
 			} finally {
 				// alert('Person saved!')
 			}
@@ -71,7 +72,7 @@
 
 <div class="bg-white rounded-lg overflow-hidden shadow-lg">
 	<div class="p-4">
-		<h2 class="text-lg font-medium text-gray-900 mb-2">Edit Person</h2>
+		<h2 class="text-lg font-medium text-gray-900 mb-2">Criar/Editar Pessoa</h2>
 		<form on:submit={handleSubmit}>
 			<div class="mb-4">
 				<label
