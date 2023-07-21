@@ -1,4 +1,4 @@
-export default function regexForStringSearch(query: string) {
+export function regexForSearch(query: string) {
 	query = query
 		.replace(/a/gi, '[AÁÀÂÃ]')
 		.replace(/e/gi, '[EÉÈÊ]')
