@@ -38,8 +38,6 @@
 	}
 
 	async function handleSearch(tags: IOption[], query: string) {
-		console.log('query', query)
-		console.log('tags', tags)
 		let searchParams: { query?: string; tags?: string[] } = {}
 		if (query) searchParams.query = query
 		if (tags && tags.length > 0) searchParams.tags = IOptionToId(tags)
