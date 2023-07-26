@@ -1,7 +1,10 @@
 <script lang="ts">
+	import { createEventDispatcher } from "svelte"
+	
 	export let currentPage: number
 	export let totalPages: number
 	export let onPageChange: (page: number) => void
+	const dispatch = createEventDispatcher()
 
 	function goToPage(page: number): void {
 		if (page >= 1 && page <= totalPages) {
