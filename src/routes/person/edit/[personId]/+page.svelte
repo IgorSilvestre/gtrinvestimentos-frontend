@@ -1,5 +1,5 @@
 <script lang="ts">
-  import PersonForm from '$lib/containers/person/personForm.svelte'
+  import PersonForm from '$lib/containers/person/PersonForm.svelte'
 
 	export let data
 	const { person } = data

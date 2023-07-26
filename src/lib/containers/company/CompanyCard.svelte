@@ -3,7 +3,7 @@
 	import type { ICompany } from '$lib/interfaces-validation/IVCompany'
 	import { goto } from '$app/navigation'
 	import { fly } from 'svelte/transition'
-	import { transitionOptions } from '$lib/shared/transitionOptions'
+	import { transitionOptions } from '$lib/config'
 
 	export let company: ICompany | undefined
 	export let noEdit: boolean = false

@@ -2,8 +2,8 @@
 	import Tag from '../../modules/Tag.svelte'
 	import { goto } from '$app/navigation'
 	import { fly } from 'svelte/transition'
-	import { transitionOptions } from '$lib/shared/transitionOptions'
 	import type { IPerson } from '$lib/interfaces-validation/IVPerson'
+	import { transitionOptions } from '$lib/config'
 
 	export let person: IPerson | undefined
 	export let noEdit: boolean = false

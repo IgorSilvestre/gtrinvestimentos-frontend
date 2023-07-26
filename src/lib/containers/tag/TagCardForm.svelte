@@ -6,7 +6,7 @@
 	import { API } from '$lib/api/apiFetch'
 	import { fade, fly } from 'svelte/transition'
 	import { createEventDispatcher } from 'svelte'
-	import { transitionOptions } from '$lib/shared/transitionOptions'
+	import { transitionOptions } from '$lib/config'
 
 	export let tag: ITag
 	let isEditing = false

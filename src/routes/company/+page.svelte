@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
+	import { transitionOptions } from '$lib/config'
 	import CompanyCard from '$lib/containers/company/CompanyCard.svelte'
 	import type { ICompany } from '$lib/interfaces-validation/IVCompany'
 	import Pagination from '$lib/modules/Pagination.svelte'
 	import Search from '$lib/modules/Search.svelte'
 	import { ensureArray } from '$lib/shared/functions/ensureArray.js'
 	import { getTotalPages } from '$lib/shared/functions/paginationHelper/getTotalPages'
-	import { transitionOptions } from '$lib/shared/transitionOptions.js'
 	import { fly } from 'svelte/transition'
 
 	export let data: { companies?: ICompany | ICompany[] }
