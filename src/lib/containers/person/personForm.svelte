@@ -10,6 +10,8 @@
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
 	import { createEventDispatcher } from 'svelte'
+	import { toastAlreadyExists, toastRegistered } from '$lib/config'
+	import { toastStore } from '@skeletonlabs/skeleton'
 
 	export let person: IPerson | undefined = undefined
 	const dispatch = createEventDispatcher()
@@ -33,10 +35,12 @@
 		name: person?.name ?? '',
 		email: person?.email ?? '',
 		tags: person?.tags ?? [],
-		company: person ? {
-			value: person?.company?._id ?? '',
-			label: person?.company?.name ?? ''
-		} : undefined
+		company: person
+			? {
+					value: person?.company?._id ?? '',
+					label: person?.company?.name ?? ''
+			  }
+			: undefined
 	}
 
 	const { form, errors, handleChange, handleSubmit } = createForm({
@@ -57,11 +61,11 @@
 							goto('/person/' + person?._id)
 					  }) // update person
 					: await API.post('person', personParsed).then((response) => {
-							// dispatch('personCreated', response.data)
-							console.log('run')
-							goto('/person/' + response.data._id)
+						toastStore.trigger(toastRegistered)	
+						goto('/person/' + response.data._id)
 					  }) // create person
 			} catch (error) {
+				toastStore.trigger(toastAlreadyExists)
 				console.error(error)
 			} finally {
 				// alert('Person saved!')
