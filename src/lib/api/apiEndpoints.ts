@@ -1,6 +1,7 @@
 export const APIEndpoints = {
 	person: {
-		getAll: 'person/all'
+		getAll: 'person/all',
+		search: 'person/search',
 	},
 	tags: {
 		getAll: 'tag/all',

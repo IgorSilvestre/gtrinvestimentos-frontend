@@ -30,7 +30,7 @@
 		case 'person':
 			endpoint = {
 				getAll: APIEndpoints.person.getAll,
-				search: '' // APIEndpoints.person.search //TODO make search for person
+				search:  APIEndpoints.person.search
 			}
 			break
 		default:
