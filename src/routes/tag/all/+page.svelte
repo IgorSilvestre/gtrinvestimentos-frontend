@@ -31,6 +31,7 @@
 			>
 				Buscar Tags
 			</label>
+			<!-- TODO when erase character it doesnt filter -->
 			<input
 				placeholder="Digite para filtrar as tags"
 				class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
