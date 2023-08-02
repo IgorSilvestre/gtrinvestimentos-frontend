@@ -8,4 +8,10 @@ export default defineConfig({
 		port: 5173, // Customize the port number if needed
 		strictPort: true, // Enforce the specified port number
 	  },
+	  resolve: {
+		  alias: {
+			src: '/src',
+			lib: '/src/lib',
+		  },
+	  }
 })
