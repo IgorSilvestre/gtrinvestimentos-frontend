@@ -8,7 +8,7 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
         adapter: adapter({
-			runtime: 'nodejs18',
+			runtime: 'nodejs18.x',
 			deploymentGitBranch: 'main',
             // see the 'Deployment configuration' section below
         })
