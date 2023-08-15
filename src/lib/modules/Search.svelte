@@ -30,7 +30,7 @@
 		case 'person':
 			endpoint = {
 				getAll: APIEndpoints.person.getAll,
-				search:  APIEndpoints.person.search
+				search: APIEndpoints.person.search
 			}
 			break
 		default:
@@ -54,6 +54,9 @@
 
 {#if domainToFilter}
 	<main>
+		<label class="text-center block uppercase tracking-wide font-bold" for="name">
+			Busca
+		</label>
 		<!-- <p class="w-full tracking-wide uppercase text-gray-700 text-2xl font-bold">Busca</p> -->
 		<div class="flex flex-col md:flex-row items-center justify-center">
 			<div class="flex flex-col items-center md:w-1/2">
@@ -61,13 +64,13 @@
 					class="self-start block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 					for="name"
 				>
-					Nome
+					Texto
 				</label>
 				<input
-					placeholder="Pesquisar por nome"
+					placeholder="Pesquisa geral"
 					class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 					type="text"
-					id="name"
+					id="searchText"
 					bind:value={query}
 				/>
 				{#await selectTagOptionsPromise}
