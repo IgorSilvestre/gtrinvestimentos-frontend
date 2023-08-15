@@ -49,13 +49,13 @@
 </script>
 
 <main>
-	<div class="p-4">
-		<Search on:search={handleSearchCompany} domainToFilter="company" />
-	</div>
-	<div class="flex justify-center py-5">
+	<div class="flex justify-end my-2 mx-4">
 		<button type="button" class="btn variant-filled-success" on:click={() => goto('/company/new')}>
 			Criar Empresa
 		</button>
+	</div>
+	<div class="p-4">
+		<Search on:search={handleSearchCompany} domainToFilter="company" />
 	</div>
 
 	{#if isLoadingCompanies}
