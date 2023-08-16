@@ -8,6 +8,10 @@
 	text-decoration: underline;
 }
 
+.font-rockwell {
+	font-family: 'Rockwell', 'Courier Bold', Courier, Georgia, Times, 'Times New Roman', serif;
+}
+
 :root {
 	/* =~= Theme Properties =~= */
 	--theme-font-family-base: system-ui;
