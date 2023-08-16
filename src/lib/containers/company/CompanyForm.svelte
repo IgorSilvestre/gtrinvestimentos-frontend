@@ -176,7 +176,7 @@
 				{/if}
 			</div>
 			<div class="flex justify-end">
-				<button type="submit" class="btn variant-filled-secondary">Salvar</button>
+				<button type="submit" class="text-blue font-bold">Salvar</button>
 			</div>
 		</form>
 	</div>

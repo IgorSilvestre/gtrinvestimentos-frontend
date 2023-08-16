@@ -151,7 +151,7 @@
 			</div>
 			<div class="flex justify-end">
 				<!-- IF BUTTON IS NOT WORKING - PROBABLY THE VALIDATION IS FAILLING -->
-				<button type="submit" class="btn variant-filled-secondary">Save</button>
+				<button type="submit" class="text-blue font-bold">Salvar</button>
 			</div>
 		</form>
 	</div>
