@@ -38,7 +38,7 @@
 
 <main>
 	<div class="flex justify-end mx-4 my-2">
-		<button type="button" class="btn variant-filled-success" on:click={() => goto('/person/new')}
+		<button type="button" class="bg-green-400 text-black rounded-2xl p-2" on:click={() => goto('/person/new')}
 			>Criar Pessoa</button
 		>
 	</div>
