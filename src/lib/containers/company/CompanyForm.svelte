@@ -1,5 +1,3 @@
-<!-- WE DECIDED TO NO INCLUDE ADD EMPLOYEE IN COMPANY - (TOO MUCH CHANCE OF GOING BAD) -->
-<!-- BUT THE CODE FOR IT IS COMMENTED -->
 <script lang="ts">
 	import { API } from '$lib/api/apiFetch'
 	import { goto } from '$app/navigation'
@@ -8,40 +6,19 @@
 	import { VCompanyForm } from '$lib/interfaces-validation/IVCompany'
 	import Select from 'svelte-select'
 	import type { IOption } from '$lib/interfaces-validation/IOption'
-	// import type { IPerson } from '$lib/interfaces-validation/IVPerson'
 	import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId'
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
-	// import { APIEndpoints } from '$lib/api/apiEndpoints'
 	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
-	import { createEventDispatcher } from 'svelte'
 
 	export let company: ICompany | undefined = undefined
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
-	const dispatch = createEventDispatcher()
-
-	// async function getSelectPersonOptions() {
-	// 	const { data } = await API.get(APIEndpoints.person.getAll)
-	// 	return data.map((person: IPerson) => {
-	// 		return {
-	// 			label: person.name,
-	// 			value: person._id
-	// 		}
-	// 	})
-	// }
-	// let selectPersonOptionsPromise: Promise<IOption[]> = getSelectPersonOptions()
 
 	interface ICompanyForm extends Omit<ICompany, 'employees' | 'tags'> {
-		// employees?: IOption[]
 		tags?: IOption[]
 	}
 	let initialValues: ICompanyForm = {
 		name: company?.name ?? '',
 		description: company?.description ?? '',
-		// employees:
-		// 	company?.employees?.map((employee: IPerson) => ({
-		// 		value: employee._id ?? '',
-		// 		label: employee.name ?? ''
-		// 	})) ?? [],
 		target: company?.target ?? '',
 		tags: company?.tags ?? []
 	}
@@ -53,19 +30,14 @@
 			const normalizedTags: string[] | undefined = parseArrayOfOptionsToIds(
 				companyFormUpdated?.tags
 			)
-			// const parsedEmployees: string[] | undefined = parseArrayOfOptionsToIds(
-			// 	companyFormUpdated?.employees as IOption[] | undefined
-			// )
 			const companyParsed = {
 				...companyFormUpdated,
 				tags: normalizedTags,
-				// employees: parsedEmployees
 			}
 
 			try {
 				company
 					? await API.put('company/' + company?._id, companyParsed).then((response) => {
-						dispatch('companyUpdated', response.data)				
 						goto('/company/' + company?._id)
 					}
 					  ) // update company
@@ -135,28 +107,9 @@
 							bind:value={$form.tags}
 							required
 						/>
-						<!-- TODO check if this component can work with validation -->
-						<!-- {#if $errors.tags && $touched.tags}
-							<div class="text-red-500 text-xs">{$errors.tags}</div>
-						{/if} -->
 					{/await}
 				</p>
 			</div>
-			<!-- <div class="mb-4">
-				<p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-					Funcionários
-					{#await selectPersonOptionsPromise}
-						<p>Carregando pessoas...</p>
-					{:then selectPersonOption}
-						<Select
-							items={selectPersonOption}
-							multiple
-							filter={customSelectFilter}
-							bind:value={$form.employees}
-						/>
-					{/await}
-				</p>
-			</div> -->
 			<div class="mb-4">
 				<label
 					class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
