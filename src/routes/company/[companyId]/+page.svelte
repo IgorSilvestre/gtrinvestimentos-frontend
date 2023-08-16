@@ -1,17 +1,15 @@
 <script lang="ts">
 	import CompanyCard from '$lib/containers/company/CompanyCard.svelte'
-	import CompanyForm from '$lib/containers/company/CompanyForm.svelte'
-	import type { ICompany } from '$lib/interfaces-validation/IVCompany.js'
+	import PersonCard from '$lib/containers/person/PersonCard.svelte'
 
 	export let data
-	let { company } = data
-
-	function handleCompanyUpdated(event: CustomEvent<ICompany>) {
-		company = event.detail
-	}
+	let { company, employees } = data
 </script>
 
 <main>
-	<CompanyCard {company} noEdit />
-	<CompanyForm on:companyUpdated={handleCompanyUpdated} {company} />
+	<CompanyCard {company} />
+	<h2 class="text-lg font-medium text-gray-900 mb-2 mx-4">Funcionários:</h2>
+	{#each employees as person}
+		<PersonCard {person} noEdit />
+	{/each}
 </main>

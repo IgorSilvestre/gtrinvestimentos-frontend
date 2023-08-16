@@ -50,7 +50,7 @@
 
 <main>
 	<div class="flex justify-end my-2 mx-4">
-		<button type="button" class="btn variant-filled-success" on:click={() => goto('/company/new')}>
+		<button type="button" class="text-black bg-green-400 p-2 rounded-2xl" on:click={() => goto('/company/new')}>
 			Criar Empresa
 		</button>
 	</div>
