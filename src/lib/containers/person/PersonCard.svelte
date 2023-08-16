@@ -27,7 +27,9 @@
 		{#if person?.company}
 			<p class="text-gray-700 text-sm">
 				<span class="font-bold">Empresa:</span>
-				<a href={'/company/' + person?.company?._id}>{person?.company?.name}</a>
+				<a href={'/company/' + person?.company?._id}>
+					<Tag color="secondary" name={person?.company?.name} />
+				</a>
 			</p>
 		{/if}
 		{#if person?.email}
@@ -44,7 +46,7 @@
 			<div class="flex justify-end">
 				<button
 					type="button"
-					class="btn variant-filled-secondary"
+					class="text-blue-500 font-bold"
 					on:click={(e) => {
 						e.preventDefault()
 						goto('/person/edit/' + person?._id)
