@@ -56,7 +56,7 @@
 			<div class="flex justify-end">
 				<button
 					type="button"
-					class="btn variant-filled-secondary"
+					class="font-bold text-blue-500"
 					on:click={(e) => {
 						e.preventDefault()
 						goto('/company/edit/' + company?._id)

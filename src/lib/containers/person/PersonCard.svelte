@@ -46,7 +46,7 @@
 			<div class="flex justify-end">
 				<button
 					type="button"
-					class="text-blue font-bold"
+					class="text-blue-500 font-bold"
 					on:click={(e) => {
 						e.preventDefault()
 						goto('/person/edit/' + person?._id)
