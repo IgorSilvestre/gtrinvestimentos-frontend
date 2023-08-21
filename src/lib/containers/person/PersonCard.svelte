@@ -38,6 +38,12 @@
 				{person?.email}
 			</p>
 		{/if}
+		{#if person?.target}
+			<p class="text-gray-700 text-sm">
+				<span class="font-bold">Target:</span>
+				{person?.target}
+			</p>
+		{/if}
 		<div class="flex flex-col justify-end mt-4">
 			<p class="text-gray-600 text-xs">Criação: {person?.createdAt}</p>
 			<p class="text-gray-600 text-xs">Última alteração: {person?.lastUpdated}</p>
