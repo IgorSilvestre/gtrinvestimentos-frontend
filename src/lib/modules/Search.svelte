@@ -47,7 +47,7 @@
 			dispatch('search', all)
 		} else {
 			const { data: filtered } = await API.post(endpoint?.search, searchParams)
-			filtered.length === 0 ? alert('Nenhuma empresa encontrada') : dispatch('search', filtered) // TODO change from search to tag_filtered
+			filtered.length === 0 ? alert('Nenhuma registro') : dispatch('search', filtered) // TODO change from search to tag_filtered
 		}
 	}
 </script>

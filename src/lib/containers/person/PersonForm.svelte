@@ -34,6 +34,7 @@
 	let initialValues: IPersonForm = {
 		name: person?.name ?? '',
 		email: person?.email ?? '',
+		target: person?.target ?? '',
 		tags: person?.tags ?? [],
 		company: person
 			? {
@@ -112,6 +113,24 @@
 				/>
 				{#if $errors.email}
 					<div class="text-red-500 text-xs">{$errors.email}</div>
+				{/if}
+			</div>
+			<div class="mb-4">
+				<label
+					class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+					for="email"
+				>
+					Target
+				</label>
+				<input
+					class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+					type="target"
+					id="target"
+					on:input={handleChange}
+					bind:value={$form.target}
+				/>
+				{#if $errors.target}
+					<div class="text-red-500 text-xs">{$errors.target}</div>
 				{/if}
 			</div>
 			<div class="mb-4">

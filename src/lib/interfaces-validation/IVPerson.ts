@@ -8,6 +8,7 @@ export interface IPerson {
 	tags?: IOption[]
 	company?: ICompany
 	email?: string
+	target?: string
 	lastUpdated?: Date
 	createdAt?: Date
 }
@@ -28,6 +29,7 @@ export const VPersonForm = yup.object().shape({
 		label: yup.string().required(),
 		value: yup.string().required()
 	}).nullable(),
+	target: yup.string().optional(),
 	lastUpdated: yup.date().optional(),
 	createdAt: yup.date().optional()
 })

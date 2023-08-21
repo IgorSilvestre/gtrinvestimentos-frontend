@@ -4,6 +4,7 @@
 	import type { IPerson } from '$lib/interfaces-validation/IVPerson.js'
 	import Pagination from '$lib/modules/Pagination.svelte'
 	import Search from '$lib/modules/Search.svelte'
+	import CopyToClipboardButton from '$lib/modules/copyToClipboardButton.svelte'
 	import { ensureArray } from '$lib/shared/functions/ensureArray.js'
 	import { getTotalPages } from '$lib/shared/functions/paginationHelper/getTotalPages.js'
 
@@ -14,12 +15,18 @@
 	let currentPage: number = 1
 	let displayedPeople: IPerson[] = getDisplayedPeople()
 	let totalPages = getTotalPages(people)
+	let emailsToCopy: string = ''
 
 	$: {
 		// makes sure pagination and search updates the HTML
 		currentPage, people
 		displayedPeople = getDisplayedPeople()
 		totalPages = getTotalPages(people)
+
+		// Copy all emails to clipboard
+		people.forEach((person) => {
+			emailsToCopy += person.email + '\n'
+		})
 	}
 
 	// Calculate the range of items to display on the current page
@@ -45,6 +52,11 @@
 	<div class="p-4">
 		<Search on:search={handleSearchPeople} domainToFilter="person" />
 	</div>
+
+	<div class="flex justify-center mx-4 my-2">
+		<CopyToClipboardButton content={emailsToCopy} />
+	</div>
+
 	{#each displayedPeople as person}
 		<a href={'person/' + person?._id}>
 			<PersonCard {person} />
