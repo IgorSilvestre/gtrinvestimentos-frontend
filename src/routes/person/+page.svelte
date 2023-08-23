@@ -7,11 +7,11 @@
 	import CopyToClipboardButton from '$lib/modules/copyToClipboardButton.svelte'
 	import { ensureArray } from '$lib/shared/functions/ensureArray.js'
 	import { getTotalPages } from '$lib/shared/functions/paginationHelper/getTotalPages.js'
+	import { itemsPerPage } from '$lib/shared/stores.js'
 
 	export let data
 	let people = ensureArray(data.people)
 
-	const itemsPerPage: number = 20
 	let currentPage: number = 1
 	let displayedPeople: IPerson[] = getDisplayedPeople()
 	let totalPages = getTotalPages(people)
@@ -31,8 +31,8 @@
 
 	// Calculate the range of items to display on the current page
 	function getDisplayedPeople(): IPerson[] {
-		const startIndex: number = (currentPage - 1) * itemsPerPage
-		const endIndex: number = startIndex + itemsPerPage
+		const startIndex: number = (currentPage - 1) * $itemsPerPage
+		const endIndex: number = startIndex + $itemsPerPage
 		return people.slice(startIndex, endIndex)
 	}
 
