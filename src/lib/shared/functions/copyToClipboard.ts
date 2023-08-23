@@ -6,3 +6,4 @@ export async function copyToClipboard(content: string) {
       console.error('Error copying to clipboard:', error);
     }
   }
+  

@@ -1,30 +1,37 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
+	import { APIEndpoints } from '$lib/api/apiEndpoints.js'
+	import { API_URL } from '$lib/config.js'
 	import PersonCard from '$lib/containers/person/PersonCard.svelte'
 	import type { IPerson } from '$lib/interfaces-validation/IVPerson.js'
+	import Loader from '$lib/modules/Loader.svelte'
 	import Pagination from '$lib/modules/Pagination.svelte'
 	import Search from '$lib/modules/Search.svelte'
-	import CopyToClipboardButton from '$lib/modules/copyToClipboardButton.svelte'
+	import CopyToClipboardButton from '$lib/modules/CopyToClipboardButton.svelte'
 	import { ensureArray } from '$lib/shared/functions/ensureArray.js'
 	import { getTotalPages } from '$lib/shared/functions/paginationHelper/getTotalPages.js'
 	import { itemsPerPage } from '$lib/shared/stores.js'
+	import { onMount } from 'svelte'
 
-	export let data
-	let people = ensureArray(data.people)
+	let people: IPerson[] | undefined = undefined
+	onMount(async () => {
+		const res = await fetch(API_URL + APIEndpoints.person.getAll)
+		people = ensureArray((await res.json()) as IPerson[])
+	})
 
 	let currentPage: number = 1
 	let displayedPeople: IPerson[] = getDisplayedPeople()
-	let totalPages = getTotalPages(people)
+	let totalPages = getTotalPages(people || [])
 	let emailsToCopy: string = ''
 
 	$: {
 		// makes sure pagination and search updates the HTML
 		currentPage, people
 		displayedPeople = getDisplayedPeople()
-		totalPages = getTotalPages(people)
+		totalPages = getTotalPages(people || [])
 
 		// Copy all emails to clipboard
-		people.forEach((person) => {
+		people?.forEach((person) => {
 			emailsToCopy += person.email + '\n'
 		})
 	}
@@ -33,7 +40,7 @@
 	function getDisplayedPeople(): IPerson[] {
 		const startIndex: number = (currentPage - 1) * $itemsPerPage
 		const endIndex: number = startIndex + $itemsPerPage
-		return people.slice(startIndex, endIndex)
+		return people?.slice(startIndex, endIndex) ?? []
 	}
 
 	function handleSearchPeople(event: CustomEvent<IPerson | IPerson[]>): void {
@@ -45,8 +52,10 @@
 
 <main>
 	<div class="flex justify-end mx-4 my-2">
-		<button type="button" class="bg-green-400 text-black rounded-2xl p-2" on:click={() => goto('/person/new')}
-			>Criar Pessoa</button
+		<button
+			type="button"
+			class="bg-green-400 text-black rounded-2xl p-2"
+			on:click={() => goto('/person/new')}>Criar Pessoa</button
 		>
 	</div>
 	<div class="p-4">
@@ -57,11 +66,21 @@
 		<CopyToClipboardButton content={emailsToCopy} />
 	</div>
 
-	{#each displayedPeople as person}
-		<a href={'person/' + person?._id}>
-			<PersonCard {person} />
-		</a>
-	{/each}
+	{#if people && people.length === 0}
+		<div class="flex justify-center mx-4 my-2">
+			<p>Nenhuma pessoa encontrada</p>
+		</div>
+	{:else if !people}
+		<div class="flex justify-center mx-4 my-2">
+			<Loader />
+		</div>
+	{:else}
+		{#each displayedPeople as person}
+			<a href={'person/' + person?._id}>
+				<PersonCard {person} />
+			</a>
+		{/each}
+	{/if}
 
 	<!-- Use the Pagination component -->
 	<Pagination
