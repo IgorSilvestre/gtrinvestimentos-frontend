@@ -1,20 +1,27 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
-	import { transitionOptions } from '$lib/config'
+	import { APIEndpoints } from '$lib/api/apiEndpoints'
+	import { API_URL, transitionOptions } from '$lib/config'
 	import CompanyCard from '$lib/containers/company/CompanyCard.svelte'
 	import type { ICompany } from '$lib/interfaces-validation/IVCompany'
+	import Loader from '$lib/modules/Loader.svelte'
 	import Pagination from '$lib/modules/Pagination.svelte'
 	import Search from '$lib/modules/Search.svelte'
 	import { ensureArray } from '$lib/shared/functions/ensureArray.js'
 	import { getTotalPages } from '$lib/shared/functions/paginationHelper/getTotalPages'
 	import { itemsPerPage } from '$lib/shared/stores'
+	import { onMount } from 'svelte'
 	import { fly } from 'svelte/transition'
 
-	export let data: { companies?: ICompany | ICompany[] }
+	let companies: ICompany[] | undefined = undefined
+	let isLoadingCompanies: boolean = true
 
-	let companies: ICompany[] = ensureArray(data.companies)
+	onMount(async () => {
+		const res = await fetch(API_URL + APIEndpoints.company.getAll)
+		companies = ensureArray(await res.json() as ICompany[])
+		isLoadingCompanies = false
+	})
 
-	let isLoadingCompanies: boolean = companies?.length > 0 ? false : true
 
 	let currentPage: number = 1
 	let displayedCompanies: ICompany[] = getDisplayedCompanies()
@@ -31,26 +38,25 @@
 	function getDisplayedCompanies(): ICompany[] {
 		const startIndex: number = (currentPage - 1) * $itemsPerPage
 		const endIndex: number = startIndex + $itemsPerPage
-		return companies.slice(startIndex, endIndex)
+		return companies?.slice(startIndex, endIndex) ?? []
 	}
 
 	function handleSearchCompany(event: CustomEvent<ICompany | ICompany[]>): void {
-		companies = []
 		isLoadingCompanies = true
 		companies = ensureArray(event.detail)
-		isLoadingCompanies = false
 		currentPage = 1 // Reset to the first page after search
+		isLoadingCompanies = false
 	}
 
-	// Handle pagination change
-	function handlePageChange(page: number): void {
-		currentPage = page
-	}
 </script>
 
 <main>
 	<div class="flex justify-end my-2 mx-4">
-		<button type="button" class="text-black bg-green-400 p-2 rounded-2xl" on:click={() => goto('/company/new')}>
+		<button
+			type="button"
+			class="text-black bg-green-400 p-2 rounded-2xl"
+			on:click={() => goto('/company/new')}
+		>
 			Criar Empresa
 		</button>
 	</div>
@@ -58,28 +64,26 @@
 		<Search on:search={handleSearchCompany} domainToFilter="company" />
 	</div>
 
-	{#if isLoadingCompanies}
-		<div class="flex justify-center py-5">
-			<p class="text-gray-500">Loading...</p>
+	{#if companies && companies.length === 0}
+		<div class="flex justify-center mx-4 my-2">
+			<p>Nenhuma pessoa encontrada</p>
 		</div>
-	{:else if companies.length > 0}
+	{:else if isLoadingCompanies}
+		<div class="flex justify-center mx-4 my-6">
+			<Loader />
+		</div>
+	{:else}
 		{#each displayedCompanies as company}
 			<a href={`/company/${company._id}`} in:fly={transitionOptions.defaultFlyEntry}>
 				<CompanyCard {company} />
 			</a>
 		{/each}
-	{:else}
-		<div class="flex justify-center py-5">
-			<p class="text-gray-500">No companies found</p>
-		</div>
+		<Pagination
+			{currentPage}
+			{totalPages}
+			onPageChange={(page) => {
+				currentPage = page
+			}}
+		/>
 	{/if}
-
-	<!-- Use the Pagination component -->
-	<Pagination
-		{currentPage}
-		{totalPages}
-		onPageChange={(page) => {
-			currentPage = page
-		}}
-	/>
 </main>
