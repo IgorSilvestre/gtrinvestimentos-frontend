@@ -7,6 +7,7 @@
 	import Search from '$lib/modules/Search.svelte'
 	import { ensureArray } from '$lib/shared/functions/ensureArray.js'
 	import { getTotalPages } from '$lib/shared/functions/paginationHelper/getTotalPages'
+	import { itemsPerPage } from '$lib/shared/stores'
 	import { fly } from 'svelte/transition'
 
 	export let data: { companies?: ICompany | ICompany[] }
@@ -15,7 +16,6 @@
 
 	let isLoadingCompanies: boolean = companies?.length > 0 ? false : true
 
-	const itemsPerPage: number = 20
 	let currentPage: number = 1
 	let displayedCompanies: ICompany[] = getDisplayedCompanies()
 	let totalPages = getTotalPages(companies)
@@ -29,8 +29,8 @@
 
 	// Calculate the range of items to display on the current page
 	function getDisplayedCompanies(): ICompany[] {
-		const startIndex: number = (currentPage - 1) * itemsPerPage
-		const endIndex: number = startIndex + itemsPerPage
+		const startIndex: number = (currentPage - 1) * $itemsPerPage
+		const endIndex: number = startIndex + $itemsPerPage
 		return companies.slice(startIndex, endIndex)
 	}
 
