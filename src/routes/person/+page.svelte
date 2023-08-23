@@ -71,7 +71,7 @@
 			<p>Nenhuma pessoa encontrada</p>
 		</div>
 	{:else if !people}
-		<div class="flex justify-center mx-4 my-2">
+		<div class="flex justify-center mx-4 my-6">
 			<Loader />
 		</div>
 	{:else}
@@ -80,14 +80,13 @@
 				<PersonCard {person} />
 			</a>
 		{/each}
+		<Pagination
+			{currentPage}
+			{totalPages}
+			onPageChange={(page) => {
+				currentPage = page
+			}}
+		/>
 	{/if}
 
-	<!-- Use the Pagination component -->
-	<Pagination
-		{currentPage}
-		{totalPages}
-		onPageChange={(page) => {
-			currentPage = page
-		}}
-	/>
 </main>
