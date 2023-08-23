@@ -9,9 +9,13 @@ export interface ICompany {
 	description?: string
 	target?: string
 	tags?: IOption[]
-	employees?: IPerson[]
+	employees?: IEmployee[]
 	createdAt?: Date
 	lastUpdated?: Date
+}
+
+export interface IEmployee extends Omit<IPerson, 'tags'> {
+	tags: string[]
 }
 
 export const VCompanyForm = yup.object().shape({
