@@ -9,6 +9,8 @@
 	import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId'
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
 	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
+	import { toastStore } from '@skeletonlabs/skeleton'
+	import { toastError, toastRegistered, toastUpdated } from '$lib/config'
 
 	export let company: ICompany | undefined = undefined
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
@@ -32,19 +34,22 @@
 			)
 			const companyParsed = {
 				...companyFormUpdated,
-				tags: normalizedTags,
+				tags: normalizedTags
 			}
 
 			try {
 				company
-					? await API.put('company/' + company?._id, companyParsed).then((response) => {
-						goto('/company/' + company?._id)
-					}
-					  ) // update company
-					: await API.post('company', companyParsed).then((response) =>
+					? await API.put('company/' + company?._id, companyParsed).then(() => {
+							toastStore.trigger(toastUpdated)
+							goto('/company/' + company?._id)
+					  }) // update company
+					: await API.post('company', companyParsed).then((response) => {
+							toastStore.trigger(toastRegistered)
 							goto('/company/' + response.data._id)
-					  ) // create company
-			} catch (error) {
+					  }) // create company
+			} catch (error: any) {
+				const { clientMessage } = error.response.data.error
+				toastStore.trigger({ message: clientMessage || 'Ocorreu um erro', background: 'variant-filled-error'})
 				console.error(error)
 			} finally {
 				// console.log("Company saved");

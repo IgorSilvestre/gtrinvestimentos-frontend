@@ -10,8 +10,9 @@
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
 	import { createEventDispatcher } from 'svelte'
-	import { toastAlreadyExists, toastRegistered } from '$lib/config'
+	import { toastAlreadyExists, toastRegistered, toastUpdated } from '$lib/config'
 	import { toastStore } from '@skeletonlabs/skeleton'
+	import type { AxiosError } from 'axios'
 
 	export let person: IPerson | undefined = undefined
 	const dispatch = createEventDispatcher()
@@ -59,14 +60,17 @@
 				person
 					? await API.put('person/' + person?._id, personParsed).then((response) => {
 							dispatch('personUpdated', response.data)
+							toastStore.trigger(toastUpdated)
 							goto('/person/' + person?._id)
 					  }) // update person
 					: await API.post('person', personParsed).then((response) => {
+						console.log('response>>', response)
 						toastStore.trigger(toastRegistered)	
 						goto('/person/' + response.data._id)
 					  }) // create person
-			} catch (error) {
-				toastStore.trigger(toastAlreadyExists)
+			} catch (error: any) {
+				const { clientMessage } = error.response.data.error
+				toastStore.trigger({ message: clientMessage || 'Ocorreu um erro', background: 'variant-filled-error'})
 				console.error(error)
 			} finally {
 				// alert('Person saved!')
