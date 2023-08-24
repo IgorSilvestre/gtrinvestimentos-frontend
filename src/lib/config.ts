@@ -21,3 +21,8 @@ export const toastUpdated: ToastSettings = {
 	message: 'Atualizado com sucesso!',
 	background: 'variant-filled-success'
 }
+
+export const toastError: ToastSettings = {
+	message: 'Ocorreu um erro, tente novamente mais tarde',
+	background: 'variant-filled-error'
+}
