@@ -4,10 +4,10 @@
 	import { API_URL } from '$lib/config.js'
 	import PersonCard from '$lib/containers/person/PersonCard.svelte'
 	import type { IPerson } from '$lib/interfaces-validation/IVPerson.js'
+	import CopyToClipboardButton from '$lib/modules/CopyToClipboardButton.svelte'
 	import Loader from '$lib/modules/Loader.svelte'
 	import Pagination from '$lib/modules/Pagination.svelte'
 	import Search from '$lib/modules/Search.svelte'
-	import CopyToClipboardButton from '$lib/modules/CopyToClipboardButton.svelte'
 	import { ensureArray } from '$lib/shared/functions/ensureArray.js'
 	import { getTotalPages } from '$lib/shared/functions/paginationHelper/getTotalPages.js'
 	import { itemsPerPage } from '$lib/shared/stores.js'
@@ -30,10 +30,11 @@
 		displayedPeople = getDisplayedPeople()
 		totalPages = getTotalPages(people || [])
 
-		// Copy all emails to clipboard
+		// update copy emails-to-clipboard button
 		people?.forEach((person) => {
-			emailsToCopy += person.email + '\n'
-		})
+			emailsToCopy = ''
+			person?.email ? emailsToCopy += person.email + '\n' : null
+	})
 	}
 
 	// Calculate the range of items to display on the current page
