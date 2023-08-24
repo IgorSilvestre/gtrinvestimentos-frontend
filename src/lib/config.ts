@@ -16,3 +16,8 @@ export const toastRegistered: ToastSettings = {
 	message: 'Cadastrado com sucesso!',
 	background: 'variant-filled-success'
 }
+
+export const toastUpdated: ToastSettings = {
+	message: 'Atualizado com sucesso!',
+	background: 'variant-filled-success'
+}
