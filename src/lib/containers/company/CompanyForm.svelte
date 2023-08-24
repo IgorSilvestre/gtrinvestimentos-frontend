@@ -47,9 +47,10 @@
 							toastStore.trigger(toastRegistered)
 							goto('/company/' + response.data._id)
 					  }) // create company
-			} catch (error) {
+			} catch (error: any) {
+				const { clientMessage } = error.response.data.error
+				toastStore.trigger({ message: clientMessage || 'Ocorreu um erro', background: 'variant-filled-error'})
 				console.error(error)
-				toastStore.trigger(toastError)
 			} finally {
 				// console.log("Company saved");
 			}
