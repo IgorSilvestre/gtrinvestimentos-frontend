@@ -72,6 +72,7 @@
 					type="text"
 					id="searchText"
 					bind:value={query}
+					on:keydown={(e) => e.key === 'Enter' && handleSearch(tagsSelected, query)}
 				/>
 				{#await selectTagOptionsPromise}
 					<p>Loading Search...</p>
