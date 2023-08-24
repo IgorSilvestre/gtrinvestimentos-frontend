@@ -16,7 +16,7 @@
 	<div class="p-4">
 		<h2 class="text-lg font-medium text-gray-900 mb-2">{company?.name}</h2>
 		<div class="flex flex-wrap mb-2">
-			{#if company?.tags}
+			{#if company?.tags && company?.tags.length > 0}
 				{#each company?.tags as tag}
 					<Tag color="primary" name={tag.label} />
 				{/each}
@@ -24,30 +24,36 @@
 				<p>Não foi possível carregar tags..</p>
 			{/if}
 		</div>
-		<p class="text-gray-700 text-sm">
-			<span class="font-bold"> Descrição:</span>
-			{company?.description}
-		</p>
-		<p class="text-gray-700 text-sm">
-			<span class="font-bold">Target:</span>
-			{company?.target}
-		</p>
-		<div class="flex flex-col">
+		{#if company?.description}
 			<p class="text-gray-700 text-sm">
-				<span class="font-bold">Funcionários:</span>
+				<span class="font-bold"> Descrição:</span>
+				{company?.description}
 			</p>
-			<div class="flex flex-wrap mb-2">
-				{#if company?.employees}
-					{#each company?.employees as employee}
-						<a href={'/person/' + employee._id}>
-							<Tag color="secondary" name={employee.name} />
-						</a>
-					{/each}
-				{:else}
-					<p>Não foi possível carregar funcionários..</p>
-				{/if}
+		{/if}
+		{#if company?.target}
+			<p class="text-gray-700 text-sm">
+				<span class="font-bold">Target:</span>
+				{company?.target}
+			</p>
+		{/if}
+		{#if company?.employees}
+			<div class="flex flex-col">
+				<p class="text-gray-700 text-sm">
+					<span class="font-bold">Funcionários:</span>
+				</p>
+				<div class="flex flex-wrap mb-2">
+					{#if company?.employees}
+						{#each company?.employees as employee}
+							<a href={'/person/' + employee._id}>
+								<Tag color="secondary" name={employee.name} />
+							</a>
+						{/each}
+					{:else}
+						<p>Não foi possível carregar funcionários..</p>
+					{/if}
+				</div>
 			</div>
-		</div>
+		{/if}
 		<div class="flex flex-col justify-end mt-4">
 			<p class="text-gray-600 text-xs">Criação: {company?.createdAt}</p>
 			<p class="text-gray-600 text-xs">Última alteração: {company?.lastUpdated}</p>
