@@ -10,7 +10,7 @@
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
 	import { createEventDispatcher } from 'svelte'
-	import { toastAlreadyExists, toastRegistered } from '$lib/config'
+	import { toastAlreadyExists, toastRegistered, toastUpdated } from '$lib/config'
 	import { toastStore } from '@skeletonlabs/skeleton'
 
 	export let person: IPerson | undefined = undefined
@@ -59,6 +59,7 @@
 				person
 					? await API.put('person/' + person?._id, personParsed).then((response) => {
 							dispatch('personUpdated', response.data)
+							toastStore.trigger(toastUpdated)
 							goto('/person/' + person?._id)
 					  }) // update person
 					: await API.post('person', personParsed).then((response) => {
