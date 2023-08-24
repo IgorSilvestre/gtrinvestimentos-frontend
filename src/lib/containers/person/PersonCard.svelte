@@ -16,7 +16,7 @@
 	<div class="p-4">
 		<h2 class="text-lg font-medium text-gray-900 mb-2">{person?.name}</h2>
 		<div class="flex flex-wrap mb-2">
-			{#if person?.tags}
+			{#if person?.tags && person?.tags.length > 0}
 				{#each person?.tags as tag}
 					<Tag color="primary" name={tag.label} />
 				{/each}
