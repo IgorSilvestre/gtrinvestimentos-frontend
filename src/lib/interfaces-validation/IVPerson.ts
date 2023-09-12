@@ -1,6 +1,7 @@
 import * as yup from 'yup'
 import type { ICompany } from './IVCompany'
 import type { IOption } from './IOption'
+import { positiveNumbersOrUndefined } from './yup/yupValidations'
 
 export interface IPerson {
 	_id?: string
@@ -27,13 +28,16 @@ export const VPersonForm = yup.object().shape({
 		)
 		.optional(),
 	email: yup.string().email().optional(),
-	company: yup.object().shape({
-		label: yup.string().required(),
-		value: yup.string().required()
-	}).nullable(),
+	company: yup
+		.object()
+		.shape({
+			label: yup.string().required(),
+			value: yup.string().required()
+		})
+		.nullable(),
 	target: yup.string().optional(),
-	landArea: yup.number().optional(),
-	vgv: yup.number().optional(),
-	lastUpdated: yup.date().optional(),
+	landArea: positiveNumbersOrUndefined.optional(),
+	vgv: yup.number().min(0, 'Número deve ser positivo').nullable().optional(),
+	lastUpdated: yup.date().optional().nullable(),
 	createdAt: yup.date().optional()
 })

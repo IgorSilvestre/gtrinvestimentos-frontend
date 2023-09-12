@@ -10,9 +10,8 @@
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
 	import { createEventDispatcher } from 'svelte'
-	import { toastAlreadyExists, toastRegistered, toastUpdated } from '$lib/config'
+	import { toastRegistered, toastUpdated } from '$lib/config'
 	import { toastStore } from '@skeletonlabs/skeleton'
-	import type { AxiosError } from 'axios'
 
 	export let person: IPerson | undefined = undefined
 	const dispatch = createEventDispatcher()
@@ -37,6 +36,8 @@
 		email: person?.email ?? '',
 		target: person?.target ?? '',
 		tags: person?.tags ?? [],
+		vgv: person?.vgv,
+		landArea: person?.landArea,
 		company: person
 			? {
 					value: person?.company?._id ?? '',
@@ -119,6 +120,7 @@
 					<div class="text-red-500 text-xs">{$errors.email}</div>
 				{/if}
 			</div>
+			
 			<div class="mb-4">
 				<label
 					class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -128,7 +130,7 @@
 				</label>
 				<input
 					class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-					type="target"
+					type="text"
 					id="target"
 					on:input={handleChange}
 					bind:value={$form.target}
@@ -138,7 +140,7 @@
 				{/if}
 			</div>
 			<div class="mb-4">
-				<p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+				<p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3">
 					Tags
 					{#await selectTagOptionsPromise}
 						<p>Loading tag options...</p>
@@ -171,6 +173,46 @@
               {/if} -->
 					{/await}
 				</p>
+			</div>
+			<hr class="border-t-2">
+			<h5 class="my-4">Real State</h5>
+			<div class="mb-4">
+				<label
+					class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+					for="email"
+				>
+					VGV
+				</label>
+				<input
+					class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+					type="number"
+					id="vgv"
+					min="0"
+					on:input={handleChange}
+					bind:value={$form.vgv}
+				/>
+				{#if $errors.vgv}
+					<div class="text-red-500 text-xs">{$errors.vgv}</div>
+				{/if}
+			</div>
+			<div class="mb-4">
+				<label
+					class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+					for="email"
+				>
+					Área do Terreno
+				</label>
+				<input
+					class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+					type="number"
+					id="landArea"
+					min="0"
+					on:input={handleChange}
+					bind:value={$form.landArea}
+				/>
+				{#if $errors.vgv}
+					<div class="text-red-500 text-xs">{$errors.landArea}</div>
+				{/if}
 			</div>
 			<div class="flex justify-end">
 				<!-- IF BUTTON IS NOT WORKING - PROBABLY THE VALIDATION IS FAILLING -->
