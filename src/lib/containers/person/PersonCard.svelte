@@ -20,8 +20,6 @@
 				{#each person?.tags as tag}
 					<Tag color="primary" name={tag.label} />
 				{/each}
-			{:else}
-				<p>Não foram encontradas tags.</p>
 			{/if}
 		</div>
 		{#if person?.company}
