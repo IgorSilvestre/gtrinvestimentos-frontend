@@ -44,6 +44,18 @@
 				{person?.target}
 			</p>
 		{/if}
+		{#if person?.vgv}
+			<p class="text-gray-700 text-sm">
+				<span class="font-bold">VGV:</span>
+				{person?.vgv}
+			</p>
+		{/if}
+		{#if person?.landArea}
+			<p class="text-gray-700 text-sm">
+				<span class="font-bold">Área do Terreno:</span>
+				{person?.landArea}
+			</p>
+		{/if}
 		<div class="flex flex-col justify-end mt-4">
 			<p class="text-gray-600 text-xs">Criação: {person?.createdAt}</p>
 			<p class="text-gray-600 text-xs">Última alteração: {person?.lastUpdated}</p>
