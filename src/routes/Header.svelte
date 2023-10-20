@@ -31,5 +31,6 @@
 		<a class="no-underline hover:underline text-white mx-3" href="/company">Empresas</a>
 		<!-- <a class="no-underline hover:underline text-white mx-3" href="/tag/all">Tags</a> -->
 		<a class="no-underline hover:underline text-white mx-3" href="/person">Pessoas</a>
+		<a class="no-underline hover:underline text-white mx-3" href="/search-cnpj">Busca CNPJ</a>
 	</nav>
 </header>
