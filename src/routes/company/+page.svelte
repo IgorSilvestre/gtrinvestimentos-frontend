@@ -10,6 +10,7 @@
 	import { ensureArray } from '$lib/shared/functions/ensureArray.js'
 	import { getTotalPages } from '$lib/shared/functions/paginationHelper/getTotalPages'
 	import { itemsPerPage } from '$lib/shared/stores'
+	import { textKeys } from '$lib/shared/textKeys'
 	import { onMount } from 'svelte'
 	import { fly } from 'svelte/transition'
 
@@ -61,7 +62,7 @@
 		</button>
 	</div>
 	<div class="p-4">
-		<Search on:search={handleSearchCompany} domainToFilter="company" />
+		<Search on:search={handleSearchCompany} domainToFilter={textKeys.domains.company} />
 	</div>
 
 	{#if companies && companies.length === 0}
