@@ -24,6 +24,10 @@
 </script>
 
 <main class="mt-4">
+	<p class="text-center">
+		Caso queira pesquisar o CNPJ clique
+		<a href="https://www.diretoriobrasil.net/" class="text-blue-800">aqui</a>
+	</p>
 	<div class="items-center text-center">
 		<label class="text-center block uppercase tracking-wide font-bold" for="name"> Busca </label>
 		<!-- <p class="w-full tracking-wide uppercase text-gray-700 text-2xl font-bold">Busca</p> -->

@@ -13,6 +13,8 @@ export const APIEndpoints = {
 		getAllForSelect: 'company/all-for-select'
 	},
 	externalAPI: {
-		fetchCNPJData: 'externalAPI/fetch-cnpj-data/'
+		fetchCNPJData: 'externalAPI/fetch-cnpj-data/',
+    companySearchEngine: 'externalAPI/company-searchEngine',
+    getLogoByDomain: 'https://logo.clearbit.com/'
 	}
 }

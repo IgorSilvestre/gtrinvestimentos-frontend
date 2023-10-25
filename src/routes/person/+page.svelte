@@ -11,6 +11,7 @@
 	import { ensureArray } from '$lib/shared/functions/ensureArray.js'
 	import { getTotalPages } from '$lib/shared/functions/paginationHelper/getTotalPages.js'
 	import { itemsPerPage } from '$lib/shared/stores.js'
+	import { textKeys } from '$lib/shared/textKeys'
 	import { onMount } from 'svelte'
 
 	let people: IPerson[] | undefined = undefined
@@ -60,7 +61,7 @@
 		>
 	</div>
 	<div class="p-4">
-		<Search on:search={handleSearchPeople} domainToFilter="person" />
+		<Search on:search={handleSearchPeople} domainToFilter={textKeys.domains.person} />
 	</div>
 
 	<div class="flex justify-center mx-4 my-2">
