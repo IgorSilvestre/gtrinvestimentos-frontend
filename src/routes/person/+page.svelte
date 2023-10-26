@@ -56,7 +56,7 @@
 	<div class="flex justify-end mx-4 my-2">
 		<button
 			type="button"
-			class="bg-green-400 text-black rounded-2xl p-2"
+			class="p-2 text-black bg-green-400 rounded-2xl"
 			on:click={() => goto('/person/new')}>Criar Pessoa</button
 		>
 	</div>
