@@ -3,7 +3,7 @@
 
 	export let content: string
 
-	let copied: boolean = false
+	let copied = false
 
 	$: {
 		content, (copied = false)

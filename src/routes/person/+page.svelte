@@ -20,10 +20,10 @@
 		people = ensureArray((await res.json()) as IPerson[])
 	})
 
-	let currentPage: number = 1
+	let currentPage = 1
 	let displayedPeople: IPerson[] = getDisplayedPeople()
 	let totalPages = getTotalPages(people || [])
-	let emailsToCopy: string = ''
+	let emailsToCopy = ''
 
 	$: {
 		// makes sure pagination and search updates the HTML
