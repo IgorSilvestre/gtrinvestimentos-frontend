@@ -6,7 +6,7 @@
 	import { transitionOptions } from '$lib/config'
 
 	export let company: ICompany | undefined
-	export let noEdit: boolean = false
+	export let noEdit = false
 </script>
 
 <div

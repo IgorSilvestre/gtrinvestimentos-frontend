@@ -19,7 +19,7 @@
 		: null
 	
   let tagsSelected: IOption[] = []
-	let query: string = ''
+	let query = ''
 
 	let endpoint: {
 		getAll?: string

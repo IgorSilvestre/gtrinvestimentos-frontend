@@ -65,13 +65,16 @@
 							goto('/person/' + person?._id)
 					  }) // update person
 					: await API.post('person', personParsed).then((response) => {
-						console.log('response>>', response)
-						toastStore.trigger(toastRegistered)	
-						goto('/person/' + response.data._id)
+							console.log('response>>', response)
+							toastStore.trigger(toastRegistered)
+							goto('/person/' + response.data._id)
 					  }) // create person
 			} catch (error: any) {
 				const { clientMessage } = error.response.data.error
-				toastStore.trigger({ message: clientMessage || 'Ocorreu um erro', background: 'variant-filled-error'})
+				toastStore.trigger({
+					message: clientMessage || 'Ocorreu um erro',
+					background: 'variant-filled-error'
+				})
 				console.error(error)
 			} finally {
 				// alert('Person saved!')
@@ -120,7 +123,7 @@
 					<div class="text-red-500 text-xs">{$errors.email}</div>
 				{/if}
 			</div>
-			
+
 			<div class="mb-4">
 				<label
 					class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -174,7 +177,7 @@
 					{/await}
 				</p>
 			</div>
-			<hr class="border-t-2">
+			<hr class="border-t-2" />
 			<h5 class="my-4">Real State</h5>
 			<div class="mb-4">
 				<label

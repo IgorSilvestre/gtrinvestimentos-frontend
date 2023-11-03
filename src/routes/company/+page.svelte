@@ -15,7 +15,7 @@
 	import { fly } from 'svelte/transition'
 
 	let companies: ICompany[] | undefined = undefined
-	let isLoadingCompanies: boolean = true
+	let isLoadingCompanies = true
 
 	onMount(async () => {
 		const res = await fetch(API_URL + APIEndpoints.company.getAll)
@@ -24,7 +24,7 @@
 	})
 
 
-	let currentPage: number = 1
+	let currentPage = 1
 	let displayedCompanies: ICompany[] = getDisplayedCompanies()
 	let totalPages = getTotalPages(companies)
 
