@@ -1,7 +1,7 @@
 export const APIEndpoints = {
 	person: {
 		getAll: 'person/all',
-		search: 'person/search',
+		search: 'person/search'
 	},
 	tags: {
 		getAll: 'tag/all',
@@ -14,7 +14,7 @@ export const APIEndpoints = {
 	},
 	externalAPI: {
 		fetchCNPJData: 'externalAPI/fetch-cnpj-data/',
-    companySearchEngine: 'externalAPI/company-searchEngine',
-    getLogoByDomain: 'https://logo.clearbit.com/'
+		companySearchEngine: 'externalAPI/company-searchEngine',
+		getLogoByDomain: 'https://logo.clearbit.com/'
 	}
 }
