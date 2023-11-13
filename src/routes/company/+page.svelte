@@ -1,54 +1,57 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
-	import { API_URL, transitionOptions } from '$lib/config'
+	import { getCompaniesQuery } from '$lib/api/queries/company/getCompanies'
+	import { transitionOptions } from '$lib/config'
 	import CompanyCard from '$lib/containers/company/CompanyCard.svelte'
-	import type { ICompany } from '$lib/interfaces-validation/IVCompany'
+	import type { ISearchParams } from '$lib/interfaces-validation/ISearchParams'
+	import type { ICompany, ICompanyPaginated } from '$lib/interfaces-validation/IVCompany'
 	import Loader from '$lib/modules/Loader.svelte'
 	import Pagination from '$lib/modules/Pagination.svelte'
-	import Search from '$lib/modules/Search.svelte'
-	import { ensureArray } from '$lib/shared/functions/ensureArray.js'
-	import { getTotalPages } from '$lib/shared/functions/paginationHelper/getTotalPages'
-	import { itemsPerPage } from '$lib/shared/stores'
-	import { textKeys } from '$lib/shared/textKeys'
+	import SearchTextAndTags from '$lib/modules/SearchTextAndTags.svelte'
 	import { onMount } from 'svelte'
 	import { fly } from 'svelte/transition'
 
-	let companies: ICompany[] | undefined = undefined
+	let companiesPaginated: ICompanyPaginated
+	let companies: ICompany[] | undefined | null = undefined
+
+	let SearchTextAndTagsComponent: SearchTextAndTags
+	let searchParams = {}
+	let isSearchPage = false
+
 	let isLoadingCompanies = true
+	let currentPage = 1
+	let totalPages = 1
 
 	onMount(async () => {
-		const res = await fetch(API_URL + APIEndpoints.company.getAll)
-		companies = ensureArray(await res.json() as ICompany[])
+		const res = await getCompaniesQuery()
+		companiesPaginated = await res.json()
+		companies = companiesPaginated?.data ?? null
+		totalPages = companiesPaginated?.totalPages ?? 1
 		isLoadingCompanies = false
 	})
 
-
-	let currentPage = 1
-	let displayedCompanies: ICompany[] = getDisplayedCompanies()
-	let totalPages = getTotalPages(companies)
-
 	$: {
-		// makes sure pagination and search updates the HTML
-		currentPage, companies
-		displayedCompanies = getDisplayedCompanies()
-		totalPages = getTotalPages(companies)
+		currentPage, companies // makes sure pagination and search updates in the HTML
 	}
 
-	// Calculate the range of items to display on the current page
-	function getDisplayedCompanies(): ICompany[] {
-		const startIndex: number = (currentPage - 1) * $itemsPerPage
-		const endIndex: number = startIndex + $itemsPerPage
-		return companies?.slice(startIndex, endIndex) ?? []
-	}
-
-	function handleSearchCompany(event: CustomEvent<ICompany | ICompany[]>): void {
+	function handleSearchCompany(
+		event: CustomEvent<{ data: ICompanyPaginated; params: ISearchParams }>
+	): void {
 		isLoadingCompanies = true
-		companies = ensureArray(event.detail)
-		currentPage = 1 // Reset to the first page after search
+
+		companiesPaginated = event.detail.data
+
+		if (companiesPaginated) {
+			companies = companiesPaginated.data
+			totalPages = companiesPaginated.totalPages
+		} else companies = null
+
+		!isSearchPage ? (currentPage = 1) : null // Reset to the first page after search
+		isSearchPage = true
+
 		isLoadingCompanies = false
 	}
-
 </script>
 
 <main>
@@ -62,19 +65,22 @@
 		</button>
 	</div>
 	<div class="p-4">
-		<Search on:search={handleSearchCompany} domainToFilter={textKeys.domains.company} />
+		<SearchTextAndTags
+			bind:this={SearchTextAndTagsComponent}
+			on:search={handleSearchCompany}
+			endpoint={APIEndpoints.company.search}
+		/>
 	</div>
-
 	{#if companies && companies.length === 0}
 		<div class="flex justify-center mx-4 my-2">
-			<p>Nenhuma pessoa encontrada</p>
+			<p>Nenhuma empresa encontrada</p>
 		</div>
 	{:else if isLoadingCompanies}
 		<div class="flex justify-center mx-4 my-6">
 			<Loader />
 		</div>
-	{:else}
-		{#each displayedCompanies as company}
+	{:else if companies && companies.length > 0}
+		{#each companies as company}
 			<a href={`/company/${company._id}`} in:fly={transitionOptions.defaultFlyEntry}>
 				<CompanyCard {company} />
 			</a>
@@ -82,9 +88,28 @@
 		<Pagination
 			{currentPage}
 			{totalPages}
-			onPageChange={(page) => {
+			onPageChange={async (page) => {
+				isLoadingCompanies = true
+				if (isSearchPage) {
+					console.log(SearchTextAndTagsComponent)
+					console.log('SEARCH')
+					SearchTextAndTagsComponent.handleSearch(APIEndpoints.company.search, {
+						...searchParams,
+						page
+					})
+				} else {
+					const companiesRes = await getCompaniesQuery(page)
+					companiesPaginated = await companiesRes.json()
+					companies = companiesPaginated?.data
+				}
 				currentPage = page
+				isLoadingCompanies = false
+				window.scrollTo({ top: 0, behavior: 'smooth' })
 			}}
 		/>
+	{:else}
+		<div class="flex justify-center mx-4 my-6">
+			<p>Não foi possível carregar empresas..</p>
+		</div>
 	{/if}
 </main>

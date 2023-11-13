@@ -3,6 +3,14 @@ import type { IOption } from './IOption'
 import type { IPerson } from './IVPerson'
 import { textKeys } from '$lib/shared/textKeys'
 
+export interface ICompanyPaginated {
+	data: ICompany[]
+	totalPages: number,
+	totalCompanies: number
+	nextPage: number | null
+	previousPage: number | null
+}
+
 export interface ICompany {
 	_id?: string
 	name: string
