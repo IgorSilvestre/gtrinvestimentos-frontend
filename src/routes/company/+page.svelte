@@ -20,19 +20,18 @@
 
 	onMount(async () => {
 		const res = await getCompaniesQuery()
-		companiesPaginated = await res.json()
+		companiesPaginated = res instanceof Error ? companiesPaginated : res
 		companies = companiesPaginated?.data ?? null
 		totalPages = companiesPaginated?.totalPages ?? 1
 		isLoadingCompanies = false
 	})
 
-	$: {
-		currentPage, companies // makes sure pagination and search updates in the HTML
-	}
+	$: currentPage, companies // makes sure pagination and search updates in the HTML
 
 	function handleSearchCompany(event: CustomEvent<ICompanyPaginated>): void {
 		isLoadingCompanies = true
-		companies = ensureArray(event.detail)
+		companiesPaginated = event.detail
+		companies = event.detail.data
 		currentPage = 1 // Reset to the first page after search
 		isLoadingCompanies = false
 	}
@@ -70,8 +69,8 @@
 			{totalPages}
 			onPageChange={async (page) => {
 				isLoadingCompanies = true
-				const companiesRes = await getCompaniesQuery(page)
-				companiesPaginated = await companiesRes.json()
+				const res = await getCompaniesQuery(page)
+				companiesPaginated = res instanceof Error ? companiesPaginated : res
 				companies = companiesPaginated?.data
 				currentPage = page
 				isLoadingCompanies = false
