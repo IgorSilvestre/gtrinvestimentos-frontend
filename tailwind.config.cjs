@@ -4,28 +4,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
 	content: [
-	  './src/**/*.{html,js,svelte,ts}',
-	  require('path').join(
-		require.resolve('@skeletonlabs/skeleton'),
-		'../**/*.{html,js,svelte,ts}'
-	  ),
+		'./src/**/*.{html,js,svelte,ts}',
+		require('path').join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}')
 	],
 	theme: {
-	  extend: {},
+		extend: {}
 	},
-	plugins: [
-	  ...require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')(),
-	  // Add the @tailwind base directive
-	  function ({ addBase, config }) {
-		addBase({
-		  // Add your base styles here if needed
-		  // For example:
-		  body: {
-			color: config('theme.colors.black'),
-			backgroundColor: config('theme.colors.white'),
-		  },
-		});
-	  },
-	],
-  };
-  
+	plugins: [...require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')()]
+}
