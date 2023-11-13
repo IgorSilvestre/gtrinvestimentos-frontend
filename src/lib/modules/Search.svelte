@@ -28,12 +28,6 @@
 	}
 
 	switch (domainToFilter) {
-		case textKeys.domains.company:
-			endpoint = {
-				getAll: APIEndpoints.company.getAll,
-				search: APIEndpoints.company.search
-			}
-			break
 		case textKeys.domains.person:
 			endpoint = {
 				getAll: APIEndpoints.person.getAll,
@@ -53,14 +47,14 @@
 		if (query) searchParams.query = query
 
 		if (domainToFilter === textKeys.domains.externalAPI) {
-			const companies = await API.post(endpoint.companySearchEngine, searchParams)
+			const companies = await API.post(endpoint.companySearchEngine as string, searchParams)
 			return dispatch(textKeys.dispatch.search, companies.data)
 		}
 
 		if (tags && tags.length > 0) searchParams.tags = IOptionToId(tags)
 
 		if ((!tags || tags.length === 0) && !query) {
-			const { data: all } = await API.get(endpoint?.getAll)
+			const { data: all } = await API.get(endpoint?.getAll as string)
 			return dispatch('search', all)
 		} else if (endpoint.search) {
 			const { data: filtered } = await API.post(endpoint?.search, searchParams)
@@ -72,7 +66,6 @@
 {#if domainToFilter}
 	<main>
 		<label class="text-center block uppercase tracking-wide font-bold" for="name"> Busca </label>
-		<!-- <p class="w-full tracking-wide uppercase text-gray-700 text-2xl font-bold">Busca</p> -->
 		<div class="flex flex-col md:flex-row items-center justify-center">
 			<div class="flex flex-col items-center md:w-1/2">
 				<label
@@ -106,10 +99,6 @@
 							filter={customSelectFilter}
 							bind:value={tagsSelected}
 						/>
-						<!-- TODO check if this component can work with validation -->
-						<!-- {#if $errors.tags && $touched.tags}
-			<div class="text-red-500 text-xs">{$errors.tags}</div>
-		  {/if} -->
 					{/await}
 				{/if}
 			</div>
