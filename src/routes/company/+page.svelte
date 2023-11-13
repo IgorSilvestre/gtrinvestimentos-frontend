@@ -1,19 +1,24 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
+	import { APIEndpoints } from '$lib/api/apiEndpoints'
 	import { getCompaniesQuery } from '$lib/api/queries/company/getCompanies'
 	import { transitionOptions } from '$lib/config'
 	import CompanyCard from '$lib/containers/company/CompanyCard.svelte'
+	import type { ISearchParams } from '$lib/interfaces-validation/ISearchParams'
 	import type { ICompany, ICompanyPaginated } from '$lib/interfaces-validation/IVCompany'
 	import Loader from '$lib/modules/Loader.svelte'
 	import Pagination from '$lib/modules/Pagination.svelte'
-	import Search from '$lib/modules/Search.svelte'
-	import { ensureArray } from '$lib/shared/functions/ensureArray.js'
-	import { textKeys } from '$lib/shared/textKeys'
+	import SearchTextAndTags from '$lib/modules/SearchTextAndTags.svelte'
 	import { onMount } from 'svelte'
 	import { fly } from 'svelte/transition'
 
 	let companiesPaginated: ICompanyPaginated
 	let companies: ICompany[] | undefined | null = undefined
+
+	let SearchTextAndTagsComponent: SearchTextAndTags
+	let searchParams = {}
+	let isSearchPage = false
+
 	let isLoadingCompanies = true
 	let currentPage = 1
 	let totalPages = 1
@@ -30,10 +35,21 @@
 		currentPage, companies // makes sure pagination and search updates in the HTML
 	}
 
-	function handleSearchCompany(event: CustomEvent<ICompanyPaginated>): void {
+	function handleSearchCompany(
+		event: CustomEvent<{ data: ICompanyPaginated; params: ISearchParams }>
+	): void {
 		isLoadingCompanies = true
-		companies = ensureArray(event.detail)
-		currentPage = 1 // Reset to the first page after search
+
+		companiesPaginated = event.detail.data
+
+		if (companiesPaginated) {
+			companies = companiesPaginated.data
+			totalPages = companiesPaginated.totalPages
+		} else companies = null
+
+		!isSearchPage ? (currentPage = 1) : null // Reset to the first page after search
+		isSearchPage = true
+
 		isLoadingCompanies = false
 	}
 </script>
@@ -49,7 +65,11 @@
 		</button>
 	</div>
 	<div class="p-4">
-		<Search on:search={handleSearchCompany} domainToFilter={textKeys.domains.company} />
+		<SearchTextAndTags
+			bind:this={SearchTextAndTagsComponent}
+			on:search={handleSearchCompany}
+			endpoint={APIEndpoints.company.search}
+		/>
 	</div>
 	{#if companies && companies.length === 0}
 		<div class="flex justify-center mx-4 my-2">
@@ -70,11 +90,21 @@
 			{totalPages}
 			onPageChange={async (page) => {
 				isLoadingCompanies = true
-				const companiesRes = await getCompaniesQuery(page)
-				companiesPaginated = await companiesRes.json()
-				companies = companiesPaginated?.data
+				if (isSearchPage) {
+					console.log(SearchTextAndTagsComponent)
+					console.log('SEARCH')
+					SearchTextAndTagsComponent.handleSearch(APIEndpoints.company.search, {
+						...searchParams,
+						page
+					})
+				} else {
+					const companiesRes = await getCompaniesQuery(page)
+					companiesPaginated = await companiesRes.json()
+					companies = companiesPaginated?.data
+				}
 				currentPage = page
 				isLoadingCompanies = false
+				window.scrollTo({ top: 0, behavior: 'smooth' })
 			}}
 		/>
 	{:else}
