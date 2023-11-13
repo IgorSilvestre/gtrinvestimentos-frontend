@@ -10,7 +10,7 @@
 	import Search from '$lib/modules/Search.svelte'
 	import { ensureArray } from '$lib/shared/functions/ensureArray.js'
 	import { getTotalPages } from '$lib/shared/functions/paginationHelper/getTotalPages.js'
-	import { itemsPerPage } from '$lib/shared/stores.js'
+	import { ITEMS_PER_PAGE } from '$lib/shared/stores.js'
 	import { textKeys } from '$lib/shared/textKeys'
 	import { onMount } from 'svelte'
 
@@ -34,14 +34,14 @@
 		// update copy emails-to-clipboard button
 		people?.forEach((person) => {
 			emailsToCopy = ''
-			person?.email ? emailsToCopy += person.email + '\n' : null
-	})
+			person?.email ? (emailsToCopy += person.email + '\n') : null
+		})
 	}
 
 	// Calculate the range of items to display on the current page
 	function getDisplayedPeople(): IPerson[] {
-		const startIndex: number = (currentPage - 1) * $itemsPerPage
-		const endIndex: number = startIndex + $itemsPerPage
+		const startIndex: number = (currentPage - 1) * $ITEMS_PER_PAGE
+		const endIndex: number = startIndex + $ITEMS_PER_PAGE
 		return people?.slice(startIndex, endIndex) ?? []
 	}
 

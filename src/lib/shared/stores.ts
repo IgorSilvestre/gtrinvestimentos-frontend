@@ -1,3 +1,3 @@
-import { writable } from "svelte/store"
+import { writable } from 'svelte/store'
 
-export const itemsPerPage = writable(10)
+export const ITEMS_PER_PAGE = writable(10)
