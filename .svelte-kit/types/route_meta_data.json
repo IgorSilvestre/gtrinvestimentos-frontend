@@ -1,0 +1,26 @@
+{
+	"/": [
+		"src/routes/+page.ts"
+	],
+	"/company-search": [],
+	"/company": [],
+	"/company/edit/[companyId]": [
+		"src/routes/company/edit/[companyId]/+page.ts"
+	],
+	"/company/new": [],
+	"/company/[companyId]": [
+		"src/routes/company/[companyId]/+page.ts"
+	],
+	"/person": [],
+	"/person/edit/[personId]": [
+		"src/routes/person/edit/[personId]/+page.ts"
+	],
+	"/person/new": [],
+	"/person/[personId]": [
+		"src/routes/person/[personId]/+page.ts"
+	],
+	"/search-cnpj": [],
+	"/tag/all": [
+		"src/routes/tag/all/+page.ts"
+	]
+}
