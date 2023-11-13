@@ -16,7 +16,7 @@
   # Build the application
   RUN bun run build
 
-  # Expose port 3000
+  # Expose port
   EXPOSE 4173
 
   # Run the application
