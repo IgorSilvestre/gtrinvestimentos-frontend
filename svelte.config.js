@@ -1,18 +1,13 @@
-import adapter from '@sveltejs/adapter-vercel'
+import adapter from 'svelte-adapter-bun'
 import { vitePreprocess } from '@sveltejs/kit/vite'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
-	// for more information about preprocessors
+	build: { outDir: 'dist' },
 	preprocess: vitePreprocess(),
 	kit: {
-        adapter: adapter({
-			runtime: 'nodejs18.x',
-			deploymentGitBranch: 'main',
-            // see the 'Deployment configuration' section below
-        })
-    }
+		adapter: adapter()
+	}
 }
 
 export default config
