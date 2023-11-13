@@ -17,7 +17,7 @@
   RUN bun run build
 
   # Expose port 3000
-  EXPOSE 4173
+  EXPOSE 3000
 
   # Run the application
   CMD ["bun", "start"]
