@@ -20,4 +20,4 @@
   EXPOSE 4173
 
   # Run the application
-  CMD ["bun", "run", "preview"]
+  CMD ["bun", "start"]
