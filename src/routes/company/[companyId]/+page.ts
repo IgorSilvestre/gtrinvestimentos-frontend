@@ -6,7 +6,7 @@ import type { ICompany } from '$lib/interfaces-validation/IVCompany'
 
 export async function load({ fetch, params }: ILoadFunction): Promise<{ company: ICompany, tags: IOption[] }> {
 	const companyRes = await fetch(API_URL + 'company/' + params.companyId)
-	const company = await companyRes.json()
+	const [ company ] = await companyRes.json()
 	const tagsRes: Response = await fetch(API_URL + 'tag/all-for-select')
 	const tags = await tagsRes.json()
 	return { company, tags }

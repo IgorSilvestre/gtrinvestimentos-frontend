@@ -46,6 +46,7 @@ declare module '$env/static/private' {
 	export const npm_config_local_prefix: string;
 	export const USER: string;
 	export const NVM_DIR: string;
+	export const LS_COLORS: string;
 	export const COMMAND_MODE: string;
 	export const SSH_AUTH_SOCK: string;
 	export const __CF_USER_TEXT_ENCODING: string;
@@ -76,6 +77,7 @@ declare module '$env/static/private' {
 	export const LC_CTYPE: string;
 	export const VSCODE_GIT_IPC_HANDLE: string;
 	export const NVM_BIN: string;
+	export const BUN_INSTALL: string;
 	export const npm_config_user_agent: string;
 	export const VSCODE_GIT_ASKPASS_NODE: string;
 	export const GIT_ASKPASS: string;
@@ -134,6 +136,7 @@ declare module '$env/dynamic/private' {
 		npm_config_local_prefix: string;
 		USER: string;
 		NVM_DIR: string;
+		LS_COLORS: string;
 		COMMAND_MODE: string;
 		SSH_AUTH_SOCK: string;
 		__CF_USER_TEXT_ENCODING: string;
@@ -164,6 +167,7 @@ declare module '$env/dynamic/private' {
 		LC_CTYPE: string;
 		VSCODE_GIT_IPC_HANDLE: string;
 		NVM_BIN: string;
+		BUN_INSTALL: string;
 		npm_config_user_agent: string;
 		VSCODE_GIT_ASKPASS_NODE: string;
 		GIT_ASKPASS: string;
