@@ -3,6 +3,7 @@
 
 	export let data
 	const { company } = data
+	console.log(company)
 </script>
 
 <main>
