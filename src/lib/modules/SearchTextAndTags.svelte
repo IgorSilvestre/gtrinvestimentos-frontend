@@ -26,7 +26,6 @@
 			const res = await API.get(
 				endpoint + '?' + new URLSearchParams(searchParams as Record<string, string>).toString()
 			)
-            console.log('SHOULD DISPATCH', await res.data)
 			dispatch('search', {
                 data: await res.data,
                 params: searchParams

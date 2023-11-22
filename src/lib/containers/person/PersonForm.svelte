@@ -65,7 +65,6 @@
 							goto('/person/' + person?._id)
 					  }) // update person
 					: await API.post('person', personParsed).then((response) => {
-							console.log('response>>', response)
 							toastStore.trigger(toastRegistered)
 							goto('/person/' + response.data._id)
 					  }) // create person

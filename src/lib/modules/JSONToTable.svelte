@@ -1,6 +1,5 @@
 <script lang="ts">
 	export let data: {}
-	console.log(data)
 	function renderValue(value: any) {
 		if (Array.isArray(value)) {
 			if (value.length === 0) {

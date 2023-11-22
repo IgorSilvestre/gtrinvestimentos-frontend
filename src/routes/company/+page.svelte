@@ -91,8 +91,6 @@
 			onPageChange={async (page) => {
 				isLoadingCompanies = true
 				if (isSearchPage) {
-					console.log(SearchTextAndTagsComponent)
-					console.log('SEARCH')
 					SearchTextAndTagsComponent.handleSearch(APIEndpoints.company.search, {
 						...searchParams,
 						page
