@@ -5,7 +5,6 @@
 	import Loader from '$lib/modules/Loader.svelte'
 
 	const companyDomain = $page.params.companyDomain
-  console.log(companyDomain)
 	const companyPromise = deepSearchCompanyQuery(companyDomain)
 </script>
 
