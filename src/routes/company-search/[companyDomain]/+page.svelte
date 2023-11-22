@@ -11,7 +11,7 @@
 
 <main>
 	{#await companyPromise}
-  <div class="my-auto m-auto flex justify-center items-center">
+  <div class="mt-10 m-auto flex justify-center items-center">
 		<Loader />
   </div>
 	{:then company}
