@@ -2,22 +2,20 @@
 	import type { ICompanySearchEngineData } from '$lib/interfaces-validation/ICompanySearchEngineData'
 	import Loader from '$lib/modules/Loader.svelte'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
-	import { getDomainFromURL } from '$lib/shared/functions/getDomainFromURL'
 	import { isValidURL } from '$lib/shared/functions/isValidURL'
 	import { goto } from '$app/navigation'
 	import SearchByEndpoint from '$lib/modules/SearchByEndpoint.svelte'
 	import { API } from '$lib/api/apiFetch'
 	import { handleGetLogo } from '$lib/api/queries/externalAPis/getLogoQuery'
 	import type { AxiosResponse } from 'axios'
+	import { extractDomainFromString } from '$lib/shared/functions/extractDomainFromString'
 
 	let query: string
 
 	let companiesPromise: Promise<AxiosResponse<ICompanySearchEngineData[]>>
 	let notFoundMessage: string
 	async function handleSearch() {
-		companiesPromise = API.request({
-			url: APIEndpoints.externalAPI.companySearchEngine + `?query=${query}`
-		})
+		companiesPromise = API.get(APIEndpoints.externalAPI.companySearchEngine + `?query=${query}`)
 	}
 </script>
 
@@ -46,7 +44,7 @@
 									alt={company.name + ' logo'}
 									class="w-28 h-28 mr-4 rounded"
 									on:click={(_) => {
-										goto(`/company-search/${getDomainFromURL(company.website)}`)
+										goto(`/company-search/${extractDomainFromString(company.website)}`)
 									}}
 								/>
 							{:else}
@@ -56,10 +54,10 @@
 								<h1
 									on:keydown={(e) => {
 										if (e.key === 'Enter')
-											goto(`/company-search/${getDomainFromURL(company.website)}`)
+											goto(`/company-search/${extractDomainFromString(company.website)}`)
 									}}
 									on:click={(_) => {
-										goto(`/company-search/${getDomainFromURL(company.website)}`)
+										goto(`/company-search/${extractDomainFromString(company.website)}`)
 									}}
 									class="text-xl text-blue-600 font-semibold cursor-pointer"
 								>
