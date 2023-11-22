@@ -15,6 +15,8 @@
 	let companiesPromise: Promise<AxiosResponse<ICompanySearchEngineData[]>>
 	let notFoundMessage: string
 	async function handleSearch() {
+		const possibleDomain = extractDomainFromString(query)
+		if (possibleDomain) goto(`company-search/${encodeURI(possibleDomain)}`)
 		companiesPromise = API.get(APIEndpoints.externalAPI.companySearchEngine + `?query=${query}`)
 	}
 </script>
