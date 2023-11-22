@@ -1,1 +1,0 @@
-const a="http://localhost:3005/api/v1//",s={defaultFlyEntry:{x:-50,duration:700},defaultFlyExit:{x:50,duration:400},defaultFade:{duration:400}},t={message:"Cadastrado com sucesso!",background:"variant-filled-success"},o={message:"Atualizado com sucesso!",background:"variant-filled-success"};export{a as A,o as a,t as b,s as t};
