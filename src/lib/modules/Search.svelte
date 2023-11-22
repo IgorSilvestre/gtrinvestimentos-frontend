@@ -34,10 +34,6 @@
 				search: APIEndpoints.person.search
 			}
 			break
-		case textKeys.domains.externalAPI:
-			endpoint = {
-				companySearchEngine: APIEndpoints.externalAPI.companySearchEngine
-			}
 		default:
 			break
 	}
@@ -45,11 +41,6 @@
 	async function handleSearch(tags: IOption[], query: string) {
 		let searchParams: { query?: string; tags?: string[] } = {}
 		if (query) searchParams.query = query
-
-		if (domainToFilter === textKeys.domains.externalAPI) {
-			const companies = await API.post(endpoint.companySearchEngine as string, searchParams)
-			return dispatch(textKeys.dispatch.search, companies.data)
-		}
 
 		if (tags && tags.length > 0) searchParams.tags = IOptionToId(tags)
 
