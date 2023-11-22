@@ -6,6 +6,7 @@
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
 	import { getDomainFromURL } from '$lib/shared/functions/getDomainFromURL'
 	import { isValidURL } from '$lib/shared/functions/isValidURL'
+	import { goto } from '$app/navigation'
 
 	let isLoadingCompanies: boolean
 	let companies: ICompanySearchEngineData[]
@@ -43,7 +44,16 @@
 							<span class="w-28 mr-4" />
 						{/if}
 						<div>
-							<h1 class="text-xl text-blue-600 font-semibold">{company.name}</h1>
+							<h1
+								on:keydown={(e) => {
+									if (e.key === 'Enter')
+										goto(`/company-search/${new URL(company.website).hostname}`)
+								}}
+								on:click={(_) => goto(`/company-search/${new URL(company.website).hostname}`)}
+								class="text-xl text-blue-600 font-semibold cursor-pointer"
+							>
+								{company.name}
+							</h1>
 							{#if company.type}
 								<p class="text-gray-600">Setor: {company.type}</p>
 							{/if}

@@ -3,6 +3,7 @@
 		"src/routes/+page.ts"
 	],
 	"/company-search": [],
+	"/company-search/[companyDomain]": [],
 	"/company": [],
 	"/company/edit/[companyId]": [
 		"src/routes/company/edit/[companyId]/+page.ts"

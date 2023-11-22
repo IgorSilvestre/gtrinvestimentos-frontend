@@ -15,6 +15,7 @@ export const APIEndpoints = {
 	externalAPI: {
 		fetchCNPJData: 'externalAPI/fetch-cnpj-data/',
 		companySearchEngine: 'externalAPI/company-searchEngine',
-		getLogoByDomain: 'https://logo.clearbit.com/'
+		getLogoByDomain: 'https://logo.clearbit.com/',
+		deepSearchCompany: 'externalAPI/deep-search-company'
 	}
 }

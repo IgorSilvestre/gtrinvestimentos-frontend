@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let data: {}
-
+	console.log(data)
 	function renderValue(value: any) {
 		if (Array.isArray(value)) {
 			if (value.length === 0) {
@@ -50,7 +50,7 @@
 	<tbody>
 		{#each Object.entries(data) as [field, value]}
 			<tr>
-				<td class="px-6 py-2 sm:py-4 flex mt-2 sm:mt-0 whitespace-nowrap">{field}</td>
+				<td class="px-6 py-2 sm:py-4 flex mt-2 sm:mt-0 whitespace-nowrap mr-2">{field}</td>
 				<td class="px-6 py-2 sm:py-4 whitespace-nowrap">
 					{@html renderValue(value)}
 				</td>
