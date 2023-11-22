@@ -7,24 +7,17 @@
 	import { goto } from '$app/navigation'
 	import SearchByEndpoint from '$lib/modules/SearchByEndpoint.svelte'
 	import { API } from '$lib/api/apiFetch'
+	import { handleGetLogo } from '$lib/api/queries/externalAPis/getLogoQuery'
+	import type { AxiosResponse } from 'axios'
 
-	let isLoadingCompanies: boolean
-	let companies: ICompanySearchEngineData[]
 	let query: string
 
-	function handleGetLogo(url: string) {
-		if (!isValidURL(url)) return
-		return APIEndpoints.externalAPI.getLogoByDomain + getDomainFromURL(url)
-	}
-
+	let companiesPromise: Promise<AxiosResponse<ICompanySearchEngineData[]>>
+	let notFoundMessage: string
 	async function handleSearch() {
-		const { data } = await API.request(requestOptions)
-		console.log(data)
-		companies = data
-	}
-
-	$: requestOptions = {
-		url: APIEndpoints.externalAPI.companySearchEngine + `?query=${query}`
+		companiesPromise = API.request({
+			url: APIEndpoints.externalAPI.companySearchEngine + `?query=${query}`
+		})
 	}
 </script>
 
@@ -36,50 +29,62 @@
 			on:search={handleSearch}
 		/>
 	</div>
-	<div class="w-full">
-		{#if isLoadingCompanies}
-			<Loader />
-		{:else if companies}
-			<div class="mt-4 p-4">
-				{#each companies as company (company.google_id)}
-					<div class="p-4 mb-2 flex">
-						{#if isValidURL(company.website)}
-							<img
-								src={handleGetLogo(company.website)}
-								alt={company.name + ' logo'}
-								class="w-28 h-28 mr-4 rounded"
-							/>
-						{:else}
-							<span class="w-28 mr-4" />
-						{/if}
-						<div>
-							<h1
-								on:keydown={(e) => {
-									if (e.key === 'Enter')
-										goto(`/company-search/${getDomainFromURL(company.website)}`)
-								}}
-								on:click={(_) => {
-									goto(`/company-search/${getDomainFromURL(company.website)}`)
-								}}
-								class="text-xl text-blue-600 font-semibold cursor-pointer"
-							>
-								{company.name}
-							</h1>
-							{#if company.type}
-								<p class="text-gray-600">Setor: {company.type}</p>
-							{/if}
-							{#if company.full_address}
-								<p class="text-gray-600">{company.full_address}</p>
-							{/if}
-							{#if company.website}
-								<a href={company.website}>
-									<p class="text-blue-400">{company.website}</p>
-								</a>
-							{/if}
-						</div>
-					</div>
-				{/each}
+	<div class="w-full h-full flex justify-center items-center">
+		{#await companiesPromise}
+			<div class="flex justify-center items-centero">
+				<Loader />
 			</div>
-		{/if}
+		{:then companies}
+			{#if companies?.data && companies?.data?.length > 0}
+				<div class="mt-4 p-4">
+					{#each companies.data as company (company.google_id)}
+						<div class="p-4 mb-2 flex">
+							{#if isValidURL(company.website)}
+								<!-- svelte-ignore a11y-click-events-have-key-events -->
+								<img
+									src={handleGetLogo(company.website)}
+									alt={company.name + ' logo'}
+									class="w-28 h-28 mr-4 rounded"
+									on:click={(_) => {
+										goto(`/company-search/${getDomainFromURL(company.website)}`)
+									}}
+								/>
+							{:else}
+								<span class="w-28 mr-4" />
+							{/if}
+							<div>
+								<h1
+									on:keydown={(e) => {
+										if (e.key === 'Enter')
+											goto(`/company-search/${getDomainFromURL(company.website)}`)
+									}}
+									on:click={(_) => {
+										goto(`/company-search/${getDomainFromURL(company.website)}`)
+									}}
+									class="text-xl text-blue-600 font-semibold cursor-pointer"
+								>
+									{company.name}
+								</h1>
+								{#if company.type}
+									<p class="text-gray-600">Setor: {company.type}</p>
+								{/if}
+								{#if company.full_address}
+									<p class="text-gray-600">{company.full_address}</p>
+								{/if}
+								{#if company.website}
+									<a href={company.website}>
+										<p class="text-blue-400">{company.website}</p>
+									</a>
+								{/if}
+							</div>
+						</div>
+					{/each}
+				</div>
+			{:else if notFoundMessage}
+				<div class="my-auto m-auto flex justify-center items-center">
+					<p class="text-2xl text-gray-600">Nenhuma empresa encontrada..</p>
+				</div>
+			{/if}
+		{/await}
 	</div>
 </main>
