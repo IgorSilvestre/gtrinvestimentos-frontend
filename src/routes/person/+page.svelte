@@ -30,12 +30,6 @@
 		currentPage, people
 		displayedPeople = getDisplayedPeople()
 		totalPages = getTotalPages(people || [])
-
-		// update copy emails-to-clipboard button
-		people?.forEach((person) => {
-			emailsToCopy = ''
-			person?.email ? (emailsToCopy += person.email + '\n') : null
-		})
 	}
 
 	// Calculate the range of items to display on the current page
@@ -48,6 +42,12 @@
 	function handleSearchPeople(event: CustomEvent<IPerson | IPerson[]>): void {
 		people = []
 		people = ensureArray(event.detail)
+		
+		// update copy emails-to-clipboard button
+		people?.forEach((person) => {
+			person?.email ? (emailsToCopy += person.email + '\n') : null
+		})
+		
 		currentPage = 1 // Reset to the first page after search
 	}
 </script>
