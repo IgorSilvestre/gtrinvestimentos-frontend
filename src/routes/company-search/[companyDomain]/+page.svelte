@@ -8,8 +8,6 @@
 	import type { ICNPJData } from '$lib/interfaces-validation/ICNPJData'
 	import type { ICompanyLinkedinData } from '$lib/interfaces-validation/ICompanyLinkedinData'
 
-	const companyDomain = $page.params.companyDomain
-
 	interface ICompany {
 		CNPJData: ICNPJData
 		linkedinData: ICompanyLinkedinData
