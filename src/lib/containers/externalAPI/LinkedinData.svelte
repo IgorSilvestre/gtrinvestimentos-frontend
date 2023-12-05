@@ -39,7 +39,8 @@
 		</div>
 		<div class="mt-4">
 			{#if linkedinData.similar_pages && linkedinData.similar_pages.length > 0}
-				<p><b>Páginas Similares</b></p>
+			<!-- TODO !!! fazer link levar para deepSearch da empresa -->
+				<p><b>Páginas Similares (link para o linkedin)</b></p>
 				{#each linkedinData.similar_pages as page}
 					<a href={page.link}>
 						<div class="flex flex-row text-center cursor-pointer mt-1">
