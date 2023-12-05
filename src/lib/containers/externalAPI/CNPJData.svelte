@@ -6,6 +6,7 @@
 
 <main>
 	<p><b>Nome: </b>{data.nome}</p>
+	<p><b>CNPJ: </b>{data.cnpj}</p>
 	<p><b>Sócios</b></p>
 	<div class="ml-4">
 		{#each data.qsa as socio}
