@@ -3,7 +3,7 @@
 	import { object } from 'yup'
 
 	export let data: ICompanyLinkedinData
-	const linkedinData = data && Object.keys(data).length > 1 ? data.results[0] : undefined
+	const linkedinData = data && data.results && data.results.length > 0 ? data.results[0] : undefined
 </script>
 
 <main>
