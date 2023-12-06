@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ICNPJData } from '$lib/interfaces-validation/ICNPJData'
 
-	export let data: ICNPJData
+	export let data: ICNPJData | undefined
 </script>
 
 <main>

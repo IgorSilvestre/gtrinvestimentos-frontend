@@ -9,8 +9,12 @@
 	import type { ICompanyLinkedinData } from '$lib/interfaces-validation/ICompanyLinkedinData'
 
 	interface ICompany {
-		CNPJData: ICNPJData
-		linkedinData: ICompanyLinkedinData
+		CNPJData?: ICNPJData
+		linkedinData?: ICompanyLinkedinData
+		domainOwner?: {
+			name: string
+			document: string
+		}
 	}
 
 	let company: ICompany | undefined
