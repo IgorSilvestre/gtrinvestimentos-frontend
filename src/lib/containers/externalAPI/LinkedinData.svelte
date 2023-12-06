@@ -22,18 +22,18 @@
 		{#if linkedinData.website}
 			<p class="mt-2">
 				<b>Website: </b>
-				<a href={linkedinData.website} class="text-blue-400">
+				<a href={linkedinData.website} class="underline">
 					{linkedinData.website}
 				</a>
 			</p>
 		{/if}
 		<div class="mt-2">
 			{#if linkedinData.employees_on_li && linkedinData.employees_on_li.length > 0}
-				<p><b>Funcionários: </b></p>
+				<p><b>Funcionários: (link para o linkedin)</b></p>
 				<div class="mt-1">
 					{#each linkedinData.employees_on_li as employee}
 						<div class="ml-2 mt-1">
-							<p class="cursor-pointer"><a href={employee.link}>{employee.name}</a></p>
+							<p class="cursor-pointer underline"><a href={employee.link}>{employee.name}</a></p>
 							<p class="text-sm">{employee.title}</p>
 						</div>
 					{/each}
@@ -45,12 +45,12 @@
 				<!-- TODO !!! make link take you to deepSearch page not linkedin page -->
 				<p><b>Páginas Similares (link para o linkedin)</b></p>
 				{#each linkedinData.similar_pages as page}
-					<a href={page.link}>
-						<div class="flex flex-row text-center cursor-pointer mt-1">
+					<span class="flex flex-row text-center mt-1">
+						<a href={page.link} class="flex cursor-pointer">
 							<img src={page.logo} alt={page.title + ' logo'} class="w-12 mr-4" />
-							<p>{page.title}</p>
-						</div>
-					</a>
+							<p class="flex items-center underline">{page.title}</p>
+						</a>
+					</span>
 				{/each}
 			{/if}
 		</div>
