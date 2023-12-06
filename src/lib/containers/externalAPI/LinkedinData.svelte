@@ -33,7 +33,7 @@
 				<div class="mt-1">
 					{#each linkedinData.employees_on_li as employee}
 						<div class="ml-2 mt-1">
-							<p class="cursor-pointer underline"><a href={employee.link}>{employee.name}</a></p>
+							<p class="underline"><a href={employee.link} class="cursor-pointer">{employee.name}</a></p>
 							<p class="text-sm">{employee.title}</p>
 						</div>
 					{/each}
