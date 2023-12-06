@@ -6,7 +6,7 @@
 
 <main>
 	{#if !data}
-		<div class="mt-10 m-auto flex justify-center items-center">
+		<div>
 			<p><b>Nenhum CNPJ encontrado para empresa!</b></p>
 		</div>
 		<div class="mt-2 w-1/3 h-0 border border-black" />
