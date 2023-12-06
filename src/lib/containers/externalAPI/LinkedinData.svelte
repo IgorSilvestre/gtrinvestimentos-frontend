@@ -39,7 +39,7 @@
 		</div>
 		<div class="mt-4">
 			{#if linkedinData.similar_pages && linkedinData.similar_pages.length > 0}
-			<!-- TODO !!! fazer link levar para deepSearch da empresa -->
+			<!-- TODO !!! make link take you to deepSearch page not linkedin page -->
 				<p><b>Páginas Similares (link para o linkedin)</b></p>
 				{#each linkedinData.similar_pages as page}
 					<a href={page.link}>
