@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { ICompanyLinkedinData } from '$lib/interfaces-validation/ICompanyLinkedinData'
-	import { object } from 'yup'
 
 	export let data: ICompanyLinkedinData
 	const linkedinData = data && data.results && data.results.length > 0 ? data.results[0] : undefined
