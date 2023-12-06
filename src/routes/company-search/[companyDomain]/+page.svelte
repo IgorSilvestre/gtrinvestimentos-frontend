@@ -41,7 +41,7 @@
 			<div class="ml-2">
 				<CnpjData data={company.CNPJData} />
 			</div>
-			<div class="ml-2">
+			<div class="ml-2 mt-2">
 				<LinkedinData data={company.linkedinData} />
 			</div>
 		{/if}
