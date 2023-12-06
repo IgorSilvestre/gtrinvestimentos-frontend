@@ -43,16 +43,16 @@
 			</div>
 		{:else}
 			{#if company.domainOwner}
-				<div class="ml-2 my-4">
+				<div class="mx-2 my-4">
 					<p><b>Dono do domínio: </b>{company.domainOwner.name}</p>
 					<p><b>CPF/CNPJ: </b>{company.domainOwner.document}</p>
 					<div class="border border-solid border-black w-1/3" />
 				</div>
 			{/if}
-			<div class="ml-2 my-2">
+			<div class="mx-2 my-2">
 				<CnpjData data={company.CNPJData} />
 			</div>
-			<div class="ml-2 mt-2">
+			<div class="mx-2 mt-2">
 				<LinkedinData data={company.linkedinData} />
 			</div>
 		{/if}
