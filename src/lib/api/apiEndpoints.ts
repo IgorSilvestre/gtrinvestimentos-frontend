@@ -10,7 +10,7 @@ export const APIEndpoints = {
 	company: {
 		get: 'company/get',
 		search: 'company/search',
-		getAllForSelect: 'company/all-for-select'
+		searchForSelect: 'company/search-for-select'
 	},
 	externalAPI: {
 		fetchCNPJData: 'externalAPI/fetch-cnpj-data/',

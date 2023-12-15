@@ -8,24 +8,16 @@
 	import type { IOption } from '$lib/interfaces-validation/IOption'
 	import { parseArrayOfOptionsToIds } from '$lib/shared/functions/parseOptionToId'
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
-	import { APIEndpoints } from '$lib/api/apiEndpoints'
 	import { createEventDispatcher } from 'svelte'
 	import { toastRegistered, toastUpdated } from '$lib/config'
 	import { toastStore } from '@skeletonlabs/skeleton'
+	import { searchCompaniesForSelectQuery } from '$lib/api/queries/company/searchCompaniesForSelect'
+	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
 
 	export let person: IPerson | undefined = undefined
 	const dispatch = createEventDispatcher()
 
-	async function getSelectTagOptions() {
-		const { data } = await API.get(APIEndpoints.tags.getAllForSelect)
-		return data
-	}
-	async function getSelectCompanyOptions() {
-		const { data } = await API.get(APIEndpoints.company.getAllForSelect)
-		return data
-	}
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
-	let selectCompanyOptionsPromise: Promise<IOption[]> = getSelectCompanyOptions()
 
 	interface IPersonForm extends Omit<IPerson, 'tags' | 'company'> {
 		tags?: IOption[]
@@ -161,19 +153,12 @@
 				</p>
 				<p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
 					Companies
-					{#await selectCompanyOptionsPromise}
-						<p>Loading companies...</p>
-					{:then selectCompanies}
-						<Select
-							items={selectCompanies}
-							filter={customSelectFilter}
-							bind:value={$form.company}
-						/>
-						<!-- TODO check if this component can work with validation -->
-						<!-- {#if $errors.tags && $touched.tags}
-                <div class="text-red-500 text-xs">{$errors.tags}</div>
-              {/if} -->
-					{/await}
+					<Select
+						debounceWait={300}
+						loadOptions={searchCompaniesForSelectQuery}
+						itemId="id"
+						placeholder="Busque empresa"
+					/>
 				</p>
 			</div>
 			<hr class="border-t-2" />
