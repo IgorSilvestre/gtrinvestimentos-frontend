@@ -154,6 +154,8 @@
 				<p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
 					Companies
 					<Select
+						on:focus={$form.company = undefined}
+						bind:value={$form.company}
 						debounceWait={300}
 						loadOptions={searchCompaniesForSelectQuery}
 						itemId="id"
