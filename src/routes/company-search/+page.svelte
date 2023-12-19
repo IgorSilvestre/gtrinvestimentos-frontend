@@ -9,15 +9,25 @@
 	import { handleGetLogo } from '$lib/api/queries/externalAPis/getLogoQuery'
 	import type { AxiosResponse } from 'axios'
 	import { extractDomainFromString } from '$lib/shared/functions/extractDomainFromString'
+	import { PAGE_COMPANY_SEARCH_QUERY, PAGE_COMPANY_SEARCH_RESULTS } from '$lib/shared/stores'
+	import { get } from 'svelte/store'
 
-	let query: string
-
-	let companiesPromise: Promise<AxiosResponse<ICompanySearchEngineData[]>>
+	let query: string = get(PAGE_COMPANY_SEARCH_QUERY)
 	let notFoundMessage: string
+
+	let companiesPromise: Promise<AxiosResponse<ICompanySearchEngineData[]>> = get(
+		PAGE_COMPANY_SEARCH_RESULTS
+	) as Promise<AxiosResponse<ICompanySearchEngineData[]>>
+
 	async function handleSearch() {
+		if (!query) return
 		const possibleDomain = extractDomainFromString(query)
 		if (possibleDomain) goto(`company-search/${encodeURI(possibleDomain)}`)
+
+		PAGE_COMPANY_SEARCH_QUERY.set(query)
+
 		companiesPromise = API.get(APIEndpoints.externalAPI.companySearchEngine + `?query=${query}`)
+		PAGE_COMPANY_SEARCH_RESULTS.set(companiesPromise)
 	}
 </script>
 
