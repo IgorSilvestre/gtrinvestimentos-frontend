@@ -1,12 +1,11 @@
 <script lang="ts">
-	export let size: string | undefined
+	export let size: string = 'w-12 h-12'
 
 	switch (size) {
 		case 'sm':
 			size = 'w-6 h-6';	
 			break;
 		default:
-			size = 'w-12 h-12';
 			break;
 	}
 </script>
