@@ -4,6 +4,7 @@
 	import type { ICNPJData } from '$lib/interfaces-validation/ICNPJData'
 	import Loader from '$lib/modules/Loader.svelte'
 	import { copyToClipboard } from '$lib/shared/functions/copyToClipboard'
+	import { delay } from '$lib/shared/functions/delay'
 	import { toastStore } from '@skeletonlabs/skeleton'
 
 	export let data: ICNPJData | undefined
@@ -21,15 +22,20 @@
 		success: boolean
 	}
 
-	function handleButtonFetchEmails() {
+	async function handleButtonFetchEmails() {
 		isLoadingEmailButton = true
-		data?.qsa.forEach(async (socio) => {
-			let response: IEmailVerificationResult = await fetchBusinessEmail(
-				socio.nome,
-				domain as string
-			)
-			if (response.success) emails[socio.nome] = response.result.email
-		})
+
+		if (data?.qsa) {
+			for (const socio of data.qsa) {
+				let response = await fetchBusinessEmail(socio.nome, domain as string)
+				if (response.success) {
+					emails[socio.nome] = response.result.email
+				}
+				// Wait for 1.2 seconds after each request, respecting the API rate limit
+				await delay(1200)
+			}
+		}
+
 		isLoadingEmailButton = false
 	}
 
@@ -78,6 +84,7 @@
 					{/each}
 					{#if domain && domain.length > 0}
 						{#if isLoadingEmailButton}
+							{console.log('isLoadingEmailButton', isLoadingEmailButton)}
 							<Loader size="sm" />
 						{:else if emails && Object.keys(emails).length > 0}
 							<button
