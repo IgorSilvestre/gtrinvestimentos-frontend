@@ -1,7 +1,49 @@
 <script lang="ts">
+	import { fetchBusinessEmail } from '$lib/api/queries/externalAPis/featchBusinessEmail'
+	import { toastCopied } from '$lib/config'
 	import type { ICNPJData } from '$lib/interfaces-validation/ICNPJData'
+	import Loader from '$lib/modules/Loader.svelte'
+	import { copyToClipboard } from '$lib/shared/functions/copyToClipboard'
+	import { toastStore } from '@skeletonlabs/skeleton'
 
 	export let data: ICNPJData | undefined
+	export let domain: string | undefined
+	const emails: { [key: string]: string } = {}
+	let isLoadingEmailButton = false
+
+	interface IEmailAttempt {
+		email: string
+		email_status: string // Note: Corrected typo from "email_tatus" to "email_status" to match "result" object
+	}
+	interface IEmailVerificationResult {
+		attempted: IEmailAttempt[]
+		result: IEmailAttempt // Reusing the EmailAttempt interface as it has the same structure
+		success: boolean
+	}
+
+	function handleButtonFetchEmails() {
+		isLoadingEmailButton = true
+		data?.qsa.forEach(async (socio) => {
+			let response: IEmailVerificationResult = await fetchBusinessEmail(
+				socio.nome,
+				domain as string
+			)
+			if (response.success) emails[socio.nome] = response.result.email
+		})
+		isLoadingEmailButton = false
+	}
+
+	function handleCopyEmail(email: string) {
+		copyToClipboard(email)
+		toastStore.trigger(toastCopied)
+	}
+
+	function handleCopyAllEmails() {
+		copyToClipboard(Object.values(emails).join('; ').trim())
+		toastStore.trigger(toastCopied)
+	}
+
+	$: isLoadingEmailButton, emails
 </script>
 
 <main>
@@ -18,11 +60,39 @@
 			{#if data.qsa && data.qsa.length > 0}
 				<div class="ml-4">
 					{#each data.qsa as socio}
-						<p>
-							{socio.nome}
-						</p>
-						<p class="text-sm">{socio.qual}</p>
+						<div class="mb-2">
+							<p>
+								{socio.nome}
+							</p>
+							<p class="text-sm">{socio.qual}</p>
+							{#if emails[socio.nome] && emails[socio.nome].length > 0}
+								<p
+									on:keypress={() => handleCopyEmail(emails[socio.nome])}
+									on:click={() => handleCopyEmail(emails[socio.nome])}
+									class="text-sm text-blue-400 cursor-pointer"
+								>
+									{emails[socio.nome]}
+								</p>
+							{/if}
+						</div>
 					{/each}
+					{#if domain && domain.length > 0}
+						{#if isLoadingEmailButton}
+							<Loader size="sm" />
+						{:else if emails && Object.keys(emails).length > 0}
+							<button
+								on:click={handleCopyAllEmails}
+								class="bg-green-500 p-1 rounded-sm text-sm mt-2 text-white font-bold"
+								>Copiar todos</button
+							>
+						{:else}
+							<button
+								on:click={handleButtonFetchEmails}
+								class="bg-blue-500 p-1 rounded-sm text-sm mt-2 text-white font-bold"
+								>Buscar E-mails</button
+							>
+						{/if}
+					{/if}
 				</div>
 			{/if}
 		</div>
@@ -77,7 +147,10 @@
 			<p class="mt-2"><b>E-mail: </b>{data.email}</p>
 		{/if}
 		{#if data.situacao}
-			<p class="mt-2"><b>Situação: </b>{data.situacao} {data.data_situacao ? data.data_situacao : ''}</p>
+			<p class="mt-2">
+				<b>Situação: </b>{data.situacao}
+				{data.data_situacao ? data.data_situacao : ''}
+			</p>
 		{/if}
 		{#if data.motivo_situacao}
 			<p class="mt-2"><b>Motivo da Situação: </b>{data.motivo_situacao}</p>

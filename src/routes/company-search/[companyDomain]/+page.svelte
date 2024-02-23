@@ -8,6 +8,11 @@
 	import type { ICNPJData } from '$lib/interfaces-validation/ICNPJData'
 	import type { ICompanyLinkedinData } from '$lib/interfaces-validation/ICompanyLinkedinData'
 
+	let company: ICompany | undefined
+	let validationError: string | undefined
+	let isLoading = true
+	const companyDomain = $page.params.companyDomain
+
 	interface ICompany {
 		CNPJData?: ICNPJData
 		linkedinData?: ICompanyLinkedinData
@@ -17,13 +22,9 @@
 		}
 	}
 
-	let company: ICompany | undefined
-	let validationError: string | undefined
-	let isLoading = true
-
 	onMount(async () => {
-		if ($page.params.companyDomain) {
-			const companyPromise = deepSearchCompanyQuery($page.params.companyDomain)
+		if (companyDomain) {
+			const companyPromise = deepSearchCompanyQuery(companyDomain)
 			const fetchedCompany = await companyPromise
 			company = fetchedCompany
 			isLoading = false
@@ -50,7 +51,7 @@
 				</div>
 			{/if}
 			<div class="mx-2 my-2">
-				<CnpjData data={company.CNPJData} />
+				<CnpjData data={company.CNPJData} domain={companyDomain} />
 			</div>
 			<div class="mx-2 mt-2">
 				<LinkedinData data={company.linkedinData} />

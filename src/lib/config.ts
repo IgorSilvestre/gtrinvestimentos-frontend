@@ -26,3 +26,8 @@ export const toastError: ToastSettings = {
 	message: 'Ocorreu um erro, tente novamente mais tarde',
 	background: 'variant-filled-error'
 }
+
+export const toastCopied: ToastSettings = {
+	message: 'Copiado!',
+	background: 'variant-filled-success'
+}
