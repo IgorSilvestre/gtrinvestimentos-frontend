@@ -1,5 +1,14 @@
 <script lang="ts">
-	export let size = 'w-12 h-12' // default size
+	export let size: string | undefined
+
+	switch (size) {
+		case 'sm':
+			size = 'w-6 h-6';	
+			break;
+		default:
+			size = 'w-12 h-12';
+			break;
+	}
 </script>
 
 <span
