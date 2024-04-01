@@ -26,7 +26,8 @@ module.exports = {
 				parser: '@typescript-eslint/parser'
 			},
 			rules: {
-				'svelte3/a11y-label-has-associated-control': 'off'
+				'svelte3/a11y-label-has-associated-control': 'off',
+                "svelte3/a11y-click-events-have-key-events": "off"
 			}
 		}
 	]
