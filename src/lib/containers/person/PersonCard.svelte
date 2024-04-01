@@ -4,9 +4,15 @@
 	import { fly } from 'svelte/transition'
 	import type { IPerson } from '$lib/interfaces-validation/IVPerson'
 	import { transitionOptions } from '$lib/config'
+	import { copyToClipboard } from '$lib/shared/functions/copyToClipboard'
 
 	export let person: IPerson | undefined
 	export let noEdit = false
+
+	function handleCopyToClipboard(e: Event) {
+		e.preventDefault()
+		copyToClipboard(person?.email as string)
+	}
 </script>
 
 <div
@@ -23,15 +29,19 @@
 			{/if}
 		</div>
 		{#if person?.company}
-			<p class="text-gray-700 text-sm">
+			                    <p class="text-gray-700 text-sm">
 				<span class="font-bold">Empresa:</span>
 				<a href={'/company/' + person?.company?._id}>
 					<Tag color="secondary" name={person?.company?.name} />
-				</a>
+</a>
 			</p>
 		{/if}
 		{#if person?.email}
-			<p class="text-gray-700 text-sm">
+			<p
+				on:keypress={handleCopyToClipboard}
+				on:click={handleCopyToClipboard}
+				class="text-blue-700 text-sm"
+			>
 				<span class="font-bold">Email:</span>
 				{person?.email}
 			</p>
