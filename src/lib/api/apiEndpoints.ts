@@ -13,13 +13,19 @@ export const APIEndpoints = {
 		searchForSelect: 'company/search-for-select'
 	},
 	asset: {
-		get: 'asset/',
+		get: 'asset/'
 	},
 	externalAPI: {
 		fetchCNPJData: 'externalAPI/fetch-cnpj-data/',
 		companySearchEngine: 'externalAPI/company-searchEngine',
 		getLogoByDomain: 'https://logo.clearbit.com/',
 		deepSearchCompany: 'externalAPI/deep-search-company',
-		fetchBusinessEmail: 'externalAPI/fetch-business-email'
+		fetchBusinessEmail: 'externalAPI/fetch-business-email',
+		locations: {
+			getBrazilStates: 'externalAPI/locations/Brazil-states/',
+			getCitiesByState: 'externalAPI/locations/cities-by-state/',
+			getNeighborhoodByCityApiId: 'externalAPI/locations/neighborhood-by-city-apiId/',
+			getStreetByNeighborhoodApiId: 'externalAPI/locations/street-by-neighborhood-apiId/'
+		}
 	}
 }
