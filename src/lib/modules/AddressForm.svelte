@@ -9,6 +9,8 @@
 
 	export let style: string = ''
 	export let defaultAddres: any = undefined
+    
+    const dispatch = createEventDispatcher()
 
 	let states: []
 	let isLoadingStates = true
@@ -35,9 +37,9 @@
 		isLoadingStates = false
 	})
 
-    function dispatchAddress() {
-        const dispatch = createEventDispatcher()
+    async function dispatchAddress() {
         dispatch('address', address)
+        console.log('dispatch', address)
     }
 
 	async function handleChangeState() {
@@ -120,6 +122,7 @@
 			{:else}
 				<Select
 					items={streets}
+                    on:change={dispatchAddress}
 					filter={customSelectFilter}
 					bind:value={address.street}
 					disabled={!address.neighborhood}
@@ -130,6 +133,7 @@
 			<p class="uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mr-4">Complemento</p>
 			<input
 				class="appearance-none bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+                on:change={dispatchAddress}
 				bind:value={address.details}
 			/>
 		</div>
