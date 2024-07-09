@@ -64,14 +64,14 @@
 							{/if}
 							<div>
 								<h1
-									on:keydown={(e) => {
+									on:keydown={company.website ? (e) => {
 										if (e.key === 'Enter')
 											goto(`/company-search/${extractDomainFromString(company.website)}`)
-									}}
-									on:click={(_) => {
+									} : null}
+									on:click={company.website ? (_) => {
 										goto(`/company-search/${extractDomainFromString(company.website)}`)
-									}}
-									class="text-xl text-blue-600 font-semibold cursor-pointer"
+									} : null}
+									class={`text-xl font-semibold ${company.website ? "text-blue-600 cursor-pointer" : ""}`}
 								>
 									{company.name}
 								</h1>
