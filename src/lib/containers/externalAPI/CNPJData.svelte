@@ -2,35 +2,23 @@
 	import { fetchBusinessEmail } from '$lib/api/queries/external/featchBusinessEmail'
 	import { toastCopied } from '$lib/config'
 	import type { ICNPJData } from '$lib/interfaces-validation/ICNPJData'
-	import Loader from '$lib/modules/Loader.svelte'
 	import { copyToClipboard } from '$lib/shared/functions/copyToClipboard'
 	import { delay } from '$lib/shared/functions/delay'
 	import { toastStore } from '@skeletonlabs/skeleton'
 
 	export let data: ICNPJData | undefined
 	export let domain: string | undefined
-	const emails: { [key: string]: string } = {}
+	const emails: { [key: string]: [string, number] } = {}
 	let isLoadingEmailButton = false
-
-	interface IEmailAttempt {
-		email: string
-		email_status: string // Note: Corrected typo from "email_tatus" to "email_status" to match "result" object
-	}
-	interface IEmailVerificationResult {
-		attempted: IEmailAttempt[]
-		result: IEmailAttempt // Reusing the EmailAttempt interface as it has the same structure
-		success: boolean
-	}
 
 	async function handleButtonFetchEmails() {
 		isLoadingEmailButton = true
 
 		if (data?.qsa) {
 			for (const socio of data.qsa) {
-				let response = await fetchBusinessEmail(socio.nome, domain as string)
-				if (response.success) {
-					emails[socio.nome] = response.result.email
-				}
+				let possibleBusinessEmail = await fetchBusinessEmail(socio.nome, domain as string)
+				if (possibleBusinessEmail?.score && possibleBusinessEmail?.email)
+					emails[socio.nome] = [possibleBusinessEmail.email, possibleBusinessEmail.score]
 				// Wait for 1.2 seconds after each request, respecting the API rate limit
 				await delay(1200)
 			}
@@ -49,7 +37,7 @@
 		toastStore.trigger(toastCopied)
 	}
 
-	$: isLoadingEmailButton, emails
+	$: emails
 </script>
 
 <main>
@@ -73,19 +61,21 @@
 							<p class="text-sm">{socio.qual}</p>
 							{#if emails[socio.nome] && emails[socio.nome].length > 0}
 								<p
-									on:keypress={() => handleCopyEmail(emails[socio.nome])}
-									on:click={() => handleCopyEmail(emails[socio.nome])}
+									on:keypress={() => handleCopyEmail(emails[socio.nome][0])}
+									on:click={() => handleCopyEmail(emails[socio.nome][0])}
 									class="text-sm text-blue-400 cursor-pointer"
 								>
-									{emails[socio.nome]}
+									{emails[socio.nome][0]}
+									<span class="text-black">
+										{' - nota: ' + emails[socio.nome][1]}
+									</span>
 								</p>
 							{/if}
 						</div>
 					{/each}
 					{#if domain && domain.length > 0}
 						{#if isLoadingEmailButton}
-							{console.log('isLoadingEmailButton', isLoadingEmailButton)}
-							<Loader size="sm" />
+							<p>Carregando...</p>
 						{:else if emails && Object.keys(emails).length > 0}
 							<button
 								on:click={handleCopyAllEmails}
