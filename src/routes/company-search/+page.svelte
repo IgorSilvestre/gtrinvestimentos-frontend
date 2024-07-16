@@ -6,7 +6,7 @@
 	import { goto } from '$app/navigation'
 	import SearchByEndpoint from '$lib/modules/SearchByEndpoint.svelte'
 	import { API } from '$lib/api/apiFetch'
-	import { handleGetLogo } from '$lib/api/queries/externalAPis/getLogoQuery'
+	import { handleGetLogo } from '$lib/api/queries/external/getLogoQuery'
 	import type { AxiosResponse } from 'axios'
 	import { extractDomainFromString } from '$lib/shared/functions/extractDomainFromString'
 	import { PAGE_COMPANY_SEARCH_QUERY, PAGE_COMPANY_SEARCH_RESULTS } from '$lib/shared/stores'

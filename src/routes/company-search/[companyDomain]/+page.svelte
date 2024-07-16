@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
 	import { page } from '$app/stores'
-	import { deepSearchCompanyQuery } from '$lib/api/queries/externalAPis/deepSearchCompanyQuery'
-	import CnpjData from '$lib/containers/externalAPI/CNPJData.svelte'
+	import { deepSearchCompanyQuery } from '$lib/api/queries/external/deepSearchCompanyQuery'
+	import CNPJData from '$lib/containers/externalAPI/CNPJData.svelte'
 	import LinkedinData from '$lib/containers/externalAPI/LinkedinData.svelte'
 	import Loader from '$lib/modules/Loader.svelte'
 	import type { ICNPJData } from '$lib/interfaces-validation/ICNPJData'
@@ -51,7 +51,7 @@
 				</div>
 			{/if}
 			<div class="mx-2 my-2">
-				<CnpjData data={company.CNPJData} domain={companyDomain} />
+				<CNPJData data={company.CNPJData} domain={companyDomain} />
 			</div>
 			<div class="mx-2 mt-2">
 				<LinkedinData data={company.linkedinData} />
