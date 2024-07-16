@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fetchBusinessEmail } from '$lib/api/queries/externalAPis/featchBusinessEmail'
+	import { fetchBusinessEmail } from '$lib/api/queries/externalAPIs/featchBusinessEmail'
 	import { toastCopied } from '$lib/config'
 	import type { ICNPJData } from '$lib/interfaces-validation/ICNPJData'
 	import Loader from '$lib/modules/Loader.svelte'
