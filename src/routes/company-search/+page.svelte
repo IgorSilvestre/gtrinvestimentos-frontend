@@ -6,7 +6,7 @@
 	import { goto } from '$app/navigation'
 	import SearchByEndpoint from '$lib/modules/SearchByEndpoint.svelte'
 	import { API } from '$lib/api/apiFetch'
-	import { handleGetLogo } from '$lib/api/queries/externalAPis/getLogoQuery'
+	import { handleGetLogo } from '$lib/api/queries/external/getLogoQuery'
 	import type { AxiosResponse } from 'axios'
 	import { extractDomainFromString } from '$lib/shared/functions/extractDomainFromString'
 	import { PAGE_COMPANY_SEARCH_QUERY, PAGE_COMPANY_SEARCH_RESULTS } from '$lib/shared/stores'
@@ -64,14 +64,14 @@
 							{/if}
 							<div>
 								<h1
-									on:keydown={(e) => {
+									on:keydown={company.website ? (e) => {
 										if (e.key === 'Enter')
 											goto(`/company-search/${extractDomainFromString(company.website)}`)
-									}}
-									on:click={(_) => {
+									} : null}
+									on:click={company.website ? (_) => {
 										goto(`/company-search/${extractDomainFromString(company.website)}`)
-									}}
-									class="text-xl text-blue-600 font-semibold cursor-pointer"
+									} : null}
+									class={`text-xl font-semibold ${company.website ? "text-blue-600 cursor-pointer" : ""}`}
 								>
 									{company.name}
 								</h1>
