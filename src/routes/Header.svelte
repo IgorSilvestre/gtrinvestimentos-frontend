@@ -45,6 +45,7 @@
 			<a class="no-underline hover:underline text-white mx-3" href="/company-search"
 				>Busca Empresa</a
 			>
+			<a class="no-underline hover:underline text-white mx-3" href="/utils/verify-email">Busca Email</a>
 		</nav>
 	</header>
 {/if}
