@@ -17,6 +17,7 @@ export const APIEndpoints = {
 		companySearchEngine: 'externalAPI/company-searchEngine',
 		getLogoByDomain: 'https://logo.clearbit.com/',
 		deepSearchCompany: 'externalAPI/deep-search-company',
-		fetchBusinessEmail: 'externalAPI/fetch-business-email'
+		fetchBusinessEmail: 'externalAPI/fetch-business-email',
+        scrapeWebsiteForContacts: 'externalAPI/scrape-website-for-contacts/?domain=https://'
 	}
 }
