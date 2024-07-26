@@ -39,7 +39,6 @@
 
     async function dispatchAddress() {
         dispatch('address', address)
-        console.log('dispatch', address)
     }
 
 	async function handleChangeState() {
@@ -72,7 +71,6 @@
 
 <div class={`${style} bg-white rounded-lg overflow-hidden shadow-lg`}>
 	<div class="p-4">
-		<h2 class="text-lg font-medium text-gray-900 mb-2">Endereço</h2>
 		<div class="mb-4">
 			<p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Estado</p>
 			{#if isLoadingStates}
