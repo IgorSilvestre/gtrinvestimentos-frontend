@@ -171,7 +171,7 @@
                                     <label
                                         class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                         for="capRatePercentage">Aluguel Mensal R$</label>
-                                    <NumberInput bind:value={$form.monthlyRentInReais} max={100} />
+                                    <NumberInput bind:value={$form.monthlyRentInReais} />
                                     {#if $errors.monthlyRentInReais}
                                         <div class="text-red-500 text-xs">{$errors.monthlyRentInReais}</div>
                                     {/if}
