@@ -1,14 +1,13 @@
 <script lang="ts">
-	import { getSelectTagOptions } from "$lib/api/queries/tagQueries"
 	import type { IOption } from "$lib/interfaces-validation/IOption"
 	import { customSelectFilter } from "$lib/shared/functions/filterStringSearch"
 	import Select from 'svelte-select'
     
     export let selected: string[] | undefined = undefined
+    export let itemsPromise: Promise<IOption[]> = Promise.resolve([])
     export let style: string = ''
     
     let componentSelection: IOption[] = []
-	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
 
    function handleChange(event: Event) {
     // Force call the default onChange behavior
@@ -20,7 +19,7 @@
 </script>
 
 <main class={style}>
-    {#await selectTagOptionsPromise}
+    {#await itemsPromise}>
         <p>Carregando Tags...</p>
         {:then options}
         <Select
