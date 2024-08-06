@@ -1,13 +1,12 @@
 import * as yup from 'yup';
-import type { IOption } from './IOption';
 
 export interface IAsset {
     _id?: string;
     name: string;
-    tags: IOption[];
+    tags: string[];
     imgURL?: string
     environmentalAreaPercentage?: number
-    hasValuation?: boolean
+    valuationPriceInReais?: number
     numberOfEmployees?: number
     priceInReais?: number;
     isForSale?: boolean;
@@ -21,7 +20,7 @@ export interface IAsset {
     downPaymentInReais?: number;
     description?: string;
     capRatePercentage?: number;
-    rentMonthlyInReais?: number;
+    monthlyRentInReais?: number;
     kmFromSP?: number;
     totalAreaM2?: number;
     constructedAreaM2?: number;
@@ -33,22 +32,14 @@ export interface IAsset {
     street?: string;
     addressNumber?: string;
     addressComplement?: string;
-    partner?: string;
     contact?: string;
-    zoning?: string;
+    zoning?: string[];
 }
 
 export const VAssetForm = yup.object().shape({
-    name: yup.string().required('Name is required').min(2, 'Name must be at least 2 characters'),
-    tags: yup
-        .array(
-            yup.object().shape({
-                label: yup.string().required(),
-                value: yup.string().required()
-            })
-        )
-        .optional(),
-    priceInReais: yup.number().optional(),
+    name: yup.string().required('Nome é obrigatório').min(2, 'Deve ter pelo menos 2 caracteres'),
+    tags: yup.array().of(yup.string()).required('Tags são obrigatórias').min(1, 'Deve ter pelo menos 1 tag'),
+    priceInReais: yup.number().positive('O valor deve ser positivo').optional(),
     isForSale: yup.boolean().optional(),
     anualRevenueInReais: yup.number().optional(),
     marginEBITDA: yup.number().optional(),
@@ -60,14 +51,14 @@ export const VAssetForm = yup.object().shape({
     downPaymentInReais: yup.number().optional(),
     description: yup.string().optional(),
     capRatePercentage: yup.number().optional(),
-    rentMonthlyInReais: yup.number().optional(),
+    monthlyRentInReais: yup.number().optional(),
     kmFromSP: yup.number().optional(),
     totalAreaM2: yup.number().optional(),
     constructedAreaM2: yup.number().optional(),
     vgvInReais: yup.number().optional(),
     numberOfEmployees: yup.number().optional(),
     environmentalAreaPercentage: yup.number().optional(),
-    hasValuation: yup.boolean().optional(),
+    valuationPriceInReais: yup.boolean().optional(),
     imgURL: yup.string().optional(),
     docLink: yup.string().optional(),
     state: yup.string().optional(),
@@ -76,8 +67,7 @@ export const VAssetForm = yup.object().shape({
     street: yup.string().optional(),
     addressNumber: yup.string().optional(),
     addressComplement: yup.string().optional(),
-    partner: yup.string().optional(),
     contact: yup.string().required(),
-    zoning: yup.string().optional(),
+    zoning: yup.array().of(yup.string()).optional(),
 })
 
