@@ -7,6 +7,9 @@ export const APIEndpoints = {
 		getAll: 'tag/all',
 		getAllForSelect: 'tag/all-for-select'
 	},
+	zoning: {
+		getAllForSelect: 'zoning/all-for-select'
+	},
 	company: {
 		get: 'company/get',
 		search: 'company/search',
