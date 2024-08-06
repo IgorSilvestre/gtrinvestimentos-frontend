@@ -3,5 +3,5 @@
 
 </script>
 <main>
-    <AssetForm asset={undefined} />
+    <AssetForm />
 </main>
