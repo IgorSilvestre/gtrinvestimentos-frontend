@@ -38,20 +38,22 @@
 	})
 
     async function dispatchAddress() {
-        dispatch('address', address)
+        dispatch('input', address)
     }
 
-	async function handleChangeState() {
+	async function handleChangeState(event: any) {
+        address.state = event.detail.value
 		isLoadingCities = true
-		const { result } = await getCitiesByState(address.state.value)
+		const { result } = await getCitiesByState(address.state)
 		cities = result.map((city: any) => ({ value: city.id, label: city.name }))
 		isLoadingCities = false
         dispatchAddress()
 	}
 
-	async function handleChangeCity() {
+	async function handleChangeCity(event: any) {
+        address.city = event.detail.value
 		isLoadingNeighborhoods = true
-		const { result } = await getNeighberhoodByCityApiId(address.city.value)
+		const { result } = await getNeighberhoodByCityApiId(address.city)
 		neighborhoods = result.map((neighborhood: any) => ({
 			value: neighborhood.id,
 			label: neighborhood.name
@@ -60,11 +62,18 @@
         dispatchAddress()
 	}
 
-	async function handleChangeNeighborhood() {
+	async function handleChangeNeighborhood(event: any) {
+        address.neighborhood = event.detail.value
 		isLoadingStreets = true
-		const { result } = await getStreetByNeighborhoodApiId(address.neighborhood.value)
+		const { result } = await getStreetByNeighborhoodApiId(address.neighborhood)
 		streets = result.map((street: any) => ({ value: street.id, label: street.name }))
 		isLoadingStreets = false
+        dispatchAddress()
+	}
+
+    
+	async function handleChangeStreet(event: any) {
+        address.street = event.detail.value
         dispatchAddress()
 	}
 </script>
@@ -72,7 +81,7 @@
 <div class={`${style} bg-white rounded-lg overflow-hidden shadow-lg`}>
 	<div class="p-4">
 		<div class="mb-4">
-			<p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Estado</p>
+			<p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Estado <span class="text-red-500">*</span></p>
 			{#if isLoadingStates}
 				<p>Carregando Estados...</p>
 			{:else}
@@ -80,7 +89,6 @@
 					items={states}
 					on:change={handleChangeState}
 					filter={customSelectFilter}
-					bind:value={address.state}
 					required
 				/>
 			{/if}
@@ -94,7 +102,6 @@
 					items={cities}
 					on:change={handleChangeCity}
 					filter={customSelectFilter}
-					bind:value={address.city}
 					disabled={!address.state}
 				/>
 			{/if}
@@ -108,7 +115,6 @@
 					items={neighborhoods}
 					on:change={handleChangeNeighborhood}
 					filter={customSelectFilter}
-					bind:value={address.neighborhood}
 					disabled={!address.city}
 				/>
 			{/if}
@@ -120,9 +126,8 @@
 			{:else}
 				<Select
 					items={streets}
-                    on:change={dispatchAddress}
+                    on:change={handleChangeStreet}
 					filter={customSelectFilter}
-					bind:value={address.street}
 					disabled={!address.neighborhood}
 				/>
 			{/if}
