@@ -243,7 +243,7 @@
                                     <label
                                         class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                         for="marginEBITDA">Margem EBITDA %</label>
-                                    <NumberInput bind:value={$form.marginEBITDA} max={100} />
+                                    <NumberInput bind:value={$form.marginEBITDA} max={100} allowNegative={true} />
                                     {#if $errors.marginEBITDA}
                                         <div class="text-red-500 text-xs">{$errors.marginEBITDA}</div>
                                     {/if}
