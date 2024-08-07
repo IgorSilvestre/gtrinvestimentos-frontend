@@ -25,7 +25,9 @@
 		street: '',
 		city: '',
 		state: '',
-		neighborhood: ''
+		neighborhood: '',
+		addressComplement: '',
+        addressNumber: ''
 	}
 
 	onMount(async () => {
@@ -44,16 +46,16 @@
 	async function handleChangeState(event: any) {
         address.state = event.detail.value
 		isLoadingCities = true
-		const { result } = await getCitiesByState(address.state)
+		const { result } = await getCitiesByState(event.detail.value)
 		cities = result.map((city: any) => ({ value: city.id, label: city.name }))
 		isLoadingCities = false
         dispatchAddress()
 	}
 
 	async function handleChangeCity(event: any) {
-        address.city = event.detail.value
+        address.city = event.detail.label
 		isLoadingNeighborhoods = true
-		const { result } = await getNeighberhoodByCityApiId(address.city)
+		const { result } = await getNeighberhoodByCityApiId(event.detail.value)
 		neighborhoods = result.map((neighborhood: any) => ({
 			value: neighborhood.id,
 			label: neighborhood.name
@@ -63,17 +65,16 @@
 	}
 
 	async function handleChangeNeighborhood(event: any) {
-        address.neighborhood = event.detail.value
+        address.neighborhood = event.detail.label
 		isLoadingStreets = true
-		const { result } = await getStreetByNeighborhoodApiId(address.neighborhood)
+		const { result } = await getStreetByNeighborhoodApiId(event.detail.value)
 		streets = result.map((street: any) => ({ value: street.id, label: street.name }))
 		isLoadingStreets = false
         dispatchAddress()
 	}
 
-    
 	async function handleChangeStreet(event: any) {
-        address.street = event.detail.value
+        address.street = event.detail.label
         dispatchAddress()
 	}
 </script>
@@ -132,14 +133,24 @@
 				/>
 			{/if}
 		</div>
-		<div class="mb-4 flex items-center">
+        <div class="flex flex-col md:flex-row">
+		<div class="mb-4 flex items-center justify-between">
+			<p class="uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mr-4">Número</p>
+			<input
+				class="appearance-none bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+                on:change={dispatchAddress}
+				bind:value={address.addressNumber}
+			/>
+		</div>
+		<div class="mb-4 flex items-center justify-between md:ml-4">
 			<p class="uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mr-4">Complemento</p>
 			<input
 				class="appearance-none bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
                 on:change={dispatchAddress}
-				bind:value={address.details}
+				bind:value={address.addressComplement}
 			/>
 		</div>
+
+        </div>
 	</div>
 </div>
-
