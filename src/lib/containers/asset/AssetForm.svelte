@@ -134,10 +134,10 @@
                         <svelte:fragment slot="content">
                             <div class="flex flex-wrap">
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="totalAreaM2">Área Total m²</label>
-                                    <NumberInput bind:value={$form.totalAreaM2} />
-                                    {#if $errors.totalAreaM2}
-                                        <div class="text-red-500 text-xs">{$errors.totalAreaM2}</div>
+                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="landAreaM2">Área do Terreno m²</label>
+                                    <NumberInput bind:value={$form.landAreaM2} />
+                                    {#if $errors.landAreaM2}
+                                        <div class="text-red-500 text-xs">{$errors.landAreaM2}</div>
                                     {/if}
                                 </div>
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -183,6 +183,20 @@
                                     <NumberInput bind:value={$form.partnershipPercentage} max={100} />
                                     {#if $errors.partnershipPercentage}
                                         <div class="text-red-500 text-xs">{$errors.partnershipPercentage}</div>
+                                    {/if}
+                                </div>
+                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                    <label
+                                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                        for="tenant">Locatário</label>
+                                    <input
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                                    type="text"
+                                    id="tenant"
+                                    on:input={handleChange}
+                                    bind:value={$form.tenant} />
+                                    {#if $errors.tenant}
+                                        <div class="text-red-500 text-xs">{$errors.tenant}</div>
                                     {/if}
                                 </div>
                             </div>

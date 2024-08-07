@@ -19,10 +19,11 @@ export interface IAsset {
     partnershipPercentage?: number;
     downPaymentInReais?: number;
     description?: string;
+    tenant?: string;
     capRatePercentage?: number;
     monthlyRentInReais?: number;
     kmFromSP?: number;
-    totalAreaM2?: number;
+    landAreaM2?: number;
     constructedAreaM2?: number;
     vgvInReais?: number;
     docLink?: string;
@@ -50,10 +51,11 @@ export const VAssetForm = yup.object().shape({
     partnershipPercentage: yup.number().optional(),
     downPaymentInReais: yup.number().optional(),
     description: yup.string().optional(),
+    tenant: yup.string().optional(),
     capRatePercentage: yup.number().optional(),
     monthlyRentInReais: yup.number().optional(),
     kmFromSP: yup.number().optional(),
-    totalAreaM2: yup.number().optional(),
+    landAreaM2: yup.number().optional(),
     constructedAreaM2: yup.number().optional(),
     vgvInReais: yup.number().optional(),
     numberOfEmployees: yup.number().optional(),
@@ -67,7 +69,7 @@ export const VAssetForm = yup.object().shape({
     street: yup.string().optional(),
     addressNumber: yup.string().optional(),
     addressComplement: yup.string().optional(),
-    contact: yup.string().required(),
+    contact: yup.string().optional(),
     zoning: yup.array().of(yup.string()).optional(),
 })
 
