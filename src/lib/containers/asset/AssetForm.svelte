@@ -12,6 +12,7 @@
 	import TagInput from '$lib/modules/TagInput.svelte'
 	import { getSelectTagOptions } from "$lib/api/queries/tagQueries"
 	import { getSelectZoningOptions } from "$lib/api/queries/zoningQueries"
+	import MonthYearPicker from '$lib/modules/MonthYearPicker.svelte'
 
 	export let asset: IAsset | undefined = undefined
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
@@ -198,6 +199,14 @@
                                     {#if $errors.tenant}
                                         <div class="text-red-500 text-xs">{$errors.tenant}</div>
                                     {/if}
+                                </div>
+                                <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                                    <label
+                                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                        for="contractTerm">Prazo do Contrato</label>
+                                    <div class="flex items-center">
+                                        <MonthYearPicker bind:date={$form.contractTerm} />
+                                    </div>
                                 </div>
                             </div>
                         </svelte:fragment>

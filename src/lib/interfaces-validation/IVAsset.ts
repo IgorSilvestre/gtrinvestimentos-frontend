@@ -17,6 +17,7 @@ export interface IAsset {
     laborDebtInReais?: number;
     publicDebtInReais?: number;
     partnershipPercentage?: number;
+    contractTerm?: Date;
     downPaymentInReais?: number;
     description?: string;
     tenant?: string;
