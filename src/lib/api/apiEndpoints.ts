@@ -24,7 +24,7 @@ export const APIEndpoints = {
 		getLogoByDomain: 'https://logo.clearbit.com/',
 		deepSearchCompany: 'externalAPI/deep-search-company',
 		fetchBusinessEmail: 'externalAPI/fetch-business-email',
-        	scrapeWebsiteForContacts: 'externalAPI/scrape-website-for-contacts/?domain=https://'
+        scrapeWebsiteForContacts: 'externalAPI/scrape-website-for-contacts/?domain=https://',
 		locations: {
 			getBrazilStates: 'externalAPI/locations/Brazil-states/',
 			getCitiesByState: 'externalAPI/locations/cities-by-state/',
