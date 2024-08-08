@@ -59,7 +59,7 @@
 		<button
 			type="button"
 			class="text-black bg-green-400 p-2 rounded-2xl"
-			on:click={() => goto('/company/new')}
+			on:click={() => goto('/asset/new')}
 		>
 			Criar Ativo
 		</button>
@@ -81,7 +81,7 @@
 		</div>
 	{:else if assets && assets.length > 0}
 		{#each assets as asset}
-			<a href={`/company/${asset._id}`} in:fly={transitionOptions.defaultFlyEntry}>
+			<a href={`/asset/${asset._id}`} in:fly={transitionOptions.defaultFlyEntry}>
 				<AssetCard {asset} />
         <!-- {JSON.stringify(assetsPaginated)} -->
 			</a>
