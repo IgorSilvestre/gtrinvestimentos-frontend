@@ -9,6 +9,8 @@
 		<hr class="w-1/2 border-t border-black my-2" />
 		<a class="nav-link no-underline hover:underline mx-3" href="/person">Pessoas</a>
 		<hr class="w-1/2 border-t border-black my-2" />
+		<a class="nav-link no-underline hover:underline mx-3" href="/asset">Ativos</a>
+		<hr class="w-1/2 border-t border-black my-2" />
 		<a class="nav-link no-underline hover:underline mx-3" href="/search-cnpj">Busca CNPJ</a>
 		<hr class="w-1/2 border-t border-black my-2" />
 		<a class="nav-link no-underline hover:underline mx-3" href="/company-search">Busca Empresa</a>
