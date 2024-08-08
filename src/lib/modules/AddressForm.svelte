@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { getBrazilStates } from '$lib/api/queries/externalAPIs/locations/getBrazilStates'
+	import { getBrazilStates } from '$lib/api/queries/external/locations/getBrazilStates'
 	import { createEventDispatcher, onMount } from 'svelte'
 	import Select from 'svelte-select'
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
-	import { getCitiesByState } from '$lib/api/queries/externalAPIs/locations/getCitiesByState'
-	import { getNeighberhoodByCityApiId } from '$lib/api/queries/externalAPIs/locations/getNeighberhoodByCityApiId'
-	import { getStreetByNeighborhoodApiId } from '$lib/api/queries/externalAPIs/locations/getStreetByNeighborhoodApiId'
+	import { getCitiesByState } from '$lib/api/queries/external/locations/getCitiesByState'
+	import { getNeighberhoodByCityApiId } from '$lib/api/queries/external/locations/getNeighberhoodByCityApiId'
+	import { getStreetByNeighborhoodApiId } from '$lib/api/queries/external/locations/getStreetByNeighborhoodApiId'
 
 	export let style: string = ''
 	export let defaultAddres: any = undefined
