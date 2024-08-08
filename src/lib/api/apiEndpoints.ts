@@ -7,10 +7,16 @@ export const APIEndpoints = {
 		getAll: 'tag/all',
 		getAllForSelect: 'tag/all-for-select'
 	},
+	zoning: {
+		getAllForSelect: 'zoning/all-for-select'
+	},
 	company: {
 		get: 'company/get',
 		search: 'company/search',
 		searchForSelect: 'company/search-for-select'
+	},
+	asset: {
+		get: 'asset/'
 	},
 	externalAPI: {
 		fetchCNPJData: 'externalAPI/fetch-cnpj-data/',
@@ -18,6 +24,12 @@ export const APIEndpoints = {
 		getLogoByDomain: 'https://logo.clearbit.com/',
 		deepSearchCompany: 'externalAPI/deep-search-company',
 		fetchBusinessEmail: 'externalAPI/fetch-business-email',
-        scrapeWebsiteForContacts: 'externalAPI/scrape-website-for-contacts/?domain=https://'
+        	scrapeWebsiteForContacts: 'externalAPI/scrape-website-for-contacts/?domain=https://'
+		locations: {
+			getBrazilStates: 'externalAPI/locations/Brazil-states/',
+			getCitiesByState: 'externalAPI/locations/cities-by-state/',
+			getNeighborhoodByCityApiId: 'externalAPI/locations/neighborhood-by-city-apiId/',
+			getStreetByNeighborhoodApiId: 'externalAPI/locations/street-by-neighborhood-apiId/'
+		}
 	}
 }

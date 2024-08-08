@@ -10,7 +10,7 @@
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
 	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
 	import { toastStore } from '@skeletonlabs/skeleton'
-	import { toastError, toastRegistered, toastUpdated } from '$lib/config'
+	import { toastRegistered, toastUpdated } from '$lib/config'
 
 	export let company: ICompany | undefined = undefined
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
