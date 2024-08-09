@@ -67,7 +67,7 @@
             <h2 class="text-lg font-medium text-gray-900 mb-4">Editar Ativo</h2>
             <form on:submit={handleSubmit} class="space-y-4">
                 <div class="flex flex-wrap">
-                    <div class="w-full md:w-1/2 px-3 mb-0">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label
                             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             for="name">Nome <span class="text-red-500 font-bold">*</span></label>
@@ -82,7 +82,7 @@
                             <div class="text-red-500 text-xs">{$errors.name}</div>
                         {/if}
                     </div>
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div class="w-full md:w-1/2 px-3 mb-4 md:mb-0">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="docLink">Link Drive</label>
                         <input
                             class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
@@ -105,7 +105,7 @@
                             <div class="text-red-500 text-xs">{$errors.tags}</div>
                         {/if}
                     </div>
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div class="w-full md:w-1/2 px-3 mb-4 md:mb-0">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="priceInReais">Preço R$</label>
                         <NumberInput bind:value={$form.priceInReais} />
                         {#if $errors.priceInReais}
@@ -206,7 +206,7 @@
                                         class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                         for="tenant">Locatário</label>
                                     <input
-                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                                    class="appearance-none block w-full mb-2 bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                                     type="text"
                                     id="tenant"
                                     on:input={handleChange}
@@ -223,6 +223,17 @@
                                         <MonthYearPicker bind:date={$form.contractTerm} />
                                     </div>
                                 </div>
+                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="vgvInReais">VGV R$</label>
+                                    <NumberInput bind:value={$form.vgvInReais} />
+                                    {#if $errors.vgvInReais}
+                                        <div class="text-red-500 text-xs">{$errors.vgvInReais}</div>
+                                    {/if}
+                                </div>
+                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="zoning">Zoneamento</label>
+                                    <TagInput bind:selected={$form.zoning} itemsPromise={selectZoningOptionsPromise} />
+                                </div>
                             </div>
                         </svelte:fragment>
                     </AccordionItem>
@@ -236,23 +247,6 @@
                                     <div class="text-red-500 text-xs">{$errors.kmFromSP}</div>
                                 {/if}
                             </div>
-                        </svelte:fragment>
-                    </AccordionItem>
-                    <AccordionItem title="Loteamento">
-                        <svelte:fragment slot="summary"><span class="font-bold">Loteamento</span></svelte:fragment>
-                        <svelte:fragment slot="content">
-                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="vgvInReais">VGV R$</label>
-                                <NumberInput bind:value={$form.vgvInReais} />
-                                {#if $errors.vgvInReais}
-                                    <div class="text-red-500 text-xs">{$errors.vgvInReais}</div>
-                                {/if}
-                            </div>
-                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="zoning">Zoneamento</label>
-                                <TagInput bind:selected={$form.zoning} itemsPromise={selectZoningOptionsPromise} />
-                            </div>
-                            <!-- Add more fields here if necessary -->
                         </svelte:fragment>
                     </AccordionItem>
                     <AccordionItem title="M&A">

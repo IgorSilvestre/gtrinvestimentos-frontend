@@ -3,6 +3,7 @@
 	export let max: number | undefined = undefined
 	export let allowNegative: boolean = false
 	export let onChange: Function | undefined = undefined
+    export let style: string = ''
 	let displayValue: string = ''
 
 	// Function to format the number with punctuation
@@ -62,7 +63,7 @@
 </script>
 
 <input
-	class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+	class={ style + ' appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'}
 	type="text"
 	on:input={handleChange}
 	bind:value={displayValue}
