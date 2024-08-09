@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let date = undefined;
+  export let date: string | undefined= undefined;
 
   function handleChange(event: Event) {
     const target = event.target as HTMLInputElement;

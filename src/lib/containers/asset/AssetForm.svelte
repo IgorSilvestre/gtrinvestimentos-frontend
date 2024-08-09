@@ -64,7 +64,7 @@
 <main>
     <div class="bg-white rounded-lg overflow-hidden shadow-lg">
         <div class="p-6">
-            <h2 class="text-lg font-medium text-gray-900 mb-4">Editar Item</h2>
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Editar Ativo</h2>
             <form on:submit={handleSubmit} class="space-y-4">
                 <div class="flex flex-wrap">
                     <div class="w-full md:w-1/2 px-3 mb-0">
