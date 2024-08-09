@@ -127,6 +127,21 @@
                             <div class="text-red-500 text-xs">{$errors.description}</div>
                         {/if}
                     </div>
+                    <div class="flex items-center">
+                        <label
+                            class="uppercase mx-4 text-gray-700 text-xs font-bold"
+                            for="isForSale">Esta a venda</label>
+                        <input
+                            class=""
+                            type="checkbox"
+                            id="isForSale"
+                            on:input={handleChange}
+                            bind:value={$form.isForSale}
+                            />
+                        {#if $errors.isForSale}
+                            <div class="text-red-500 text-xs">{$errors.isForSale}</div>
+                        {/if}
+                    </div>
                 </div>
                 <!-- Accordion for different sections -->
                 <Accordion>
