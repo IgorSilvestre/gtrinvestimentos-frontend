@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import type { IOption } from './IOption';
 
 export interface IAsset {
     _id?: string;
@@ -36,6 +37,19 @@ export interface IAsset {
     addressComplement?: string;
     contact?: string;
     zoning?: string[];
+}
+
+export interface IAssetShow extends IAsset {
+    tag?: IOption[]
+}
+
+
+export interface IAssetPaginated {
+	data: IAssetShow[]
+	totalPages: number,
+	totalCompanies: number
+	nextPage: number | null
+	previousPage: number | null
 }
 
 export const VAssetForm = yup.object().shape({
