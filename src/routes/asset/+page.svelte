@@ -5,6 +5,7 @@
 	import { transitionOptions } from '$lib/config'
 	import AssetCard from '$lib/containers/asset/AssetCard.svelte'
 	import type { ISearchParams } from '$lib/interfaces-validation/ISearchParams'
+	import type { IAssetPaginated } from '$lib/interfaces-validation/IVAsset'
 	import type { ICompany, ICompanyPaginated } from '$lib/interfaces-validation/IVCompany'
 	import Loader from '$lib/modules/Loader.svelte'
 	import Pagination from '$lib/modules/Pagination.svelte'
@@ -12,7 +13,7 @@
 	import { onMount } from 'svelte'
 	import { fly } from 'svelte/transition'
 
-	let assetsPaginated: ICompanyPaginated
+	let assetsPaginated: IAssetPaginated
 	let assets: ICompany[] | undefined | null = undefined
 
 	// let SearchTextAndTagsComponent: SearchTextAndTags
@@ -26,6 +27,7 @@
 	onMount(async () => {
 		const res = await getAssetsQuery()
 		assetsPaginated = await res.json()
+        console.log(assetsPaginated)
 		assets = assetsPaginated?.data ?? null
 		totalPages = assetsPaginated?.totalPages ?? 1
 		isLoadingAssets = false
@@ -59,7 +61,7 @@
 		<button
 			type="button"
 			class="text-black bg-green-400 p-2 rounded-2xl"
-			on:click={() => goto('/asset/new')}
+			on:click={() => goto('/asset/edit')}
 		>
 			Criar Ativo
 		</button>
@@ -80,12 +82,14 @@
 			<Loader />
 		</div>
 	{:else if assets && assets.length > 0}
-		{#each assets as asset}
-			<a href={`/asset/${asset._id}`} in:fly={transitionOptions.defaultFlyEntry}>
-				<AssetCard {asset} />
-        <!-- {JSON.stringify(assetsPaginated)} -->
-			</a>
-		{/each}
+<div class="flex flex-wrap justify-start">
+    {#each assets as asset}
+        <div class="w-full sm:w-1/2 md:w-1/3 px-4 mb-8">
+            <AssetCard {asset} />
+            <!-- {JSON.stringify(assetsPaginated)} -->
+        </div>
+    {/each}
+</div>
 		<!-- <Pagination
 			{currentPage}
 			{totalPages}
