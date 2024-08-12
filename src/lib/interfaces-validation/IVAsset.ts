@@ -39,8 +39,8 @@ export interface IAsset {
     zoning?: string[];
 }
 
-export interface IAssetShow extends IAsset {
-    tag?: IOption[]
+export interface IAssetShow extends Omit<IAsset, 'tags'>{
+    tags?: IOption[]
 }
 
 
