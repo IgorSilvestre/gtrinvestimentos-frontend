@@ -8,16 +8,9 @@
 </script>
 
 <main class="max-w-3xl mx-auto p-8 space-y-6 bg-white rounded-lg shadow-lg">
-    <h1 class="text-3xl font-bold text-gray-800">Detalhes do Ativo</h1>
+    <h1 class="text-3xl font-bold text-gray-800">{asset.name}</h1>
     
     <section class="grid grid-cols-1 md:grid-cols-2 gap-4 border-b border-gray-300 pb-4">
-        {#if isValid(asset.name)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Nome</h2>
-                <p class="text-gray-600">{asset.name}</p>
-            </div>
-        {/if}
-
         {#if isValid(asset.tags)}
             <div>
                 <h2 class="text-lg font-semibold text-gray-700">Tags</h2>
