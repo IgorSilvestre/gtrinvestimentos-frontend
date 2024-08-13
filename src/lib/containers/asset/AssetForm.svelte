@@ -223,6 +223,21 @@
                                         <MonthYearPicker bind:date={$form.contractTerm} />
                                     </div>
                                 </div>
+                                <div class="flex items-center md:mb-0 mb-6">
+                                    <label
+                                        class="uppercase mx-4 text-gray-700 text-xs font-bold"
+                                        for="isForSale">Contrato Atípico</label>
+                                    <input
+                                    class=""
+                                    type="checkbox"
+                                    id="isAtypicalContract"
+                                    on:input={handleChange}
+                                    bind:value={$form.isForSale}
+                                />
+                                    {#if $errors.isAtypicalContract}
+                                        <div class="text-red-500 text-xs">{$errors.isAtypicalContract}</div>
+                                    {/if}
+                                </div>
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="vgvInReais">VGV R$</label>
                                     <NumberInput bind:value={$form.vgvInReais} />
