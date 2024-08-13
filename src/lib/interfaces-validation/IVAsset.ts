@@ -11,6 +11,7 @@ export interface IAsset {
     numberOfEmployees?: number
     priceInReais?: number;
     isForSale?: boolean;
+    isAtypicalContract?: boolean;
     anualRevenueInReais?: number;
     marginEBITDA?: number;
     cashOrEquivalentInReais?: number;
@@ -75,7 +76,7 @@ export const VAssetForm = yup.object().shape({
     vgvInReais: yup.number().optional(),
     numberOfEmployees: yup.number().optional(),
     environmentalAreaPercentage: yup.number().optional(),
-    valuationPriceInReais: yup.boolean().optional(),
+    valuationPriceInReais: yup.number().optional(),
     imgURL: yup.string().optional(),
     docLink: yup.string().optional(),
     state: yup.string().optional(),
