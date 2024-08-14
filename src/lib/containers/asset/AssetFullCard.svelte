@@ -40,7 +40,7 @@
         {#if isValid(asset.description)}
             <li class="">
                 <span class="text-gray-700">Descrição</span>
-                <span class="text-gray-600">{asset.description}</span>
+                <span class="text-gray-600 text-justify">{asset.description}</span>
             </li>
         {/if}
         {#if isValid(asset.monthlyRentInReais)}
@@ -64,7 +64,7 @@
             </li>
         {/if}
 
-        {#if isValid(asset.zoning)}
+        {#if asset?.zoning && asset.zoning.length > 0 && isValid(asset.zoning)}
             <li class="">
                 <span class="text-gray-700">Zoneamento</span>
                 <span class="flex flex-col gap-2">
@@ -197,6 +197,9 @@
         vertical-align: baseline;
         font-size: 100%;
         margin-bottom: 10px;
+    }
+    li span:nth-child(1) {
+        margin-right: 20px;
     }
     li span:nth-child(2) {
         font-weight: 600;

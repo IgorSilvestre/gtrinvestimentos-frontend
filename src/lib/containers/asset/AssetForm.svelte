@@ -57,8 +57,6 @@
             }
         }
 	})
-
-    $: { console.log($form) }
 </script>
 
 <main>
