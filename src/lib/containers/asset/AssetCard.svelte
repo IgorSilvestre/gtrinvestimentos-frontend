@@ -16,7 +16,7 @@
     <a href={`/asset/${asset._id}`} in:fly={transitionOptions.defaultFlyEntry}>
         <div class="p-4">
             <h2 class="text-lg font-medium text-gray-900">{asset?.name}</h2>
-            <p class="text-xs font-thin text-gray-900 mb-2">
+            <p class="text-xs font-montserrat text-gray-900 mb-2">
                 {asset?.neighborhood ? asset?.neighborhood + ', ' : ''}
                 {asset?.city ? asset?.city + ', ' : ''}
                 {asset?.state ? asset?.state : ''}

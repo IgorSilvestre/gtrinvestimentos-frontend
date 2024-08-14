@@ -13,7 +13,7 @@
         <a class="absolute right-4 top-4 text-lg font-semibold text-white variant-filled-primary p-2 rounded-[5px]" href="{asset.docLink}" target="_blank">Acesso Drive</a>
     {/if}
     <h1 class="pt-2 text-3xl font-bold text-gray-800 font-montserrat">{asset.name}</h1>
-    <p class="text-sm font-thin font-montserrat">
+    <p class="text-sm font-montserrat">
         {asset?.street ? asset?.street + ', ' : ''}
         {asset?.addressComplement ? asset?.addressComplement + ', ' : ''}
         {asset?.neighborhood ? asset?.neighborhood + ', ' : ''}
