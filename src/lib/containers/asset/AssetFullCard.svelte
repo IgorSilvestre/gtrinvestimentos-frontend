@@ -2,190 +2,207 @@
     import type { IAsset } from '$lib/interfaces-validation/IVAsset';
     import Tag from '$lib/modules/Tag.svelte';
 	import { parseISODateToBrazilSTD } from '$lib/shared/functions/parseISODateToBrazilSTD'
+	import { toLocaleStringBrazil } from '$lib/shared/functions/toLocaleStringBrazil'
 
     export let asset: IAsset;
+    console.log(asset)
+    // <section class="grid grid-cols-1 md:grid-cols-2 gap-4 border-b border-gray-300 pb-4">
 
     const isValid = (value: any) => value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
 </script>
 
-<main class="max-w-3xl mx-auto p-8 space-y-6 bg-white rounded-lg shadow-lg">
-    <h1 class="text-3xl font-bold text-gray-800">{asset.name}</h1>
-    <p class="text-sm font-thin text-gray-900">
+<main class="max-w-3xl mx-auto p-8 space-y-6 bg-white rounded-lg shadow-lg relative">
+    {#if isValid(asset.docLink)}
+        <a class="absolute right-4 top-4 text-lg font-semibold text-white variant-filled-primary p-2 rounded-[5px]" href="{asset.docLink}" target="_blank">Acesso Drive</a>
+    {/if}
+    <h1 class="pt-2 text-3xl font-bold text-gray-800 font-montserrat">{asset.name}</h1>
+    <p class="text-sm font-thin font-montserrat">
         {asset?.street ? asset?.street + ', ' : ''}
         {asset?.addressComplement ? asset?.addressComplement + ', ' : ''}
         {asset?.neighborhood ? asset?.neighborhood + ', ' : ''}
         {asset?.city ? asset?.city + '- ' : ''}
         {asset?.state ? asset?.state : ''}
     </p>
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-4 border-b border-gray-300 pb-4">
+    <ul class="border-b border-gray-300 pb-4">
         {#if isValid(asset.tags)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Tags</h2>
-                <div class="flex flex-wrap gap-2">
+            <li class="">
+                <span class="text-gray-700">Tags</span>
+                <span class="flex flex-col gap-2">
                     {#each asset.tags as tag}
-                        <Tag name={tag.label} color="primary" />
+                        <Tag name={tag.label} color="black" />
                     {/each}
-                </div>
-            </div>
+                </span>
+            </li>
         {/if}
         {#if isValid(asset.priceInReais)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Preço (R$ )</h2>
-                <p class="text-gray-600">R$  {(asset.priceInReais).toLocaleString()}</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Preço</span>
+                <span class="text-gray-600">R$  {(toLocaleStringBrazil(asset.priceInReais))}</span>
+            </li>
         {/if}
         {#if isValid(asset.description)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Descrição</h2>
-                <p class="text-gray-600">{asset.description}</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Descrição</span>
+                <span class="text-gray-600">{asset.description}</span>
+            </li>
         {/if}
         {#if isValid(asset.monthlyRentInReais)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Aluguel Mensal (R$ )</h2>
-                <p class="text-gray-600">R$  {(asset.monthlyRentInReais).toLocaleString()}</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Aluguel Mensal</span>
+                <span class="text-gray-600">R$  {toLocaleStringBrazil(asset.monthlyRentInReais)}</span>
+            </li>
         {/if}
 
         {#if isValid(asset.landAreaM2)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Área do Terreno (m²)</h2>
-                <p class="text-gray-600">{(asset.landAreaM2).toLocaleString()} m²</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Área do Terreno</span>
+                <span class="text-gray-600">{toLocaleStringBrazil(asset.landAreaM2)} m²</span>
+            </li>
         {/if}
 
         {#if isValid(asset.constructedAreaM2)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Área Construída ABL (m²)</h2>
-                <p class="text-gray-600">{(asset.constructedAreaM2).toLocaleString()} m²</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Área Construída ABL</span>
+                <span class="text-gray-600">{toLocaleStringBrazil(asset.constructedAreaM2)} m²</span>
+            </li>
         {/if}
 
         {#if isValid(asset.zoning)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Zoneamento</h2>
-                <div class="flex flex-wrap gap-2">
+            <li class="">
+                <span class="text-gray-700">Zoneamento</span>
+                <span class="flex flex-col gap-2">
                     {#each (asset.zoning || []) as zone (zone)}
-                        <Tag name={zone} color="secondary" />
+                        <Tag name={zone.label} />
                     {/each}
-                </div>
-            </div>
+                </span>
+            </li>
         {/if}
 
         {#if isValid(asset.tenant)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Locatário</h2>
-                <p class="text-gray-600">{asset.tenant}</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Locatário</span>
+                <span class="text-gray-600">{asset.tenant}</span>
+            </li>
         {/if}
 
         {#if isValid(asset.contractTerm)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Prazo do Contrato</h2>
-                <p class="text-gray-600">{new Date(asset.contractTerm).toLocaleDateString()}</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Prazo do Contrato</span>
+                <span class="text-gray-600">{new Date(asset.contractTerm).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' })}</span>
+            </li>
         {/if}
 
-        {#if isValid(asset.docLink)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Link Drive</h2>
-                <a class="text-blue-600 hover:underline" href="{asset.docLink}" target="_blank">Ver Documento</a>
-            </div>
-        {/if}
 
         {#if isValid(asset.isForSale)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Está à Venda</h2>
-                <p class="text-gray-600">{asset.isForSale ? 'Sim' : 'Não'}</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Está à Venda</span>
+                <span class="text-gray-600">{asset.isForSale ? 'SIM' : 'NÃO'}</span>
+            </li>
         {/if}
         {#if isValid(asset.partnershipPercentage)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Quanto aceita em permuta</h2>
-                <p class="text-gray-600">{asset.partnershipPercentage}%</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Quanto aceita em permuta</span>
+                <span class="text-gray-600">{asset.partnershipPercentage} %</span>
+            </li>
         {/if}
         {#if isValid(asset.downPaymentInReais)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Entrada R$ </h2>
-                <p class="text-gray-600">{asset.downPaymentInReais}</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Entrada</span>
+                <span class="text-gray-600">{toLocaleStringBrazil(asset.downPaymentInReais)}</span>
+            </li>
         {/if}
         {#if isValid(asset.capRatePercentage)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">CapRate</h2>
-                <p class="text-gray-600">{asset.capRatePercentage}%</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">CapRate</span>
+                <span class="text-gray-600">{asset.capRatePercentage} %</span>
+            </li>
         {/if}
         {#if isValid(asset.kmFromSP)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Km de SP</h2>
-                <p class="text-gray-600">{asset.kmFromSP}km</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Km de SP</span>
+                <span class="text-gray-600">{asset.kmFromSP} km</span>
+            </li>
         {/if}
         {#if isValid(asset.vgvInReais)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">VGV</h2>
-                <p class="text-gray-600">R$ {asset.vgvInReais}</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">VGV</span>
+                <span class="text-gray-600">R$ {toLocaleStringBrazil(asset.vgvInReais)}</span>
+            </li>
         {/if}
         {#if isValid(asset.environmentalAreaPercentage)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Área Ambiental</h2>
-                <p class="text-gray-600">{asset.environmentalAreaPercentage}%</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Área Ambiental</span>
+                <span class="text-gray-600">{asset.environmentalAreaPercentage} %</span>
+            </li>
         {/if}
         {#if isValid(asset.anualRevenueInReais)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Faturamento Anual</h2>
-                <p class="text-gray-600">{'R$  ' + asset.anualRevenueInReais}</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Faturamento Anual</span>
+                <span class="text-gray-600">R$ {toLocaleStringBrazil(asset.anualRevenueInReais)}</span>
+            </li>
         {/if}
         {#if isValid(asset.marginEBITDA)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">EBITDA</h2>
-                <p class="text-gray-600">{asset.marginEBITDA}%</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">EBITDA</span>
+                <span class="text-gray-600">{asset.marginEBITDA} %</span>
+            </li>
         {/if}
         {#if isValid(asset.privateDebtInReais)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">EBITDA</h2>
-                <p class="text-gray-600">R$ {asset.privateDebtInReais}</p>
-            </div>
+            <li class="">
+                <span class="text-gray-700">Dívida Bancos</span>
+                <span class="text-gray-600">R$ {toLocaleStringBrazil(asset.privateDebtInReais)}</span>
+            </li>
         {/if}
         {#if isValid(asset.laborDebtInReais)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Dívida Trabalhista</h2>
-                <p class="text-gray-600">R$ {asset.laborDebtInReais}</p>
-            </div>
+            <li>
+                <span class="text-gray-700">Dívida Trabalhista</span>
+                <span class="text-gray-600">R$ {toLocaleStringBrazil(asset.laborDebtInReais)}</span>
+            </li>
         {/if}
         {#if isValid(asset.publicDebtInReais)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Dívida Tributária</h2>
-                <p class="text-gray-600">R$ {asset.publicDebtInReais}</p>
-            </div>
+            <li>
+                <span class="text-gray-700">Dívida Tributária</span>
+                <span class="text-gray-600">R$ {toLocaleStringBrazil(asset.publicDebtInReais)}</span>
+            </li>
         {/if}
         {#if isValid(asset.valuationPriceInReais)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Company Value</h2>
-                <p class="text-gray-600">R$ {asset.valuationPriceInReais}</p>
-            </div>
+            <li>
+                <span class="text-gray-700">Company Value</span>
+                <span class="text-gray-600">R$ {toLocaleStringBrazil(asset.valuationPriceInReais)}</span>
+            </li>
         {/if}
         {#if isValid(asset.cashOrEquivalentInReais)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Caixa ou Equivalente</h2>
-                <p class="text-gray-600">R$ {asset.cashOrEquivalentInReais}</p>
-            </div>
+            <li>
+                <span class="text-gray-700">Caixa ou Equivalente</span>
+                <span class="text-gray-600">R$ {toLocaleStringBrazil(asset.cashOrEquivalentInReais)}</span>
+            </li>
         {/if}
         {#if isValid(asset.numberOfEmployees)}
-            <div>
-                <h2 class="text-lg font-semibold text-gray-700">Número de Funcionários</h2>
-                <p class="text-gray-600">{asset.numberOfEmployees}</p>
-            </div>
+            <li>
+                <span class="text-gray-700">Número de Funcionários</span>
+                <span class="text-gray-600">{asset.numberOfEmployees}</span>
+            </li>
         {/if}
-        <div class="flex flex-col justify-end mt-2">
+        <li class="flex flex-col justify-end mt-2">
             <p class="text-gray-600 text-xs">Criação: {parseISODateToBrazilSTD(asset?.createdAt)}</p>
             <p class="text-gray-600 text-xs">Última alteração: {parseISODateToBrazilSTD(asset?.lastUpdated)}</p>
-        </div>
-    </section>
+        </li>
+    </ul>
 </main>
+
+<style>
+    main {
+        font-family: 'Calibre Web', sans-serif;
+    }
+    li {
+        display: flex;
+        justify-content: space-between;
+        vertical-align: baseline;
+        font-size: 100%;
+        margin-bottom: 10px;
+    }
+    li span:nth-child(2) {
+        font-weight: 600;
+        color: #33333;
+    }
+</style>
