@@ -1,12 +1,9 @@
 <script lang="ts">
-    import type { IAsset } from '$lib/interfaces-validation/IVAsset';
+    import type { IAssetShow } from '$lib/interfaces-validation/IVAsset';
     import Tag from '$lib/modules/Tag.svelte';
-	import { parseISODateToBrazilSTD } from '$lib/shared/functions/parseISODateToBrazilSTD'
 	import { toLocaleStringBrazil } from '$lib/shared/functions/toLocaleStringBrazil'
 
-    export let asset: IAsset;
-    console.log(asset)
-    // <section class="grid grid-cols-1 md:grid-cols-2 gap-4 border-b border-gray-300 pb-4">
+    export let asset: IAssetShow;
 
     const isValid = (value: any) => value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
 </script>
@@ -184,8 +181,8 @@
             </li>
         {/if}
         <li class="flex flex-col justify-end mt-2">
-            <p class="text-gray-600 text-xs">Criação: {parseISODateToBrazilSTD(asset?.createdAt)}</p>
-            <p class="text-gray-600 text-xs">Última alteração: {parseISODateToBrazilSTD(asset?.lastUpdated)}</p>
+            <p class="text-gray-600 text-xs">Criação: {asset?.createdAt}</p>
+            <p class="text-gray-600 text-xs">Última alteração: {asset?.lastUpdated}</p>
         </li>
     </ul>
 </main>
