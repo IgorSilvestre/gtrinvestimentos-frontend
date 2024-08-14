@@ -1,15 +1,11 @@
 <script lang="ts">
 	export let name: string
 	export let color:
-		| 'primary'
-		| 'secondary'
-		| 'tertiary'
-		| 'error'
-		| 'success'
-		| 'warning'
-		| 'surface'
+        | 'blue'
+        | 'black'= 'black'
 </script>
 
 {#if name}
-	<span class="badge variant-filled-{color}">{name}</span>
+	<span class={`badge bg-transparent rounded-[5px] border-[1px] border-${color} text-${color} font-bold uppercase text-[10px]`}>{name}</span>
 {/if}
+
