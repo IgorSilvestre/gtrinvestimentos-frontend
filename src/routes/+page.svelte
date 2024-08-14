@@ -1,7 +1,7 @@
 <script>
 </script>
 
-<main class="flex justify-center items-center w-screen h-screen">
+<main class="flex justify-center items-center w-screen h-screen font-calibreweb text-[20px]">
 	<nav class="mb-40 text-xl flex flex-col items-center">
 		<!-- <a class="no-underline hover:underline text-white mx-3" href="/">Home</a> -->
 		<!-- TODO standard endpoints -->
