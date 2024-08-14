@@ -8,7 +8,13 @@ export default {
 		require('path').join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}')
 	],
 	theme: {
-		extend: {}
+		extend: {
+            fontFamily: {
+                inter: ['Inter', 'sans-serif'],
+                montserrat: ['Montserrat', 'sans-serif'],
+                calibreweb: ['Calibre Web', 'sans-serif'],
+            },
+        }
 	},
 	plugins: [...require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')()]
 }

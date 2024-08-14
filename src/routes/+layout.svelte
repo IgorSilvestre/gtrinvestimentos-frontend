@@ -12,7 +12,13 @@
 <Toast />
 <!-- --- -->
 
-<div class="app">
+
+
+<body class="app">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    </head>
+
 	<Header />
 
 	<main>
@@ -22,4 +28,21 @@
 	<footer>
 		<!-- <p>Footer HERE</p> -->
 	</footer>
-</div>
+</body>
+
+
+<style>
+    @font-face {
+        font-family: "Calibre Web";
+        src: url("https://db.onlinewebfonts.com/t/4a0c1d6164df2c0aa88da1437cd38ef1.eot");
+        src: url("https://db.onlinewebfonts.com/t/4a0c1d6164df2c0aa88da1437cd38ef1.eot?#iefix")format("embedded-opentype"),
+        url("https://db.onlinewebfonts.com/t/4a0c1d6164df2c0aa88da1437cd38ef1.woff2")format("woff2"),
+        url("https://db.onlinewebfonts.com/t/4a0c1d6164df2c0aa88da1437cd38ef1.woff")format("woff"),
+        url("https://db.onlinewebfonts.com/t/4a0c1d6164df2c0aa88da1437cd38ef1.ttf")format("truetype"),
+        url("https://db.onlinewebfonts.com/t/4a0c1d6164df2c0aa88da1437cd38ef1.svg#Calibre Web")format("svg");
+    }
+
+    body {
+        font-family: 'Montserrat', sans-serif;
+    }
+</style>
