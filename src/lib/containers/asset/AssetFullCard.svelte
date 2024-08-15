@@ -9,7 +9,7 @@
     const isValid = (value: any) => value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
 </script>
 
-<main class="max-w-3xl mx-auto p-8 space-y-6 bg-white rounded-lg shadow-lg relative">
+<main class="max-w-xl mx-auto p-8 space-y-6 bg-white rounded-lg shadow-lg relative">
     {#if isValid(asset.docLink)}
         <a class="absolute right-4 top-4 text-lg font-semibold text-white variant-filled-primary p-2 rounded-[5px]" href="{asset.docLink}" target="_blank">Acesso Drive</a>
     {/if}
