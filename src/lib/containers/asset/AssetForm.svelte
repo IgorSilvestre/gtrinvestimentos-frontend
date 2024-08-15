@@ -17,7 +17,9 @@
 	export let asset: IAsset | undefined = undefined
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
 	let selectZoningOptionsPromise: Promise<IOption[]> = getSelectZoningOptions()
-
+    
+    delete asset?.createdAt
+    delete asset?.updatedAt
 	let initialValues: IAsset = asset
 		? {
 				...asset,
@@ -28,7 +30,8 @@
 		  }
 		: {
 				name: '',
-				tags: []
+				tags: [],
+                isForSale: true,
 		  }
 
 	function handleAddressChange(event: CustomEvent) {
