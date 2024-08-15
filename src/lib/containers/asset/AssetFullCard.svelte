@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation'
     import type { IAssetShow } from '$lib/interfaces-validation/IVAsset';
     import Tag from '$lib/modules/Tag.svelte';
 	import { toLocaleStringBrazil } from '$lib/shared/functions/toLocaleStringBrazil'
@@ -185,6 +186,19 @@
             <p class="text-gray-600 text-xs">Última alteração: {asset?.lastUpdated}</p>
         </li>
     </ul>
+    <div class="flex justify-end">
+        <button
+            type="button"
+            class="font-bold text-blue-500"
+            on:click={(e) => {
+                e.preventDefault()
+                console.log('assetFullCard', asset)
+                goto('/asset/edit/' + asset?._id)
+            }}
+            >
+            Editar
+        </button>
+    </div>
 </main>
 
 <style>
