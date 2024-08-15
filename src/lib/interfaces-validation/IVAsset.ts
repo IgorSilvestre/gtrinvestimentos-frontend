@@ -38,6 +38,8 @@ export interface IAsset {
     addressComplement?: string;
     contact?: string;
     zoning?: string[];
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface IAssetShow extends Omit<IAsset, 'tags'>{
