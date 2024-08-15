@@ -5,18 +5,17 @@
 	import { transitionOptions } from '$lib/config'
 	import AssetCard from '$lib/containers/asset/AssetCard.svelte'
 	import type { ISearchParams } from '$lib/interfaces-validation/ISearchParams'
-	import type { IAssetPaginated } from '$lib/interfaces-validation/IVAsset'
-	import type { ICompany, ICompanyPaginated } from '$lib/interfaces-validation/IVCompany'
+	import type { IAssetShow, IAssetPaginated } from '$lib/interfaces-validation/IVAsset'
 	import Loader from '$lib/modules/Loader.svelte'
 	import Pagination from '$lib/modules/Pagination.svelte'
-	// import SearchTextAndTags from '$lib/modules/SearchTextAndTags.svelte'
+	import SearchTextAndTags from '$lib/modules/SearchTextAndTags.svelte'
 	import { onMount } from 'svelte'
 	import { fly } from 'svelte/transition'
 
 	let assetsPaginated: IAssetPaginated
-	let assets: ICompany[] | undefined | null = undefined
+	let assets: IAssetShow[] | undefined | null = undefined
 
-	// let SearchTextAndTagsComponent: SearchTextAndTags
+	let SearchTextAndTagsComponent: SearchTextAndTags
 	let searchParams = {}
 	let isSearchPage = false
 
@@ -38,7 +37,7 @@
 	}
 
 	function handleSearchAssets(
-		event: CustomEvent<{ data: ICompanyPaginated; params: ISearchParams }>
+		event: CustomEvent<{ data: IAssetPaginated; params: ISearchParams }>
 	): void {
 		isLoadingAssets = true
 
@@ -67,11 +66,11 @@
 		</button>
 	</div>
 	<div class="p-4">
-		<!-- <SearchTextAndTags
+		<SearchTextAndTags
 			bind:this={SearchTextAndTagsComponent}
 			on:search={handleSearchAssets}
-			endpoint={APIEndpoints.assets.search}
-		/> -->
+			endpoint={APIEndpoints.asset.search}
+		/>
 	</div>
 	{#if assets && assets.length === 0}
 		<div class="flex justify-center mx-4 my-2">
