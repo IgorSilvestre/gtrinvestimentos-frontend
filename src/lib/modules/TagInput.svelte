@@ -1,36 +1,53 @@
 <script lang="ts">
-	import type { IOption } from "$lib/interfaces-validation/IOption"
-	import { customSelectFilter } from "$lib/shared/functions/filterStringSearch"
-	import Select from 'svelte-select'
-    
-    export let selected: string[] | undefined = undefined
-    export let itemsPromise: Promise<IOption[]> = Promise.resolve([])
-    export let style: string = ''
-    
-    let componentSelection: IOption[] = []
+	import type { IOption } from "$lib/interfaces-validation/IOption";
+	import { customSelectFilter } from "$lib/shared/functions/filterStringSearch";
+	import Select from 'svelte-select';
+	import { onMount } from 'svelte';
 
-   function handleChange(event: Event) {
-    // Force call the default onChange behavior
-    const changeEvent = new Event('change', { bubbles: true });
-    event ? event.target?.dispatchEvent(changeEvent) : null
-  }
+	export let selected: string[] | undefined = undefined;
+	export let itemsPromise: Promise<IOption[]> = Promise.resolve([]);
+	export let style: string = '';
 
-    $: selected = componentSelection ? componentSelection.map((tag) => tag.value) : undefined
+	let componentSelection: IOption[] = [];
+	let options: IOption[] = [];
+	let isLoading = true;
+
+	// Function to map selected values to the corresponding IOption objects
+	function mapSelectedValuesToOptions(selectedValues: string[], options: IOption[]): IOption[] {
+		return options.filter(option => selectedValues.includes(option.value));
+	}
+
+	// Handle change event to update selected values in the parent component
+	function handleChange(event: Event) {
+		const changeEvent = new Event('change', { bubbles: true });
+		event ? event.target?.dispatchEvent(changeEvent) : null;
+	}
+
+	// Initial setup to fetch options and map selected values
+	onMount(async () => {
+		try {
+			options = await itemsPromise;
+			if (selected) {
+				componentSelection = mapSelectedValuesToOptions(selected, options);
+			}
+		} catch (error) {
+			console.error('Error loading options:', error);
+		} finally {
+			isLoading = false;
+		}
+	});
 </script>
 
 <main class={style}>
-    {#await itemsPromise}>
-        <p>Carregando Tags...</p>
-        {:then options}
-        <Select
-        items={options}
-        multiple
-        on:change={handleChange}
-        filter={customSelectFilter}
-        bind:value={componentSelection}
-    />
-        {:catch error}
-            <p>{error.message}</p>
-    {/await}
+	{#if isLoading}
+		<p>Carregando Tags...</p>
+	{:else}
+		<Select
+			items={options}
+			multiple
+			on:change={handleChange}
+			filter={customSelectFilter}
+			bind:value={componentSelection}
+		/>
+	{/if}
 </main>
-
