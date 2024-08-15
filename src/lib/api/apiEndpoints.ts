@@ -18,6 +18,7 @@ export const APIEndpoints = {
 	asset: {
 		get: 'asset/',
         getById: 'asset/',
+		search: 'asset/search',
 	},
 	externalAPI: {
 		fetchCNPJData: 'externalAPI/fetch-cnpj-data/',
