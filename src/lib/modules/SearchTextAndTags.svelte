@@ -4,15 +4,22 @@
 	import type { IOption } from '$lib/interfaces-validation/IOption'
 	import type { ISearchParams } from '$lib/interfaces-validation/ISearchParams'
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
-	import { createEventDispatcher } from 'svelte'
+	import { createEventDispatcher, onMount } from 'svelte'
 	import Select from 'svelte-select'
 
 	export let endpoint: string
 	export let query = ''
 	export let tags: IOption[] = []
+    export let selectTagOptions: any = []
 
 	const dispatch = createEventDispatcher()
-	let selectTagOptionsPromise = getSelectTagOptions()
+
+    let isLoadingTags = true
+    onMount(async () => {
+        selectTagOptions = await getSelectTagOptions()
+        dispatch('tagsLoaded', selectTagOptions)
+        isLoadingTags = false
+    })
 
 	export async function handleSearch(endpoint: string, searchParams: ISearchParams) {
 		if (tags && tags.length > 0) {
@@ -53,9 +60,9 @@
 				bind:value={query}
 				on:keydown={(e) => e.key === 'Enter' && handleSearch(endpoint, { tags, query })}
 			/>
-			{#await selectTagOptionsPromise}
+			{#if isLoadingTags}
 				<p>Loading Search...</p>
-			{:then selectTagOptions}
+			{:else}
 				<label
 					class="self-start block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 					for="tags"
@@ -69,7 +76,7 @@
 					filter={customSelectFilter}
 					bind:value={tags}
 				/>
-			{/await}
+			{/if}
 		</div>
 		<div class="flex items-center justify-center md:ml-10 mt-4 md:mt-0">
 			<button
