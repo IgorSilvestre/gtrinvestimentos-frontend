@@ -17,21 +17,19 @@
 	export let asset: IAsset | undefined = undefined
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
 	let selectZoningOptionsPromise: Promise<IOption[]> = getSelectZoningOptions()
-    
-    delete asset?.createdAt
-    delete asset?.updatedAt
+
+	delete asset?.createdAt
+	delete asset?.updatedAt
 	let initialValues: IAsset = asset
 		? {
 				...asset,
-                tags: asset?.tags ? asset.tags.map((tag: any) => (tag.value)) : [],
-				zoning: asset?.zoning
-					? asset.zoning.map((zoning: any) => (zoning._id))
-					: undefined
+				tags: asset?.tags ? asset.tags.map((tag: any) => tag.value) : [],
+				zoning: asset?.zoning ? asset.zoning.map((zoning: any) => zoning._id) : undefined
 		  }
 		: {
 				name: '',
 				tags: [],
-                isForSale: true,
+				isForSale: true
 		  }
 
 	function handleAddressChange(event: CustomEvent) {
@@ -80,7 +78,7 @@
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 							for="name">Nome <span class="text-red-500 font-bold">*</span></label
 						>
-                        <input
+						<input
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
 							type="text"
 							id="name"
@@ -156,7 +154,8 @@
 							type="checkbox"
 							id="isForSale"
 							on:input={handleChange}
-					        bind:checked={$form.isForSale}>
+							bind:checked={$form.isForSale}
+						/>
 						{#if $errors.isForSale}
 							<div class="text-red-500 text-xs">{$errors.isForSale}</div>
 						{/if}
@@ -396,7 +395,10 @@
 						</svelte:fragment>
 					</AccordionItem>
 					<h1 class="mt-2"><span class="font-bold">Endereço</span></h1>
-					<AddressForm on:input={handleAddressChange} />
+					<AddressForm
+						on:input={handleAddressChange}
+						defaultAddres={$form}
+					/>
 				</Accordion>
 				<div class="flex justify-end">
 					<button
