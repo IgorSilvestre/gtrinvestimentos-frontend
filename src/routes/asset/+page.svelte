@@ -23,8 +23,8 @@
 	let currentPage = 1
 	let totalPages = 1
 
-    let query
-    let tags
+    let query: any
+    let tags: any
     onMount(async () => {
         const urlParams = new URLSearchParams(window.location.search);
 

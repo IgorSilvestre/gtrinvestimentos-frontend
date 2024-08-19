@@ -8,8 +8,8 @@
 	import Select from 'svelte-select'
 
 	export let endpoint: string
-	let query = ''
-	let tags: IOption[] = []
+	export let query = ''
+	export let tags: IOption[] = []
 
 	const dispatch = createEventDispatcher()
 	let selectTagOptionsPromise = getSelectTagOptions()
