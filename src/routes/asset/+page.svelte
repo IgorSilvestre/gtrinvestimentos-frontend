@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
-	import { getAssetsQuery } from '$lib/api/queries/asset/getAssetsQuery'
+	import { searchAssetsQuery } from '$lib/api/queries/asset/searchAssetsQuery'
 	import { transitionOptions } from '$lib/config'
 	import AssetCard from '$lib/containers/asset/AssetCard.svelte'
 	import type { ISearchParams } from '$lib/interfaces-validation/ISearchParams'
@@ -23,35 +23,55 @@
 	let currentPage = 1
 	let totalPages = 1
 
-	onMount(async () => {
-		const res = await getAssetsQuery()
-		assetsPaginated = await res.json()
-        console.log(assetsPaginated)
-		assets = assetsPaginated?.data ?? null
-		totalPages = assetsPaginated?.totalPages ?? 1
-		isLoadingAssets = false
-	})
+onMount(async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log('urlParams', urlParams)
+
+    // Extract query and tags from URL parameters
+    searchParams.query = urlParams.get('query') || '';
+    searchParams.tags = urlParams.get('tags')?.split(',') || [];
+
+    if (searchParams.query || searchParams.tags.length > 0) {
+        isLoadingAssets = true;
+
+        const res = await searchAssetsQuery(searchParams);
+        assetsPaginated = await res.json();
+        console.log('assetsPaginated', assetsPaginated)
+        assets = assetsPaginated?.data ?? assets;
+        totalPages = assetsPaginated?.totalPages ?? 1;
+
+        isLoadingAssets = false;
+        return
+    }
+
+    const res = await searchAssetsQuery();
+    assetsPaginated = await res.json();
+    assets = assetsPaginated?.data ?? null;
+    totalPages = assetsPaginated?.totalPages ?? 1;
+    isLoadingAssets = false;
+});
+
+    function handleSearchAssets(event: CustomEvent<{ data: IAssetPaginated; params: ISearchParams }>): void {
+        isLoadingAssets = true;
+
+        assetsPaginated = event.detail.data;
+
+        if (assetsPaginated) {
+            assets = assetsPaginated.data;
+            totalPages = assetsPaginated.totalPages;
+        } else {
+            assets = null;
+        }
+
+        isLoadingAssets = false;
+
+        // Update the URL with search parameters without reloading
+        const params = new URLSearchParams(event.detail.params as Record<string, string>);
+        history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
+    }
 
 	$: {
 		currentPage, assets // makes sure pagination and search updates in the HTML
-	}
-
-	function handleSearchAssets(
-		event: CustomEvent<{ data: IAssetPaginated; params: ISearchParams }>
-	): void {
-		isLoadingAssets = true
-
-		assetsPaginated = event.detail.data
-
-		if (assetsPaginated) {
-			assets = assetsPaginated.data
-			totalPages = assetsPaginated.totalPages
-		} else assets = null
-
-		!isSearchPage ? (currentPage = 1) : null // Reset to the first page after search
-		isSearchPage = true
-
-		isLoadingAssets = false
 	}
 </script>
 
