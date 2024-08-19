@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
+	import { findLabelByValue } from '$lib/shared/functions/findLabelByValue'
 	import { searchAssetsQuery } from '$lib/api/queries/asset/searchAssetsQuery'
 	import { transitionOptions } from '$lib/config'
 	import AssetCard from '$lib/containers/asset/AssetCard.svelte'
@@ -16,58 +17,49 @@
 	let assets: IAssetShow[] | undefined | null = undefined
 
 	let SearchTextAndTagsComponent: SearchTextAndTags
-	let searchParams: {query?: string, tags?: string[]} = {}
+    let allTags: any
+	let query: any
+	let tagsSelected: any
+	let searchParams: { query?: string; tags?: string[] } = {}
 	let isSearchPage = false
 
-	let isLoadingAssets = true
 	let currentPage = 1
 	let totalPages = 1
 
-    let query: any
-    let tags: any
-    onMount(async () => {
-        const urlParams = new URLSearchParams(window.location.search);
+	let isLoadingAssets = true
 
-        searchParams.query = urlParams.get('query') || '';
-        searchParams.tags = urlParams.get('tags')?.split(',') || [];
+	onMount(async () => {
+		isLoadingAssets = true
 
-        if (searchParams.query || searchParams.tags.length > 0) {
-            isLoadingAssets = true;
+		const urlParams = new URLSearchParams(window.location.search)
+		searchParams.query = urlParams.get('query') || ''
+		searchParams.tags = urlParams.get('tags')?.split(',') || []
 
-            const res = await searchAssetsQuery(searchParams);
-            assetsPaginated = await res.json();
-            assets = assetsPaginated?.data ?? null;
-            totalPages = assetsPaginated?.totalPages ?? 1;
-            query = searchParams.query;
+		const res =
+			searchParams.query || searchParams.tags.length > 0
+				? await searchAssetsQuery(searchParams)
+				: await searchAssetsQuery()
 
-            isLoadingAssets = false;
-            return
-        }
+		assetsPaginated = await res.json()
+		assets = assetsPaginated?.data ?? null
+		totalPages = assetsPaginated?.totalPages ?? 1
 
-        const res = await searchAssetsQuery();
-        assetsPaginated = await res.json();
-        assets = assetsPaginated?.data ?? null;
-        totalPages = assetsPaginated?.totalPages ?? 1;
-        isLoadingAssets = false;
-    });
+		query = searchParams.query
+        tagsSelected = searchParams.tags.map((tag) => ({
+                label: findLabelByValue(allTags, tag),
+                value: tag
+        }))
 
-    function handleSearchAssets(event: CustomEvent<{ data: IAssetPaginated; params: ISearchParams }>): void {
-        isLoadingAssets = true;
+		isLoadingAssets = false
+	})
 
-        assetsPaginated = event.detail.data;
-
-        if (assetsPaginated) {
-            assets = assetsPaginated.data;
-            totalPages = assetsPaginated.totalPages;
-        } else {
-            assets = null;
-        }
-
-        isLoadingAssets = false;
-
-        const params = new URLSearchParams(event.detail.params as Record<string, string>);
-        history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
-    }
+	function handleSearchAssets(
+		event: CustomEvent<{ data: IAssetPaginated; params: ISearchParams }>
+	): void {
+		const params = new URLSearchParams(event.detail.params as Record<string, string>)
+		history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`)
+		window.location.assign(window.location.href) // This will reload the page as well
+	}
 
 	$: {
 		currentPage, assets
@@ -88,9 +80,10 @@
 		<SearchTextAndTags
 			bind:this={SearchTextAndTagsComponent}
 			on:search={handleSearchAssets}
+            on:tagsLoaded={(event) => allTags = event.detail}
 			endpoint={APIEndpoints.asset.search}
-            bind:tags={tags}
-            bind:query={query}
+			bind:tags={tagsSelected}
+			bind:query
 		/>
 	</div>
 	{#if assets && assets.length === 0}
@@ -102,14 +95,14 @@
 			<Loader />
 		</div>
 	{:else if assets && assets.length > 0}
-<div class="flex flex-wrap justify-start">
-    {#each assets as asset}
-        <div class="w-full sm:w-1/2 md:w-1/3 px-4 mb-8">
-            <span in:fly={transitionOptions.defaultFlyEntry}> <AssetCard {asset} /> </span>
-            <!-- {JSON.stringify(assetsPaginated)} -->
-        </div>
-    {/each}
-</div>
+		<div class="flex flex-wrap justify-start">
+			{#each assets as asset}
+				<div class="w-full sm:w-1/2 md:w-1/3 px-4 mb-8">
+					<span in:fly={transitionOptions.defaultFlyEntry}> <AssetCard {asset} /> </span>
+					<!-- {JSON.stringify(assetsPaginated)} -->
+				</div>
+			{/each}
+		</div>
 		<!-- <Pagination
 			{currentPage}
 			{totalPages}
