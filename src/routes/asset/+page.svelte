@@ -16,40 +16,40 @@
 	let assets: IAssetShow[] | undefined | null = undefined
 
 	let SearchTextAndTagsComponent: SearchTextAndTags
-	let searchParams = {}
+	let searchParams: {query?: string, tags?: string[]} = {}
 	let isSearchPage = false
 
 	let isLoadingAssets = true
 	let currentPage = 1
 	let totalPages = 1
 
-onMount(async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    console.log('urlParams', urlParams)
+    let query
+    let tags
+    onMount(async () => {
+        const urlParams = new URLSearchParams(window.location.search);
 
-    // Extract query and tags from URL parameters
-    searchParams.query = urlParams.get('query') || '';
-    searchParams.tags = urlParams.get('tags')?.split(',') || [];
+        searchParams.query = urlParams.get('query') || '';
+        searchParams.tags = urlParams.get('tags')?.split(',') || [];
 
-    if (searchParams.query || searchParams.tags.length > 0) {
-        isLoadingAssets = true;
+        if (searchParams.query || searchParams.tags.length > 0) {
+            isLoadingAssets = true;
 
-        const res = await searchAssetsQuery(searchParams);
+            const res = await searchAssetsQuery(searchParams);
+            assetsPaginated = await res.json();
+            assets = assetsPaginated?.data ?? null;
+            totalPages = assetsPaginated?.totalPages ?? 1;
+            query = searchParams.query;
+
+            isLoadingAssets = false;
+            return
+        }
+
+        const res = await searchAssetsQuery();
         assetsPaginated = await res.json();
-        console.log('assetsPaginated', assetsPaginated)
-        assets = assetsPaginated?.data ?? assets;
+        assets = assetsPaginated?.data ?? null;
         totalPages = assetsPaginated?.totalPages ?? 1;
-
         isLoadingAssets = false;
-        return
-    }
-
-    const res = await searchAssetsQuery();
-    assetsPaginated = await res.json();
-    assets = assetsPaginated?.data ?? null;
-    totalPages = assetsPaginated?.totalPages ?? 1;
-    isLoadingAssets = false;
-});
+    });
 
     function handleSearchAssets(event: CustomEvent<{ data: IAssetPaginated; params: ISearchParams }>): void {
         isLoadingAssets = true;
@@ -65,13 +65,12 @@ onMount(async () => {
 
         isLoadingAssets = false;
 
-        // Update the URL with search parameters without reloading
         const params = new URLSearchParams(event.detail.params as Record<string, string>);
         history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
     }
 
 	$: {
-		currentPage, assets // makes sure pagination and search updates in the HTML
+		currentPage, assets
 	}
 </script>
 
@@ -90,6 +89,8 @@ onMount(async () => {
 			bind:this={SearchTextAndTagsComponent}
 			on:search={handleSearchAssets}
 			endpoint={APIEndpoints.asset.search}
+            bind:tags={tags}
+            bind:query={query}
 		/>
 	</div>
 	{#if assets && assets.length === 0}
@@ -104,7 +105,7 @@ onMount(async () => {
 <div class="flex flex-wrap justify-start">
     {#each assets as asset}
         <div class="w-full sm:w-1/2 md:w-1/3 px-4 mb-8">
-            <AssetCard {asset} />
+            <span in:fly={transitionOptions.defaultFlyEntry}> <AssetCard {asset} /> </span>
             <!-- {JSON.stringify(assetsPaginated)} -->
         </div>
     {/each}

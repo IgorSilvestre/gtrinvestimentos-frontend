@@ -8,13 +8,11 @@
 	import Select from 'svelte-select'
 
 	export let endpoint: string
-
-	const dispatch = createEventDispatcher()
-
-	let selectTagOptionsPromise = getSelectTagOptions()
-
 	let query = ''
 	let tags: IOption[] = []
+
+	const dispatch = createEventDispatcher()
+	let selectTagOptionsPromise = getSelectTagOptions()
 
 	export async function handleSearch(endpoint: string, searchParams: ISearchParams) {
 		if (tags && tags.length > 0) {
