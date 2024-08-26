@@ -19,6 +19,7 @@ interface ICompany {
     linkedinData?: ICompanyLinkedinData;
     domainOwner?: {
         name: string;
+        documentType: string
         document: string;
     };
 }
@@ -75,8 +76,8 @@ onMount(async () => {
 
             {#if company.domainOwner}
                 <div class="mx-2 my-4">
-                    <p><b>Dono do domínio: </b>{company.domainOwner.name}</p>
-                    <p><b>CPF/CNPJ: </b>{company.domainOwner.document}</p>
+                    <p><b>Representante do domínio: </b>{company.domainOwner.name}</p>
+                    <p><b>{company.domainOwner?.documentType.toUpperCase()}: </b>{company.domainOwner?.document}</p>
                     <div class="border border-solid border-black w-1/3" />
                 </div>
             {/if}
