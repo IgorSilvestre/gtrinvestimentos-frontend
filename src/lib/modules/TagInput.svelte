@@ -21,6 +21,7 @@
 	function handleChange(event: Event) {
 		const changeEvent = new Event('change', { bubbles: true });
 		event ? event.target?.dispatchEvent(changeEvent) : null;
+    selected = componentSelection.map(option => option.value);
 	}
 
 	// Initial setup to fetch options and map selected values
