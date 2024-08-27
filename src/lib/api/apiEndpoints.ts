@@ -1,4 +1,5 @@
 export const APIEndpoints = {
+  file: 'file/',
 	person: {
 		getAll: 'person/all',
 		search: 'person/search'

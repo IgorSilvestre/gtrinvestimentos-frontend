@@ -13,10 +13,24 @@
 	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
 	import { getSelectZoningOptions } from '$lib/api/queries/zoningQueries'
 	import MonthYearPicker from '$lib/modules/MonthYearPicker.svelte'
+	import Dropzone from 'svelte-file-dropzone'
+	import { APIEndpoints } from '$lib/api/apiEndpoints'
 
 	export let asset: IAsset | undefined = undefined
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
 	let selectZoningOptionsPromise: Promise<IOption[]> = getSelectZoningOptions()
+
+	let files = {
+		accepted: [],
+		rejected: []
+	}
+
+	function handleFilesSelect(e: { detail: { acceptedFiles: never; fileRejections: never } }) {
+		const { acceptedFiles, fileRejections } = e.detail
+		files.accepted = [...files.accepted, ...acceptedFiles]
+		files.rejected = [...files.rejected, ...fileRejections]
+		console.log(files.accepted)
+	}
 
 	delete asset?.createdAt
 	delete asset?.updatedAt
@@ -41,10 +55,30 @@
 		})
 	}
 
+	function removeImage() {
+		files.accepted = []
+		$form.imgURL = undefined
+	}
+
 	const { form, errors, handleChange, handleSubmit } = createForm({
 		initialValues,
 		validationSchema: VAssetForm,
 		onSubmit: async (assetFormUpdated: IAsset) => {
+      try {
+        if (files.accepted.length > 0) {
+          const formData = new FormData()
+          formData.append('file', files.accepted[0])
+          const res = await API.post(APIEndpoints.file, formData)
+          $form.imgURL = res.data.fileAddress
+        }
+      } catch (error: any) {
+        const { clientMessage } = error.response.data.error
+        toastStore.trigger({
+          message: clientMessage || 'Ocorreu um erro',
+          background: 'variant-filled-error'
+        })
+        console.error(error)
+      }
 			try {
 				asset
 					? await API.put('asset/' + asset?._id, assetFormUpdated).then(() => {
@@ -62,6 +96,7 @@
 					background: 'variant-filled-error'
 				})
 				console.error(error)
+        return
 			}
 		}
 	})
@@ -72,92 +107,119 @@
 		<div class="p-6">
 			<h2 class="text-lg font-medium text-gray-900 mb-4">Editar Ativo</h2>
 			<form on:submit={handleSubmit} class="space-y-4">
-				<div class="flex flex-wrap">
-					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+				<div class="flex">
+					<div class="md:w-1/2">
+							<div class="w-full px-3 mb-4">
+								<label
+									class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+									for="name">Nome <span class="text-red-500 font-bold">*</span></label
+								>
+								<input
+									class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+									type="text"
+									id="name"
+									on:input={handleChange}
+									bind:value={$form.name}
+								/>
+								{#if $errors.name}
+									<div class="text-red-500 text-xs">{$errors.name}</div>
+								{/if}
+							</div>
+							<div class="w-full px-3 mb-4">
+								<label
+									class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+									for="tags"
+								>
+									Tags <span class="text-red-500 font-bold">*</span>
+								</label>
+								<TagInput bind:selected={$form.tags} itemsPromise={selectTagOptionsPromise} />
+								{#if $errors.tags}
+									<div class="text-red-500 text-xs">{$errors.tags}</div>
+								{/if}
+							</div>
+							<div class="w-full px-3 mb-4">
+								<label
+									class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+									for="docLink">Link Drive</label
+								>
+								<input
+									class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+									type="text"
+									id="docLink"
+									on:input={handleChange}
+									bind:value={$form.docLink}
+								/>
+								{#if $errors.docLink}
+									<div class="text-red-500 text-xs">{$errors.docLink}</div>
+								{/if}
+							</div>
+            <div class="flex justify-between px-3 mb-2">
+							<div class="w-full md:w-2/3">
+								<label
+									class="block uppercase tracking-wide mb-2 text-gray-700 text-xs font-bold"
+									for="priceInReais">Preço R$</label
+								>
+								<NumberInput bind:value={$form.priceInReais} />
+								{#if $errors.priceInReais}
+									<div class="text-red-500 text-xs">{$errors.priceInReais}</div>
+								{/if}
+							</div>
+							<div class="flex items-center">
+								<label class="uppercase mx-4 text-gray-700 text-xs cursor-pointer font-bold" for="isForSale"
+									>Esta a venda</label
+								>
+								<input
+									class="cursor-pointer"
+									type="checkbox"
+									id="isForSale"
+									on:input={handleChange}
+									bind:checked={$form.isForSale}
+								/>
+								{#if $errors.isForSale}
+									<div class="text-red-500 text-xs">{$errors.isForSale}</div>
+								{/if}
+							</div>
+
+            </div>
+							<div class="w-full px-3 mb-4">
+								<label
+									class="block uppercase tracking-wide text-gray-700 text-xs font-bold md:mb-2"
+									for="description">Descrição</label
+								>
+								<input
+									class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+									type="text"
+									id="description"
+									on:input={handleChange}
+									bind:value={$form.description}
+								/>
+								{#if $errors.description}
+									<div class="text-red-500 text-xs">{$errors.description}</div>
+								{/if}
+							</div>
+					</div>
+					<div class="w-full block md:w-1/2 px-3 mb-6 md:mb-0">
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-							for="name">Nome <span class="text-red-500 font-bold">*</span></label
+							for="name">Imagem</label
 						>
-						<input
-							class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-							type="text"
-							id="name"
-							on:input={handleChange}
-							bind:value={$form.name}
-						/>
-						{#if $errors.name}
-							<div class="text-red-500 text-xs">{$errors.name}</div>
-						{/if}
-					</div>
-					<div class="w-full md:w-1/2 px-3 mb-4 md:mb-0">
-						<label
-							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-							for="docLink">Link Drive</label
-						>
-						<input
-							class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-							type="text"
-							id="docLink"
-							on:input={handleChange}
-							bind:value={$form.docLink}
-						/>
-						{#if $errors.docLink}
-							<div class="text-red-500 text-xs">{$errors.docLink}</div>
-						{/if}
-					</div>
-				</div>
-				<div class="flex flex-wrap">
-					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-						<label
-							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-							for="tags"
-						>
-							Tags <span class="text-red-500 font-bold">*</span>
-						</label>
-						<TagInput bind:selected={$form.tags} itemsPromise={selectTagOptionsPromise} />
-						{#if $errors.tags}
-							<div class="text-red-500 text-xs">{$errors.tags}</div>
-						{/if}
-					</div>
-					<div class="w-full md:w-1/2 px-3 mb-4 md:mb-0">
-						<label
-							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-							for="priceInReais">Preço R$</label
-						>
-						<NumberInput bind:value={$form.priceInReais} />
-						{#if $errors.priceInReais}
-							<div class="text-red-500 text-xs">{$errors.priceInReais}</div>
-						{/if}
-					</div>
-					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-						<label
-							class="block uppercase tracking-wide text-gray-700 text-xs font-bold md:mb-2"
-							for="description">Descrição</label
-						>
-						<input
-							class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-							type="text"
-							id="description"
-							on:input={handleChange}
-							bind:value={$form.description}
-						/>
-						{#if $errors.description}
-							<div class="text-red-500 text-xs">{$errors.description}</div>
-						{/if}
-					</div>
-					<div class="flex items-center">
-						<label class="uppercase mx-4 text-gray-700 text-xs font-bold" for="isForSale"
-							>Esta a venda</label
-						>
-						<input
-							class=""
-							type="checkbox"
-							id="isForSale"
-							on:input={handleChange}
-							bind:checked={$form.isForSale}
-						/>
-						{#if $errors.isForSale}
-							<div class="text-red-500 text-xs">{$errors.isForSale}</div>
+						{#if asset?.imgURL || files.accepted.length > 0}
+							<div class="relative group w-full">
+								<img
+									src={asset?.imgURL ? asset.imgURL : URL.createObjectURL(files.accepted[0])}
+									alt="Imagem do ativo"
+									class="w-full h-full object-cover"
+									on:click={removeImage}
+								/>
+								<span
+									class="absolute inset-0 flex items-center justify-center bg-[#b80000] bg-opacity-10 text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+									on:click={removeImage}
+								>
+									DELETE
+								</span>
+							</div>
+						{:else}
+							<Dropzone containerClasses="h-full" on:drop={handleFilesSelect} />
 						{/if}
 					</div>
 				</div>
@@ -395,10 +457,7 @@
 						</svelte:fragment>
 					</AccordionItem>
 					<h1 class="mt-2"><span class="font-bold">Endereço</span></h1>
-					<AddressForm
-						on:input={handleAddressChange}
-						defaultAddres={$form}
-					/>
+					<AddressForm on:input={handleAddressChange} defaultAddres={$form} />
 				</Accordion>
 				<div class="flex justify-end">
 					<button
