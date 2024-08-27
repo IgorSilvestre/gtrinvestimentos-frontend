@@ -10,7 +10,9 @@
 </script>
 
 <main class="max-w-xl mx-auto p-8 space-y-6 bg-white rounded-lg shadow-lg relative">
-    <img class="w-full" src={asset.imgURL} alt="Imagem Ativo">
+    {#if asset?.imgURL}
+      <img class="w-full" src={asset.imgURL} alt="Imagem Ativo">
+    {/if}
     {#if isValid(asset.docLink)}
         <a class="absolute right-4 top-4 text-lg font-semibold text-white variant-filled-primary p-2 rounded-[5px]" href="{asset.docLink}" target="_blank">Acesso Drive</a>
     {/if}
