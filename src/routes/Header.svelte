@@ -5,8 +5,7 @@
 		const links = document.querySelectorAll('nav a')
 
 		links.forEach((link) => {
-			link.addEventListener('click', (event) => {
-				// event.preventDefault() // Prevent the default link behavior
+			link.addEventListener('click', () => {
 				updateActiveLink(link as HTMLAnchorElement)
 			})
 		})
@@ -30,11 +29,11 @@
 
 {#if isMobile}
 	<a href="/">
-		<div class="font-rockwell text-3xl text-center mt-2">gtr</div>
+		<div class="font-rockwell text-3xl text-center mt-2">gtr.</div>
 	</a>
 {:else}
 	<header class="bg-black py-3 flex justify-center font-calibreweb text-[18px]">
-		<span class="font-rockwell text-white text-2xl absolute left-2">gtr</span>
+		<span class="font-rockwell text-white text-2xl absolute left-2">gtr.</span>
 		<nav class="ml-4">
 			<!-- <a class="no-underline hover:underline text-white mx-3" href="/">Home</a> -->
 			<!-- TODO standard endpoints -->
