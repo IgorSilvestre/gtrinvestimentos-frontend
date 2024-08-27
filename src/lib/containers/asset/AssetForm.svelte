@@ -214,7 +214,7 @@
 									class="absolute inset-0 flex items-center justify-center bg-[#b80000] bg-opacity-10 text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
 									on:click={removeImage}
 								>
-									DELETE
+                  DELETAR
 								</span>
 							</div>
 						{:else}

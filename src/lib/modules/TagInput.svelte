@@ -7,6 +7,7 @@
 	export let selected: string[] | undefined = undefined;
 	export let itemsPromise: Promise<IOption[]> = Promise.resolve([]);
 	export let style: string = '';
+  export let placeholder = 'Selecione uma ou mais';
 
 	let componentSelection: IOption[] = [];
 	let options: IOption[] = [];
@@ -45,6 +46,7 @@
 	{:else}
 		<Select
 			items={options}
+      {placeholder}
 			multiple
 			on:change={handleChange}
 			filter={customSelectFilter}
