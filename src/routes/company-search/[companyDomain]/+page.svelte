@@ -27,7 +27,6 @@ interface ICompany {
 let scrapedContacts: { phoneNumbers: string[]; emails: string[] } | undefined;
 async function handleButtonScrapeWebsiteForContacts() {
     scrapedContacts = await scrapeWebsiteForContactsQuery(companyDomain);
-    console.log(scrapedContacts);
 }
 
 onMount(async () => {

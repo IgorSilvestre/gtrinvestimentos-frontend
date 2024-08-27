@@ -29,7 +29,6 @@
 		const { acceptedFiles, fileRejections } = e.detail
 		files.accepted = [...files.accepted, ...acceptedFiles]
 		files.rejected = [...files.rejected, ...fileRejections]
-		console.log(files.accepted)
 	}
 
 	delete asset?.createdAt

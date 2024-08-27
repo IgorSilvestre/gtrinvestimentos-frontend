@@ -195,7 +195,6 @@
             class="font-bold text-blue-500"
             on:click={(e) => {
                 e.preventDefault()
-                console.log('assetFullCard', asset)
                 goto('/asset/edit/' + asset?._id)
             }}
             >

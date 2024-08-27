@@ -4,8 +4,6 @@
 	export let data
 	const { asset } = data
 
-
-    console.log('asset', asset)
 </script>
 <main>
     <AssetForm {asset} />
