@@ -145,10 +145,6 @@
 							filter={customSelectFilter}
 							bind:value={$form.tags}
 						/>
-						<!-- TODO check if this component can work with validation -->
-						<!-- {#if $errors.tags && $touched.tags}
-                <div class="text-red-500 text-xs">{$errors.tags}</div>
-              {/if} -->
 					{/await}
 				</p>
 				<p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">

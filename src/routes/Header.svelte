@@ -35,8 +35,6 @@
 	<header class="bg-black py-3 flex justify-center font-calibreweb text-[18px]">
 		<span class="font-rockwell text-white text-2xl absolute left-2">gtr.</span>
 		<nav class="ml-4">
-			<!-- <a class="no-underline hover:underline text-white mx-3" href="/">Home</a> -->
-			<!-- TODO standard endpoints -->
 			<a class="no-underline hover:underline text-white mx-3" href="/company">Empresas</a>
 			<!-- <a class="no-underline hover:underline text-white mx-3" href="/tag/all">Tags</a> -->
 			<a class="no-underline hover:underline text-white mx-3" href="/person">Pessoas</a>
