@@ -9,12 +9,16 @@
     const isValid = (value: any) => value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
 </script>
 
-<main class="max-w-xl mx-auto p-8 space-y-6 bg-white rounded-lg shadow-lg relative">
-    {#if asset?.imgURL}
-      <img class="w-full" src={asset.imgURL} alt="Imagem Ativo">
-    {/if}
+<main class="max-w-xl mx-auto px-8 pt-4 space-y-6 bg-white rounded-lg shadow-lg relative">
     {#if isValid(asset.docLink)}
-        <a class="absolute right-4 top-4 text-lg font-semibold text-white variant-filled-primary p-2 rounded-[5px]" href="{asset.docLink}" target="_blank">Acesso Drive</a>
+      <div class="flex justify-end">
+        <a class="text-lg font-semibold text-white variant-filled-primary p-2 rounded-[5px]" href="{asset.docLink}" target="_blank">
+          Acesso Drive
+        </a>
+      </div>
+    {/if}
+    {#if asset?.imgURL}
+      <img class="w-full rounded-[5px]" src={asset.imgURL} alt="Imagem Ativo">
     {/if}
     <h1 class="pt-2 text-3xl font-bold text-gray-800 font-montserrat">{asset.name}</h1>
     <p class="text-sm font-montserrat">
