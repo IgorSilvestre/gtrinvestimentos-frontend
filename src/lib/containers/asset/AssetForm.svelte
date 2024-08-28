@@ -316,7 +316,7 @@
 									</div>
 								</div>
 								<div class="flex items-center md:mb-0 mb-6">
-									<label class="uppercase mx-4 text-gray-700 text-xs font-bold" for="isForSale"
+									<label class="uppercase mx-4 text-gray-700 text-xs font-bold" for="isAtypicalContract"
 										>Contrato Atípico</label
 									>
 									<input
