@@ -9,6 +9,7 @@
 	export let domain: string | undefined
 	const emails: { [key: string]: [string, number] } = {}
 	let isLoadingEmailButton = false
+  let searchedEmails = false
 
 	async function handleButtonFetchEmails() {
 		isLoadingEmailButton = true
@@ -22,6 +23,7 @@
 		}
 
 		isLoadingEmailButton = false
+    searchedEmails = true
 	}
 
 	function handleCopyEmail(email: string) {
@@ -67,6 +69,8 @@
 										{' - nota: ' + emails[socio.nome][1]}
 									</span>
 								</p>
+              {:else if searchedEmails && (!emails[socio.nome] || emails[socio.nome].length <= 0)}
+                <p class="text-sm text-red">Email não encontrado</p>
 							{/if}
 						</div>
 					{/each}
@@ -79,7 +83,7 @@
 								class="bg-green-500 p-1 rounded-sm text-sm mt-2 text-white font-bold"
 								>Copiar todos</button
 							>
-						{:else}
+						{:else if !searchedEmails}
 							<button
 								on:click={handleButtonFetchEmails}
 								class="bg-blue-500 p-1 rounded-sm text-sm mt-2 text-white font-bold"
