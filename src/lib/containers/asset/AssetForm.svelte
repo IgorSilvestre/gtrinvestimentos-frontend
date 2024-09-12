@@ -24,12 +24,8 @@
 		accepted: [],
 		rejected: []
 	}
+  let coverImage = asset?.imgURL
 
-	function handleFilesSelect(e: { detail: { acceptedFiles: never; fileRejections: never } }) {
-		const { acceptedFiles, fileRejections } = e.detail
-		files.accepted = [...files.accepted, ...acceptedFiles]
-		files.rejected = [...files.rejected, ...fileRejections]
-	}
 
 	delete asset?.createdAt
 	delete asset?.updatedAt
@@ -54,9 +50,18 @@
 		})
 	}
 
+	function handleFilesSelect(e: { detail: { acceptedFiles: never; fileRejections: never } }) {
+		const { acceptedFiles, fileRejections } = e.detail
+		files.accepted = [...files.accepted, ...acceptedFiles]
+		files.rejected = [...files.rejected, ...fileRejections]
+
+    coverImage = URL.createObjectURL(files.accepted[0])
+	}
+
 	function removeImage() {
 		files.accepted = []
 		$form.imgURL = undefined
+    coverImage = undefined
 	}
 
 	const { form, errors, handleChange, handleSubmit } = createForm({
@@ -99,6 +104,8 @@
 			}
 		}
 	})
+
+  $: coverImage
 </script>
 
 <main>
@@ -202,17 +209,19 @@
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 							for="name">Imagem</label
 						>
-						{#if asset?.imgURL || files.accepted.length > 0}
+						{#if coverImage}
 							<div class="relative group w-full">
 								<img
-									src={asset?.imgURL ? asset.imgURL : URL.createObjectURL(files.accepted[0])}
+									src={coverImage}
 									alt="Imagem do ativo"
 									class="w-full h-full object-cover"
 									on:click={removeImage}
+									on:keyup={removeImage}
 								/>
 								<span
 									class="absolute inset-0 flex items-center justify-center bg-red bg-opacity-10 text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
 									on:click={removeImage}
+									on:keyup={removeImage}
 								>
                   DELETAR
 								</span>
