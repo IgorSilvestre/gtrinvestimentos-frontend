@@ -16,7 +16,11 @@
 	<a href={`/asset/${asset._id}`} in:fly={transitionOptions.defaultFlyEntry}>
 		<div class="p-4">
 			{#if asset?.imgURL}
-				<img class="h-[350px] w-full object-cover rounded-[5px]" src={asset.imgURL} alt="Imagem Ativo" />
+				<div
+					class="mb-2 w-full h-[260px] md:h-[360px] bg-gray-50 flex items-center justify-center rounded-[5px] overflow-hidden"
+				>
+					<img class="w-full h-auto object-contain" src={asset.imgURL} alt="Imagem Ativo" />
+				</div>
 			{/if}
 			<h2 class="text-lg font-medium text-gray-900">{asset?.name}</h2>
 			<p class="text-xs font-montserrat text-gray-900 mb-2">
