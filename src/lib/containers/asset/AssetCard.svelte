@@ -17,7 +17,7 @@
 		<div class="p-4">
 			{#if asset?.imgURL}
 				<div
-					class="mb-2 w-full h-[260px] md:h-[360px] bg-gray-50 flex items-center justify-center rounded-[5px] overflow-hidden"
+					class="mb-2 w-full h-[260px] md:h-[360px] flex items-center justify-center rounded-[5px] overflow-hidden"
 				>
 					<img class="w-full h-auto object-contain" src={asset.imgURL} alt="Imagem Ativo" />
 				</div>
