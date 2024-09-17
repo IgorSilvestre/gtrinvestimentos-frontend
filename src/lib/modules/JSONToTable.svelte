@@ -1,5 +1,8 @@
 <script lang="ts">
 	export let data: {}
+  
+  console.log('JsonToTable', data)
+
 	function renderValue(value: any) {
 		if (Array.isArray(value)) {
 			if (value.length === 0) {
@@ -14,7 +17,7 @@
 				html += '</ul>'
 				return html
 			}
-		} else if (typeof value === 'object') {
+		} else if (value && typeof value === 'object') {
 			if (Object.keys(value).length === 0) {
 				return '{}' // Empty object
 			} else {
