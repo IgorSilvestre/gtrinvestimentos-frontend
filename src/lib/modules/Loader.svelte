@@ -10,12 +10,12 @@
 	}
 </script>
 
-<span
-	class={`m-6 border-t-4 border-transparent border-solid rounded-full animate-spin ${size} bg-current`}
+<div
+	class={`m-6 border-t-4 border-transparent border-solid rounded-full animate-spin ${size} bg-current m-auto`}
 />
 
 <style>
-	span {
+	div {
 		border-color: currentColor;
 		border-top-color: #3498db; /* Default color, can be modified */
 	}
