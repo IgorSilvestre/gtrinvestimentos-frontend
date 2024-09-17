@@ -2,12 +2,15 @@
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
 	import { API } from '$lib/api/apiFetch'
 	import JsonToTable from '$lib/modules/JSONToTable.svelte'
+	import Loader from '$lib/modules/Loader.svelte'
 	import { removeSpecialCharacters } from '$lib/shared/functions/removeSpecialCharacters'
 
 	let cnpjData: unknown = null
 	let cnpj: string
+	let isLoading = false
 
 	async function handleFetchCNPJData(cnpj: string) {
+		isLoading = true
 		try {
 			const { data } = await API.get(
 				APIEndpoints.externalAPI.fetchCNPJData + removeSpecialCharacters(cnpj)
@@ -16,10 +19,11 @@
 		} catch (err) {
 			console.log(err)
 		}
+		isLoading = false
 	}
 
 	$: {
-		cnpjData
+		cnpjData, isLoading
 	}
 </script>
 
@@ -49,10 +53,12 @@
 		</div>
 	</div>
 	<div class="p-4 mt-10">
-		{#if cnpjData}
+		{#if isLoading}
+      <div class="m-auto">
+				<Loader />
+      </div>
+		{:else if cnpjData}
 			<JsonToTable data={cnpjData} />
-			<!-- {:else}
-			<p>Loading...</p> -->
 		{/if}
 	</div>
 </main>
