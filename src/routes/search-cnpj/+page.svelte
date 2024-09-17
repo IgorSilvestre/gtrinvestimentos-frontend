@@ -3,6 +3,7 @@
 	import { API } from '$lib/api/apiFetch'
 	import JsonToTable from '$lib/modules/JSONToTable.svelte'
 	import Loader from '$lib/modules/Loader.svelte'
+	import { toastStore } from '@skeletonlabs/skeleton'
 	import { removeSpecialCharacters } from '$lib/shared/functions/removeSpecialCharacters'
 
 	let cnpjData: unknown = null
@@ -17,6 +18,12 @@
 			)
 			cnpjData = data
 		} catch (err) {
+			toastStore.trigger({
+				message: 'Não foi possível carregar CNPJ',
+				background: 'variant-filled-error',
+				hideDismiss: true,
+				timeout: 2000
+			})
 			console.log(err)
 		}
 		isLoading = false
@@ -54,9 +61,9 @@
 	</div>
 	<div class="p-4 mt-10">
 		{#if isLoading}
-      <div class="m-auto">
+			<div class="m-auto">
 				<Loader />
-      </div>
+			</div>
 		{:else if cnpjData}
 			<JsonToTable data={cnpjData} />
 		{/if}
