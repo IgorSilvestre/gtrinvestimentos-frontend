@@ -10,24 +10,33 @@ export const transitionOptions = {
 
 export const toastAlreadyExists: ToastSettings = {
 	message: 'Registro já existe',
+  hideDismiss: true,
+  timeout: 2000,
 	background: 'variant-filled-warning'
 }
 export const toastRegistered: ToastSettings = {
 	message: 'Cadastrado com sucesso!',
+  hideDismiss: true,
+  timeout: 2000,
 	background: 'variant-filled-success'
 }
 
 export const toastUpdated: ToastSettings = {
 	message: 'Atualizado com sucesso!',
+  hideDismiss: true,
+  timeout: 2000,
 	background: 'variant-filled-success'
 }
 
 export const toastError: ToastSettings = {
 	message: 'Ocorreu um erro, tente novamente mais tarde',
+  hideDismiss: true,
+  timeout: 2000,
 	background: 'variant-filled-error'
 }
 
 export const toastCopied: ToastSettings = {
 	message: 'Copiado!',
-	background: 'variant-filled-success'
+  hideDismiss: true,
+  timeout: 2000,
 }
