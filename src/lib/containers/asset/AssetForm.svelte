@@ -5,7 +5,7 @@
 	import type { IOption } from '$lib/interfaces-validation/IOption'
 	import { toastRegistered, toastUpdated } from '$lib/config'
 	import { VAssetForm, type IAsset } from '$lib/interfaces-validation/IVAsset'
-	import AddressForm from '$lib/modules/AddressForm.svelte'
+	import AddressInput from '$lib/modules/AddressInput.svelte'
 	import { toastStore } from '@skeletonlabs/skeleton'
 	import { createForm } from 'svelte-forms-lib'
 	import NumberInput from '$lib/modules/NumberInput.svelte'
@@ -24,8 +24,7 @@
 		accepted: [],
 		rejected: []
 	}
-  let coverImage = asset?.imgURL
-
+	let coverImage = asset?.imgURL
 
 	delete asset?.createdAt
 	delete asset?.updatedAt
@@ -55,34 +54,34 @@
 		files.accepted = [...files.accepted, ...acceptedFiles]
 		files.rejected = [...files.rejected, ...fileRejections]
 
-    coverImage = URL.createObjectURL(files.accepted[0])
+		coverImage = URL.createObjectURL(files.accepted[0])
 	}
 
 	function removeImage() {
 		files.accepted = []
 		$form.imgURL = undefined
-    coverImage = undefined
+		coverImage = undefined
 	}
 
 	const { form, errors, handleChange, handleSubmit } = createForm({
 		initialValues,
 		validationSchema: VAssetForm,
 		onSubmit: async (assetFormUpdated: IAsset) => {
-      try {
-        if (files.accepted.length > 0) {
-          const formData = new FormData()
-          formData.append('file', files.accepted[0])
-          const res = await API.post(APIEndpoints.file, formData)
-          $form.imgURL = res.data.fileAddress
-        }
-      } catch (error: any) {
-        const { clientMessage } = error.response.data.error
-        toastStore.trigger({
-          message: clientMessage || 'Ocorreu um erro',
-          background: 'variant-filled-error'
-        })
-        console.error(error)
-      }
+			try {
+				if (files.accepted.length > 0) {
+					const formData = new FormData()
+					formData.append('file', files.accepted[0])
+					const res = await API.post(APIEndpoints.file, formData)
+					$form.imgURL = res.data.fileAddress
+				}
+			} catch (error: any) {
+				const { clientMessage } = error.response.data.error
+				toastStore.trigger({
+					message: clientMessage || 'Ocorreu um erro',
+					background: 'variant-filled-error'
+				})
+				console.error(error)
+			}
 			try {
 				asset
 					? await API.put('asset/' + asset?._id, assetFormUpdated).then(() => {
@@ -100,12 +99,12 @@
 					background: 'variant-filled-error'
 				})
 				console.error(error)
-        return
+				return
 			}
 		}
 	})
 
-  $: coverImage
+	$: coverImage
 </script>
 
 <main>
@@ -115,51 +114,51 @@
 			<form on:submit={handleSubmit} class="space-y-4">
 				<div class="flex">
 					<div class="md:w-1/2">
-							<div class="w-full px-3 mb-4">
-								<label
-									class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-									for="name">Nome <span class="text-red-500 font-bold">*</span></label
-								>
-								<input
-									class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-									type="text"
-									id="name"
-									on:input={handleChange}
-									bind:value={$form.name}
-								/>
-								{#if $errors.name}
-									<div class="text-red-500 text-xs">{$errors.name}</div>
-								{/if}
-							</div>
-							<div class="w-full px-3 mb-4">
-								<label
-									class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-									for="tags"
-								>
-									Tags <span class="text-red-500 font-bold">*</span>
-								</label>
-								<TagInput bind:selected={$form.tags} itemsPromise={selectTagOptionsPromise} />
-								{#if $errors.tags}
-									<div class="text-red-500 text-xs">{$errors.tags}</div>
-								{/if}
-							</div>
-							<div class="w-full px-3 mb-4">
-								<label
-									class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-									for="docLink">Link Drive</label
-								>
-								<input
-									class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-									type="text"
-									id="docLink"
-									on:input={handleChange}
-									bind:value={$form.docLink}
-								/>
-								{#if $errors.docLink}
-									<div class="text-red-500 text-xs">{$errors.docLink}</div>
-								{/if}
-							</div>
-            <div class="flex justify-between px-3 mb-2">
+						<div class="w-full px-3 mb-4">
+							<label
+								class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+								for="name">Nome <span class="text-red">*</span></label
+							>
+							<input
+								class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+								type="text"
+								id="name"
+								on:input={handleChange}
+								bind:value={$form.name}
+							/>
+							{#if $errors.name}
+								<div class="text-red-500 text-xs">{$errors.name}</div>
+							{/if}
+						</div>
+						<div class="w-full px-3 mb-4">
+							<label
+								class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+								for="tags"
+							>
+								Tags <span class="text-red-500 font-bold">*</span>
+							</label>
+							<TagInput bind:selected={$form.tags} itemsPromise={selectTagOptionsPromise} />
+							{#if $errors.tags}
+								<div class="text-red-500 text-xs">{$errors.tags}</div>
+							{/if}
+						</div>
+						<div class="w-full px-3 mb-4">
+							<label
+								class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+								for="docLink">Link Drive</label
+							>
+							<input
+								class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+								type="text"
+								id="docLink"
+								on:input={handleChange}
+								bind:value={$form.docLink}
+							/>
+							{#if $errors.docLink}
+								<div class="text-red-500 text-xs">{$errors.docLink}</div>
+							{/if}
+						</div>
+						<div class="flex justify-between px-3 mb-2">
 							<div class="w-full md:w-2/3">
 								<label
 									class="block uppercase tracking-wide mb-2 text-gray-700 text-xs font-bold"
@@ -171,8 +170,9 @@
 								{/if}
 							</div>
 							<div class="flex items-center">
-								<label class="uppercase mx-4 text-gray-700 text-xs cursor-pointer font-bold" for="isForSale"
-									>Esta a venda</label
+								<label
+									class="uppercase mx-4 text-gray-700 text-xs cursor-pointer font-bold"
+									for="isForSale">Esta a venda</label
 								>
 								<input
 									class="cursor-pointer"
@@ -185,24 +185,23 @@
 									<div class="text-red-500 text-xs">{$errors.isForSale}</div>
 								{/if}
 							</div>
-
-            </div>
-							<div class="w-full px-3 mb-4">
-								<label
-									class="block uppercase tracking-wide text-gray-700 text-xs font-bold md:mb-2"
-									for="description">Descrição</label
-								>
-								<input
-									class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-									type="text"
-									id="description"
-									on:input={handleChange}
-									bind:value={$form.description}
-								/>
-								{#if $errors.description}
-									<div class="text-red-500 text-xs">{$errors.description}</div>
-								{/if}
-							</div>
+						</div>
+						<div class="w-full px-3 mb-4">
+							<label
+								class="block uppercase tracking-wide text-gray-700 text-xs font-bold md:mb-2"
+								for="description">Descrição</label
+							>
+							<input
+								class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+								type="text"
+								id="description"
+								on:input={handleChange}
+								bind:value={$form.description}
+							/>
+							{#if $errors.description}
+								<div class="text-red-500 text-xs">{$errors.description}</div>
+							{/if}
+						</div>
 					</div>
 					<div class="w-full block md:w-1/2 px-3 mb-6 md:mb-0">
 						<label
@@ -223,7 +222,7 @@
 									on:click={removeImage}
 									on:keyup={removeImage}
 								>
-                  DELETAR
+									DELETAR
 								</span>
 							</div>
 						{:else}
@@ -325,8 +324,9 @@
 									</div>
 								</div>
 								<div class="flex items-center md:mb-0 mb-6">
-									<label class="uppercase mx-4 text-gray-700 text-xs font-bold" for="isAtypicalContract"
-										>Contrato Atípico</label
+									<label
+										class="uppercase mx-4 text-gray-700 text-xs font-bold"
+										for="isAtypicalContract">Contrato Atípico</label
 									>
 									<input
 										class=""
