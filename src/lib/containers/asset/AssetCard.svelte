@@ -24,14 +24,12 @@
 			{/if}
 			<h2 class="text-lg font-medium text-gray-900">{asset?.name}</h2>
 			<p class="text-xs font-montserrat text-gray-900 mb-2">
-				{asset?.neighborhood ? asset?.neighborhood + ', ' : ''}
-				{asset?.city ? asset?.city + ', ' : ''}
-				{asset?.state ? asset?.state : ''}
+		    {asset?.address + (asset?.addressComplement ? ' - ' + asset?.addressComplement : '')}
 			</p>
 			<div class="flex flex-wrap mb-2">
 				{#if asset?.tags && asset?.tags.length > 0}
 					{#each asset?.tags as tag}
-						<Tag color="primary" name={tag.label} />
+						<Tag name={tag.label} />
 					{/each}
 				{/if}
 			</div>

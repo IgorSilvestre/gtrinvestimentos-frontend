@@ -11,8 +11,6 @@
 
   onMount(() => {
     inputValue = selectedPlace || ''
-    console.log('inputValue', inputValue)
-    console.log('selectedPlace', selectedPlace)
   })
 
 	async function onInput(event: Event) {
