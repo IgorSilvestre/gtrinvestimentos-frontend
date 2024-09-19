@@ -109,7 +109,7 @@
 </script>
 
 <main>
-	<div class="bg-white rounded-lg overflow-hidden shadow-lg">
+	<div class="bg-white rounded-lg shadow-lg">
 		<div class="p-6">
 			<h2 class="text-lg font-medium text-gray-900 mb-4">Editar Ativo</h2>
 			<form on:submit={handleSubmit} class="space-y-4">
@@ -464,8 +464,10 @@
 							</div>
 						</svelte:fragment>
 					</AccordionItem>
-					<h1 class="mt-2"><span class="font-bold">Endereço</span></h1>
-					<AddressForm on:input={handleAddressChange} defaultAddres={$form} />
+					<label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+						>Endereço <span class="text-red">*</span></label
+					>
+					<AddressInput bind:selectedPlace={$form.addressStreet} />
 				</Accordion>
 				<div class="flex justify-end">
 					<button
@@ -478,3 +480,4 @@
 		</div>
 	</div>
 </main>
+
