@@ -120,7 +120,7 @@
 								for="name">Nome <span class="text-red">*</span></label
 							>
 							<input
-								class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+								class="appearance-none block w-full text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
 								type="text"
 								id="name"
 								on:input={handleChange}
@@ -148,7 +148,7 @@
 								for="docLink">Link Drive</label
 							>
 							<input
-								class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+								class="appearance-none block w-full text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
 								type="text"
 								id="docLink"
 								on:input={handleChange}
@@ -192,7 +192,7 @@
 								for="description">Descrição</label
 							>
 							<input
-								class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+								class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 								type="text"
 								id="description"
 								on:input={handleChange}
@@ -304,7 +304,7 @@
 										for="tenant">Locatário</label
 									>
 									<input
-										class="appearance-none block w-full mb-2 bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+										class="appearance-none block w-full mb-2 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
 										type="text"
 										id="tenant"
 										on:input={handleChange}
@@ -464,10 +464,24 @@
 							</div>
 						</svelte:fragment>
 					</AccordionItem>
-					<label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-						>Endereço <span class="text-red">*</span></label
-					>
-					<AddressInput bind:selectedPlace={$form.addressStreet} />
+          <div class="mb-6">
+					  <label for="address" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+					  	>Endereço <span class="text-red">*</span></label
+					  >
+					  <AddressInput bind:selectedPlace={$form.address} />
+          </div>
+          <div class="flex items-center">
+					  <label for="addressComplement" class="block mr-6 uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+					  	>Complemento</label
+					  >
+            <input
+              class="appearance-none block w-full text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+              type="text"
+              id="addressComplement"
+              on:input={handleChange}
+              bind:value={$form.addressComplement} 
+            />
+          </div>
 				</Accordion>
 				<div class="flex justify-end">
 					<button

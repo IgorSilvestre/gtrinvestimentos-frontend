@@ -30,11 +30,7 @@ export interface IAsset {
     constructedAreaM2?: number;
     vgvInReais?: number;
     docLink?: string;
-    state?: string;
-    city?: string;
-    neighborhood?: string;
-    street?: string;
-    addressNumber?: string;
+    address?: string;
     addressComplement?: string;
     contact?: string;
     zoning?: string[];
@@ -81,11 +77,7 @@ export const VAssetForm = yup.object().shape({
     valuationPriceInReais: yup.number().optional(),
     imgURL: yup.string().optional(),
     docLink: yup.string().optional(),
-    state: yup.string().optional(),
-    city: yup.string().optional(),
-    neighborhood: yup.string().optional(),
-    street: yup.string().optional(),
-    addressNumber: yup.string().optional(),
+    address: yup.string().required(),
     addressComplement: yup.string().optional(),
     contact: yup.string().optional(),
     zoning: yup.array().of(yup.string()).optional(),
