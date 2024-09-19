@@ -21,6 +21,7 @@ export const APIEndpoints = {
 		fetchCNPJData: 'externalAPI/fetch-cnpj-data/',
 		companySearchEngine: 'externalAPI/company-searchEngine',
 		getLogoByDomain: 'https://logo.clearbit.com/',
+    getAddressAutocompleteFullAPI: "https://simple-go-server-production.up.railway.app/external/autocomplete-address?q=",
 		deepSearchCompany: 'externalAPI/deep-search-company',
 		fetchBusinessEmail: 'externalAPI/fetch-business-email',
         scrapeWebsiteForContacts: 'externalAPI/scrape-website-for-contacts/?domain=https://',
