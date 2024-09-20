@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
+	import { toastCopied } from '$lib/config'
 	import type { IAssetShow } from '$lib/interfaces-validation/IVAsset'
 	import Tag from '$lib/modules/Tag.svelte'
 	import { toLocaleStringBrazil } from '$lib/shared/functions/toLocaleStringBrazil'
+	import { toastStore } from '@skeletonlabs/skeleton'
 
 	export let asset: IAssetShow
 
@@ -11,6 +13,89 @@
 		value !== null &&
 		value !== '' &&
 		!(Array.isArray(value) && value.length === 0)
+
+	const copyAssetInfo = () => {
+		let assetInfo = `*${asset.name}*\n`
+		assetInfo += `${
+			asset?.address + (asset?.addressComplement ? ' - ' + asset?.addressComplement : '')
+		}\n\n`
+
+		if (isValid(asset.priceInReais)) {
+			assetInfo += `Preço: R$ ${toLocaleStringBrazil(asset.priceInReais)}\n`
+		}
+		if (isValid(asset.monthlyRentInReais)) {
+			assetInfo += `Aluguel Mensal: R$ ${toLocaleStringBrazil(asset.monthlyRentInReais)}\n`
+		}
+		if (isValid(asset.landAreaM2)) {
+			assetInfo += `Área do Terreno: ${toLocaleStringBrazil(asset.landAreaM2)} m²\n`
+		}
+		if (isValid(asset.constructedAreaM2)) {
+			assetInfo += `Área Construída ABL: ${toLocaleStringBrazil(asset.constructedAreaM2)} m²\n`
+		}
+		if (isValid(asset.tenant)) {
+			assetInfo += `Locatário: ${asset.tenant}\n`
+		}
+		if (isValid(asset.contractTerm)) {
+			assetInfo += `Prazo do Contrato: ${new Date(asset.contractTerm).toLocaleDateString(
+				'pt-BR',
+				{
+					year: 'numeric',
+					month: 'long'
+				}
+			)}\n`
+		}
+		if (isValid(asset.isAtypicalContract)) {
+			assetInfo += `Contrato Atípico: SIM\n`
+		}
+		if (isValid(asset.capRatePercentage)) {
+			assetInfo += `CapRate: ${asset.capRatePercentage} %\n`
+		}
+		if (isValid(asset.partnershipPercentage)) {
+			assetInfo += `Permuta: ${asset.partnershipPercentage} %\n`
+		}
+		if (isValid(asset.downPaymentInReais)) {
+			assetInfo += `Entrada: R$ ${toLocaleStringBrazil(asset.downPaymentInReais)}\n`
+		}
+		if (isValid(asset.kmFromSP)) {
+			assetInfo += `Km de SP: ${asset.kmFromSP} km\n`
+		}
+		if (isValid(asset.vgvInReais)) {
+			assetInfo += `VGV: R$ ${toLocaleStringBrazil(asset.vgvInReais)}\n`
+		}
+		if (isValid(asset.environmentalAreaPercentage)) {
+			assetInfo += `Área Ambiental: ${asset.environmentalAreaPercentage} %\n`
+		}
+		if (isValid(asset.anualRevenueInReais)) {
+			assetInfo += `Faturamento Anual: R$ ${toLocaleStringBrazil(asset.anualRevenueInReais)}\n`
+		}
+		if (isValid(asset.marginEBITDA)) {
+			assetInfo += `EBITDA: ${asset.marginEBITDA} %\n`
+		}
+		if (isValid(asset.privateDebtInReais)) {
+			assetInfo += `Dívida Bancos: R$ ${toLocaleStringBrazil(asset.privateDebtInReais)}\n`
+		}
+		if (isValid(asset.laborDebtInReais)) {
+			assetInfo += `Dívida Trabalhista: R$ ${toLocaleStringBrazil(asset.laborDebtInReais)}\n`
+		}
+		if (isValid(asset.publicDebtInReais)) {
+			assetInfo += `Dívida Tributária: R$ ${toLocaleStringBrazil(asset.publicDebtInReais)}\n`
+		}
+		if (isValid(asset.valuationPriceInReais)) {
+			assetInfo += `Company Value: R$ ${toLocaleStringBrazil(asset.valuationPriceInReais)}\n`
+		}
+		if (isValid(asset.cashOrEquivalentInReais)) {
+			assetInfo += `Caixa ou Equivalente: R$ ${toLocaleStringBrazil(
+				asset.cashOrEquivalentInReais
+			)}\n`
+		}
+		if (isValid(asset.numberOfEmployees)) {
+			assetInfo += `Número de Funcionários: ${asset.numberOfEmployees}\n`
+		}
+
+		navigator.clipboard.writeText(assetInfo).then(() => {
+      toastStore.trigger(toastCopied)
+		})
+	}
 </script>
 
 <main class="max-w-xl mx-auto px-8 pt-4 space-y-6 bg-white rounded-lg shadow-lg relative">
@@ -33,26 +118,16 @@
 		{asset?.address + (asset?.addressComplement ? ' - ' + asset?.addressComplement : '')}
 	</p>
 	<ul class="border-b border-gray-300 pb-4">
-		{#if isValid(asset.tags)}
+		{#if isValid(asset.isForSale)}
 			<li class="">
-				<span class="text-gray-700">Tags</span>
-				<span class="flex flex-col gap-2">
-					{#each asset.tags as tag}
-						<Tag name={tag.label} color="black" />
-					{/each}
-				</span>
+				<span class="text-gray-700">Está à Venda</span>
+				<span class="text-gray-600">{asset.isForSale ? 'SIM' : 'NÃO'}</span>
 			</li>
 		{/if}
 		{#if isValid(asset.priceInReais)}
 			<li class="">
 				<span class="text-gray-700">Preço</span>
 				<span class="text-gray-600">R$ {toLocaleStringBrazil(asset.priceInReais)}</span>
-			</li>
-		{/if}
-		{#if isValid(asset.description)}
-			<li class="">
-				<span class="text-gray-700">Descrição</span>
-				<span class="text-gray-600 text-justify">{asset.description}</span>
 			</li>
 		{/if}
 		{#if isValid(asset.monthlyRentInReais)}
@@ -105,11 +180,26 @@
 				>
 			</li>
 		{/if}
-
-		{#if isValid(asset.isForSale)}
+		{#if isValid(asset.isAtypicalContract)}
 			<li class="">
-				<span class="text-gray-700">Está à Venda</span>
-				<span class="text-gray-600">{asset.isForSale ? 'SIM' : 'NÃO'}</span>
+				<span class="text-gray-700">Tipo de Contrato Atípico</span>
+				<span class="text-gray-600">SIM</span>
+			</li>
+		{/if}
+		<!-- {#if isValid(asset.tags)} -->
+		<!-- 	<li class=""> -->
+		<!-- 		<span class="text-gray-700">Tags</span> -->
+		<!-- 		<span class="flex flex-col gap-2"> -->
+		<!-- 			{#each asset.tags as tag} -->
+		<!-- 				<Tag name={tag.label} color="black" /> -->
+		<!-- 			{/each} -->
+		<!-- 		</span> -->
+		<!-- 	</li> -->
+		<!-- {/if} -->
+		{#if isValid(asset.description)}
+			<li class="">
+				<span class="text-gray-700">Descrição</span>
+				<span class="text-gray-600 text-justify">{asset.description}</span>
 			</li>
 		{/if}
 		{#if isValid(asset.partnershipPercentage)}
@@ -201,7 +291,17 @@
 			<p class="text-gray-600 text-xs">Última alteração: {asset?.lastUpdated}</p>
 		</li>
 	</ul>
-	<div class="flex justify-end">
+	<div class="flex justify-end pb-2">
+		<button
+			type="button"
+			class="mr-8 font-bold text-blue-500"
+			on:click={(e) => {
+				e.preventDefault()
+        copyAssetInfo()
+			}}
+		>
+			Copiar Ativo
+		</button>
 		<button
 			type="button"
 			class="font-bold text-blue-500"
