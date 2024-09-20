@@ -13,17 +13,14 @@
 	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
 	import { getSelectZoningOptions } from '$lib/api/queries/zoningQueries'
 	import MonthYearPicker from '$lib/modules/MonthYearPicker.svelte'
-	import Dropzone from 'svelte-file-dropzone'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
+  import { FileDropzone } from '@skeletonlabs/skeleton';
 
 	export let asset: IAsset | undefined = undefined
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
 	let selectZoningOptionsPromise: Promise<IOption[]> = getSelectZoningOptions()
 
-	let files = {
-		accepted: [],
-		rejected: []
-	}
+  let files: FileList
 	let coverImage = asset?.imgURL
 
 	delete asset?.createdAt
@@ -40,39 +37,38 @@
 				isForSale: true
 		  }
 
-	function handleFilesSelect(e: { detail: { acceptedFiles: never; fileRejections: never } }) {
-		const { acceptedFiles, fileRejections } = e.detail
-		files.accepted = [...files.accepted, ...acceptedFiles]
-		files.rejected = [...files.rejected, ...fileRejections]
-
-		coverImage = URL.createObjectURL(files.accepted[0])
-	}
+  function handleFileSelect() {
+    console.log('filesA', files)
+    console.log('img', $form.imgURL)
+		coverImage = URL.createObjectURL(files[0])
+  }
 
 	function removeImage() {
-		files.accepted = []
 		$form.imgURL = undefined
 		coverImage = undefined
 	}
 
-	const { form, errors, handleChange, handleSubmit } = createForm({
+	const { touched, form, errors, handleChange, handleSubmit } = createForm({
 		initialValues,
 		validationSchema: VAssetForm,
 		onSubmit: async (assetFormUpdated: IAsset) => {
-			try {
-				if (files.accepted.length > 0) {
-					const formData = new FormData()
-					formData.append('file', files.accepted[0])
-					const res = await API.post(APIEndpoints.file, formData)
-					$form.imgURL = res.data.fileAddress
-				}
-			} catch (error: any) {
-				const { clientMessage } = error.response.data.error
-				toastStore.trigger({
-					message: clientMessage || 'Ocorreu um erro',
-					background: 'variant-filled-error'
-				})
-				console.error(error)
-			}
+      if ($touched.imgURL) {
+        try {
+          if (files.length > 0) {
+            const formData = new FormData()
+            formData.append('file', files[0])
+            const res = await API.post(APIEndpoints.file, formData)
+            $form.imgURL = res.data.fileAddress
+          }
+        } catch (error: any) {
+          const { clientMessage } = error.response.data.error
+          toastStore.trigger({
+            message: clientMessage || 'Ocorreu um erro',
+            background: 'variant-filled-error'
+          })
+          console.error(error)
+        }
+      }
 			try {
 				asset
 					? await API.put('asset/' + asset?._id, assetFormUpdated).then(() => {
@@ -217,7 +213,10 @@
 								</span>
 							</div>
 						{:else}
-							<Dropzone containerClasses="h-full" on:drop={handleFilesSelect} />
+              <FileDropzone name="cover_image" accept="image/png, image/jpeg, image/heic, image/webp" class="h-full border border-gray-200" on:change={handleFileSelect} bind:files={files}>
+                <svelte:fragment slot="message"><span class="font-bold">Adicione </span>uma imagem</svelte:fragment>
+                <svelte:fragment slot="meta">png, jpeg, heic, webp</svelte:fragment>
+              </FileDropzone>
 						{/if}
 					</div>
 				</div>
