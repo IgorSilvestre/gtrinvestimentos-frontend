@@ -40,15 +40,6 @@
 				isForSale: true
 		  }
 
-	function handleAddressChange(event: CustomEvent) {
-		form.update((values) => {
-			return {
-				...values,
-				...event.detail
-			}
-		})
-	}
-
 	function handleFilesSelect(e: { detail: { acceptedFiles: never; fileRejections: never } }) {
 		const { acceptedFiles, fileRejections } = e.detail
 		files.accepted = [...files.accepted, ...acceptedFiles]
@@ -469,6 +460,9 @@
 					  	>Endereço <span class="text-red">*</span></label
 					  >
 					  <AddressInput bind:selectedPlace={$form.address} />
+            {#if $errors.address}
+              <div class="text-red-500 text-xs">{$errors.address}</div>
+            {/if}
           </div>
           <div class="flex items-center">
 					  <label for="addressComplement" class="block mr-6 uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
