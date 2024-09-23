@@ -5,14 +5,27 @@
 	import type { IPerson } from '$lib/interfaces-validation/IVPerson'
 	import { toastCopied, transitionOptions } from '$lib/config'
 	import { copyToClipboard } from '$lib/shared/functions/copyToClipboard'
+	import { formatPhoneNumber } from '$lib/shared/functions/formatPhoneNumber'
 	import { toastStore } from '@skeletonlabs/skeleton'
+	import { onMount } from 'svelte'
 
 	export let person: IPerson | undefined
 	export let noEdit = false
+  
+  onMount(() => {
+    person.phone = formatPhoneNumber(person.phone)
+  })
 
-	function handleCopyToClipboard(e: Event) {
+	function handleCopyToClipboard(e: Event, field: string) {
 		e.preventDefault()
-		copyToClipboard(person?.email as string)
+    switch (field) {
+      case 'email':
+        copyToClipboard(person?.email as string)
+        break
+      case 'phone':
+        copyToClipboard(person?.phone)
+        break
+    }
     toastStore.trigger(toastCopied)
 	}
 </script>
@@ -40,12 +53,22 @@
 		{/if}
 		{#if person?.email}
 			<button
-				on:keypress={handleCopyToClipboard}
-				on:click={handleCopyToClipboard}
-				class="cursor-pointer text-blue-700 text-sm"
+				on:keypress={(e) => handleCopyToClipboard(e, 'email')}
+				on:click={(e) => handleCopyToClipboard(e, 'email')}
+				class="cursor-pointer flex text-sm"
 			>
-				<span class="font-bold">Email:</span>
-				{person?.email}
+				<p class="font-bold">Email:  </p>
+        <span class="ml-2 text-blue-500">{person?.email}</span>
+			</button>
+		{/if}
+		{#if person?.phone}
+			<button
+				on:keypress={(e) => handleCopyToClipboard(e, 'phone')}
+				on:click={(e) => handleCopyToClipboard(e, 'phone')}
+				class="cursor-pointer flex text-sm"
+			>
+				<p class="font-bold">Telefone:</p>
+        <span class="text-blue-500 ml-2">{person?.phone}</span>
 			</button>
 		{/if}
 		{#if person?.target}

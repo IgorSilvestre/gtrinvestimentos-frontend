@@ -13,6 +13,7 @@
 	import { toastStore } from '@skeletonlabs/skeleton'
 	import { searchCompaniesForSelectQuery } from '$lib/api/queries/company/searchCompaniesForSelect'
 	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
+	import PhoneInput from '$lib/modules/PhoneInput.svelte'
 
 	export let person: IPerson | undefined = undefined
 	const dispatch = createEventDispatcher()
@@ -26,6 +27,7 @@
 	let initialValues: IPersonForm = {
 		name: person?.name ?? '',
 		email: person?.email ?? '',
+		phone: person?.phone ?? '',
 		target: person?.target ?? '',
 		tags: person?.tags ?? [],
 		vgv: person?.vgv,
@@ -67,10 +69,7 @@
 					background: 'variant-filled-error'
 				})
 				console.error(error)
-			} finally {
-				// alert('Person saved!')
-			}
-		}
+			}}
 	})
 </script>
 
@@ -84,16 +83,17 @@
 					for="name"
 				>
 					Nome
+          <span class="text-red font-bold"> *</span>
 				</label>
 				<input
-					class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+					class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 					type="text"
 					id="name"
 					on:input={handleChange}
 					bind:value={$form.name}
 				/>
 				{#if $errors.name}
-					<div class="text-red-500 text-xs">{$errors.name}</div>
+					<div class="text-red text-xs">{$errors.name}</div>
 				{/if}
 			</div>
 			<div class="mb-4">
@@ -104,33 +104,47 @@
 					Email
 				</label>
 				<input
-					class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+					class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 					type="email"
 					id="email"
 					on:input={handleChange}
 					bind:value={$form.email}
 				/>
 				{#if $errors.email}
-					<div class="text-red-500 text-xs">{$errors.email}</div>
+					<div class="text-red text-xs">{$errors.email}</div>
+				{/if}
+			</div>
+			<div class="mb-4">
+				<label
+					class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+					for="phone"
+				>
+          Telefone
+				</label>
+        <PhoneInput
+          bind:inputValue={$form.phone}
+        />
+				{#if $errors.phone}
+					<p class="text-red text-xs">{$errors.phone}</p>
 				{/if}
 			</div>
 
 			<div class="mb-4">
 				<label
 					class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-					for="email"
+					for="target"
 				>
 					Target
 				</label>
 				<input
-					class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+					class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 					type="text"
 					id="target"
 					on:input={handleChange}
 					bind:value={$form.target}
 				/>
 				{#if $errors.target}
-					<div class="text-red-500 text-xs">{$errors.target}</div>
+					<div class="text-red text-xs">{$errors.target}</div>
 				{/if}
 			</div>
 			<div class="mb-4">
@@ -169,7 +183,7 @@
 					VGV
 				</label>
 				<input
-					class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+					class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 					type="number"
 					id="vgv"
 					min="0"
@@ -177,7 +191,7 @@
 					bind:value={$form.vgv}
 				/>
 				{#if $errors.vgv}
-					<div class="text-red-500 text-xs">{$errors.vgv}</div>
+					<div class="text-red text-xs">{$errors.vgv}</div>
 				{/if}
 			</div>
 			<div class="mb-4">
@@ -188,7 +202,7 @@
 					Área do Terreno
 				</label>
 				<input
-					class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+					class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 					type="number"
 					id="landArea"
 					min="0"
@@ -196,7 +210,7 @@
 					bind:value={$form.landArea}
 				/>
 				{#if $errors.vgv}
-					<div class="text-red-500 text-xs">{$errors.landArea}</div>
+					<div class="text-red text-xs">{$errors.landArea}</div>
 				{/if}
 			</div>
 			<div class="flex justify-end">

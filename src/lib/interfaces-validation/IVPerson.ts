@@ -9,6 +9,7 @@ export interface IPerson {
 	tags?: IOption[]
 	company?: ICompany
 	email?: string
+  phone?: string
 	target?: string
 	vgv?: number
 	landArea?: number
@@ -28,6 +29,7 @@ export const VPersonForm = yup.object().shape({
 		)
 		.optional(),
 	email: yup.string().email().optional(),
+	phone: yup.string().min(11).max(15).optional(),
 	company: yup
 		.object()
 		.shape({
