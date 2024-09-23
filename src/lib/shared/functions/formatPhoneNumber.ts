@@ -1,4 +1,5 @@
-export function formatPhoneNumber(value: string): string {
+export function formatPhoneNumber(value: string | undefined): string {
+  if (!value) return
   const cleaned = value.replace(/\D/g, ""); // Remove non-numeric chars
   const match = cleaned.match(/^(\d{0,2})(\d{0,5})(\d{0,4})$/);
 
