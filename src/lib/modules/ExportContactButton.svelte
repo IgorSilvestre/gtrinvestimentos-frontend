@@ -33,7 +33,6 @@
 
 	function downloadVCard(e: Event) {
 		e.preventDefault()
-		console.log('contact', makeVCard())
 		const blob = new Blob([makeVCard()], { type: 'text/vcard' })
 		const url = URL.createObjectURL(blob)
 		const a = document.createElement('a')
