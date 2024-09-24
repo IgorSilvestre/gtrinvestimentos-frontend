@@ -12,22 +12,22 @@
 
 	export let person: IPerson | undefined
 	export let noEdit = false
-  
-  onMount(() => {
-    person.phone = formatPhoneNumber(person.phone)
-  })
+
+	onMount(() => {
+		person.phone = formatPhoneNumber(person.phone)
+	})
 
 	function handleCopyToClipboard(e: Event, field: string) {
 		e.preventDefault()
-    switch (field) {
-      case 'email':
-        copyToClipboard(person?.email as string)
-        break
-      case 'phone':
-        copyToClipboard(person?.phone)
-        break
-    }
-    toastStore.trigger(toastCopied)
+		switch (field) {
+			case 'email':
+				copyToClipboard(person?.email as string)
+				break
+			case 'phone':
+				copyToClipboard(person?.phone)
+				break
+		}
+		toastStore.trigger(toastCopied)
 	}
 </script>
 
@@ -58,8 +58,8 @@
 				on:click={(e) => handleCopyToClipboard(e, 'email')}
 				class="cursor-pointer flex text-sm"
 			>
-				<p class="font-bold">Email:  </p>
-        <span class="ml-2 text-blue-500">{person?.email}</span>
+				<p class="font-bold">Email:</p>
+				<span class="ml-2 text-blue-500">{person?.email}</span>
 			</button>
 		{/if}
 		{#if person?.phone}
@@ -69,7 +69,7 @@
 				class="cursor-pointer flex text-sm"
 			>
 				<p class="font-bold">Telefone:</p>
-        <span class="text-blue-500 ml-2">{person?.phone}</span>
+				<span class="text-blue-500 ml-2">{person?.phone}</span>
 			</button>
 		{/if}
 		{#if person?.target}
@@ -94,20 +94,18 @@
 			<p class="text-gray-600 text-xs">Criação: {person?.createdAt}</p>
 			<p class="text-gray-600 text-xs">Última alteração: {person?.lastUpdated}</p>
 		</div>
-		{#if !noEdit}
-			<div class="flex justify-end">
-        <ExportContactButton contact={person} />
-				<button
-					type="button"
-					class="text-blue-500 font-bold"
-					on:click={(e) => {
-						e.preventDefault()
-						goto('/person/edit/' + person?._id)
-					}}
-				>
-					Editar
-				</button>
-			</div>
-		{/if}
+		<div class="flex justify-end">
+			<ExportContactButton contact={person} />
+			<button
+				type="button"
+				class="text-blue-500 font-bold"
+				on:click={(e) => {
+					e.preventDefault()
+					goto('/person/edit/' + person?._id)
+				}}
+			>
+				Editar
+			</button>
+		</div>
 	</div>
 </div>
