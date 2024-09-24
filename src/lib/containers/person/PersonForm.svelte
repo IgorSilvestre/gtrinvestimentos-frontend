@@ -173,46 +173,6 @@
 					/>
 				</p>
 			</div>
-			<hr class="border-t-2" />
-			<h5 class="my-4">Real State</h5>
-			<div class="mb-4">
-				<label
-					class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-					for="email"
-				>
-					VGV
-				</label>
-				<input
-					class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-					type="number"
-					id="vgv"
-					min="0"
-					on:input={handleChange}
-					bind:value={$form.vgv}
-				/>
-				{#if $errors.vgv}
-					<div class="text-red text-xs">{$errors.vgv}</div>
-				{/if}
-			</div>
-			<div class="mb-4">
-				<label
-					class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-					for="email"
-				>
-					Área do Terreno
-				</label>
-				<input
-					class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-					type="number"
-					id="landArea"
-					min="0"
-					on:input={handleChange}
-					bind:value={$form.landArea}
-				/>
-				{#if $errors.vgv}
-					<div class="text-red text-xs">{$errors.landArea}</div>
-				{/if}
-			</div>
 			<div class="flex justify-end">
 				<!-- IF BUTTON IS NOT WORKING - PROBABLY THE VALIDATION IS FAILLING -->
 				<button type="submit" class="text-blue-500 font-bold">Salvar</button>
