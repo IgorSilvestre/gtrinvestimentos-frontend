@@ -8,6 +8,7 @@
 	import { formatPhoneNumber } from '$lib/shared/functions/formatPhoneNumber'
 	import { toastStore } from '@skeletonlabs/skeleton'
 	import { onMount } from 'svelte'
+	import ExportContactButton from '$lib/modules/ExportContactButton.svelte'
 
 	export let person: IPerson | undefined
 	export let noEdit = false
@@ -95,6 +96,7 @@
 		</div>
 		{#if !noEdit}
 			<div class="flex justify-end">
+        <ExportContactButton contact={person} />
 				<button
 					type="button"
 					class="text-blue-500 font-bold"
