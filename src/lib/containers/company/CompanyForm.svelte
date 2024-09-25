@@ -11,9 +11,11 @@
 	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
 	import { toastStore } from '@skeletonlabs/skeleton'
 	import { toastRegistered, toastUpdated } from '$lib/config'
+	import Loader from '$lib/modules/Loader.svelte'
 
 	export let company: ICompany | undefined = undefined
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
+  let isSubmitting = false
 
 	interface ICompanyForm extends Omit<ICompany, 'employees' | 'tags'> {
 		tags?: IOption[]
@@ -29,6 +31,7 @@
 		initialValues,
 		validationSchema: VCompanyForm,
 		onSubmit: async (companyFormUpdated: ICompanyForm) => {
+      isSubmitting = true
 			const normalizedTags: string[] | undefined = parseArrayOfOptionsToIds(
 				companyFormUpdated?.tags
 			)
@@ -52,7 +55,7 @@
 				toastStore.trigger({ message: clientMessage || 'Ocorreu um erro', background: 'variant-filled-error'})
 				console.error(error)
 			} finally {
-				// console.log("Company saved");
+        isSubmitting = false
 			}
 		}
 	})
@@ -134,7 +137,11 @@
 				{/if}
 			</div>
 			<div class="flex justify-end">
-				<button type="submit" class="text-blue-500 font-bold">Salvar</button>
+        {#if isSubmitting}
+          <Loader />
+        {:else}
+				  <button type="submit" class="text-blue-500 font-bold">Salvar</button>
+        {/if}
 			</div>
 		</form>
 	</div>
