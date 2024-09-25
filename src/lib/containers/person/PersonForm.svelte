@@ -14,11 +14,13 @@
 	import { searchCompaniesForSelectQuery } from '$lib/api/queries/company/searchCompaniesForSelect'
 	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
 	import PhoneInput from '$lib/modules/PhoneInput.svelte'
+	import Loader from '$lib/modules/Loader.svelte'
 
 	export let person: IPerson | undefined = undefined
 	const dispatch = createEventDispatcher()
 
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
+	let isSubmitting = false
 
 	interface IPersonForm extends Omit<IPerson, 'tags' | 'company'> {
 		tags?: IOption[]
@@ -44,6 +46,7 @@
 		initialValues,
 		validationSchema: VPersonForm,
 		onSubmit: async (personFormUpdated: IPersonForm) => {
+			isSubmitting = true
 			const normalizedTags: string[] | undefined = parseArrayOfOptionsToIds(personFormUpdated?.tags)
 			const personParsed = {
 				...personFormUpdated,
@@ -66,10 +69,14 @@
 				const { clientMessage } = error.response.data.error
 				toastStore.trigger({
 					message: clientMessage || 'Ocorreu um erro',
-					background: 'variant-filled-error'
+					background: 'variant-filled-error',
+					hideDismiss: true
 				})
 				console.error(error)
-			}}
+			} finally {
+				isSubmitting = false
+			}
+		}
 	})
 </script>
 
@@ -83,7 +90,7 @@
 					for="name"
 				>
 					Nome
-          <span class="text-red font-bold"> *</span>
+					<span class="text-red font-bold"> *</span>
 				</label>
 				<input
 					class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -119,11 +126,9 @@
 					class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 					for="phone"
 				>
-          Telefone
+					Telefone
 				</label>
-        <PhoneInput
-          bind:inputValue={$form.phone}
-        />
+				<PhoneInput bind:inputValue={$form.phone} />
 				{#if $errors.phone}
 					<p class="text-red text-xs">{$errors.phone}</p>
 				{/if}
@@ -164,7 +169,7 @@
 				<p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
 					Companies
 					<Select
-						on:focus={$form.company = undefined}
+						on:focus={($form.company = undefined)}
 						bind:value={$form.company}
 						debounceWait={300}
 						loadOptions={searchCompaniesForSelectQuery}
@@ -174,8 +179,12 @@
 				</p>
 			</div>
 			<div class="flex justify-end">
-				<!-- IF BUTTON IS NOT WORKING - PROBABLY THE VALIDATION IS FAILLING -->
-				<button type="submit" class="text-blue-500 font-bold">Salvar</button>
+				{#if isSubmitting}
+					<Loader />
+				{:else}
+					<!-- IF BUTTON IS NOT WORKING - PROBABLY THE VALIDATION IS FAILLING -->
+					<button type="submit" class="text-blue-500 font-bold">Salvar</button>
+				{/if}
 			</div>
 		</form>
 	</div>
