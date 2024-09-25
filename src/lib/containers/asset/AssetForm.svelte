@@ -6,6 +6,7 @@
 	import { toastRegistered, toastUpdated } from '$lib/config'
 	import { VAssetForm, type IAsset } from '$lib/interfaces-validation/IVAsset'
 	import AddressInput from '$lib/modules/AddressInput.svelte'
+	import Loader from '$lib/modules/Loader.svelte'
 	import { toastStore } from '@skeletonlabs/skeleton'
 	import { createForm } from 'svelte-forms-lib'
 	import NumberInput from '$lib/modules/NumberInput.svelte'
@@ -22,6 +23,7 @@
 
 	let files: FileList
 	let coverImage = asset?.imgURL
+  let isSubmitting = false
 
 	delete asset?.createdAt
 	delete asset?.updatedAt
@@ -42,10 +44,11 @@
 		coverImage = undefined
 	}
 
-	const { touched, form, errors, handleChange, handleSubmit } = createForm({
+	const { form, errors, handleChange, handleSubmit } = createForm({
 		initialValues,
 		validationSchema: VAssetForm,
 		onSubmit: async (assetFormUpdated: IAsset) => {
+      isSubmitting = true
 			if (coverImage) {
 				try {
 					if (files.length > 0) {
@@ -82,6 +85,7 @@
 				console.error(error)
 				return
 			}
+      isSubmitting = false
 		}
 	})
 
@@ -483,11 +487,16 @@
 					</div>
 				</Accordion>
 				<div class="flex justify-end">
-					<button
-						type="submit"
-						class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-						>Salvar</button
-					>
+          {#if isSubmitting}
+            <Loader />
+          {:else}
+            <button
+              type="submit"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Salvar
+            </button>
+          {/if}
 				</div>
 			</form>
 		</div>
