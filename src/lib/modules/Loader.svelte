@@ -11,7 +11,7 @@
 </script>
 
 <div
-	class={`m-6 border-t-4 border-transparent border-solid rounded-full animate-spin ${size} bg-current m-auto`}
+	class={`m-6 border-t-4 border-transparent border-solid rounded-full animate-spin ${size} bg-current`}
 />
 
 <style>
