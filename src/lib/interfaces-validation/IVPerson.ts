@@ -32,10 +32,9 @@ export const VPersonForm = yup.object().shape({
 	company: yup
 		.object()
 		.shape({
-			label: yup.string().required(),
-			value: yup.string().required()
-		})
-		.nullable(),
+			label: yup.string(),
+			value: yup.string()
+		}).optional().nullable(),
 	target: yup.string().optional(),
 	lastUpdated: yup.date().optional().nullable(),
 	createdAt: yup.date().optional()
