@@ -3,24 +3,19 @@
 	export let max: number | undefined = undefined
 	export let allowNegative: boolean = false
 	export let onChange: Function | undefined = undefined
-    export let style: string = ''
+	export let style: string = ''
 	let displayValue: string = ''
 
-	// Function to format the number with punctuation
 	function formatNumber(value: number | undefined): string {
 		if (value === undefined) return ''
-		const isNegative = value < 0
-		const absoluteValue = Math.abs(value)
-		const formattedValue = absoluteValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-		return isNegative ? `-${formattedValue}` : formattedValue
+
+		return value.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 20 })
 	}
 
-	// Function to handle input change
 	function handleChange(e: Event): void {
 		const target = e.target as HTMLInputElement
 		let rawValue = target.value
 
-		// Allow leading "-" if allowNegative is true
 		if (allowNegative && rawValue === '-') {
 			displayValue = rawValue
 			value = undefined
@@ -29,7 +24,12 @@
 
 		// Preserve the "-" sign if it exists
 		const isNegative = allowNegative && rawValue.startsWith('-')
-		rawValue = rawValue.replace(/[^0-9]/g, '')
+		if (isNegative) {
+			rawValue = rawValue.substring(1)
+		}
+
+		rawValue = rawValue.replace(/\./g, '').replace(',', '.')
+		rawValue = rawValue.replace(/[^0-9.]/g, '')
 
 		if (isNegative) {
 			rawValue = '-' + rawValue
@@ -37,11 +37,11 @@
 
 		if (rawValue === '' || rawValue === '-') {
 			value = undefined
-			displayValue = rawValue
+			displayValue = isNegative ? '-' : ''
 			return
 		}
 
-		let numericValue = parseInt(rawValue, 10)
+		let numericValue = parseFloat(rawValue)
 
 		// Ensure the value is within the max constraint
 		if (!isNaN(numericValue)) {
@@ -63,7 +63,8 @@
 </script>
 
 <input
-	class={ style + ' appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'}
+	class={style +
+		' appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'}
 	type="text"
 	on:input={handleChange}
 	bind:value={displayValue}
