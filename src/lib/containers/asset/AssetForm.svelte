@@ -120,7 +120,7 @@
 								class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 								for="tags"
 							>
-								Tags <span class="text-red-500 font-bold">*</span>
+								Tags <span class="text-red font-bold">*</span>
 							</label>
 							<TagInput bind:selected={$form.tags} itemsPromise={selectTagOptionsPromise} />
 							{#if $errors.tags}
