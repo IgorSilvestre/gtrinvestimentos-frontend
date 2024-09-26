@@ -460,6 +460,86 @@
 							</div>
 						</svelte:fragment>
 					</AccordionItem>
+					<AccordionItem title="Energia">
+						<svelte:fragment slot="summary"><span class="font-bold">Energia</span></svelte:fragment>
+						<svelte:fragment slot="content">
+							<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+								<label
+									class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+									for="ppaInReaisToMWh">PPA</label
+								>
+								<NumberInput bind:value={$form.ppaInReaisToMWh} />
+								{#if $errors.ppaInReaisToMWh}
+									<div class="text-red-500 text-xs">{$errors.ppaInReaisToMWh}</div>
+								{/if}
+							</div>
+							<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+								<label
+									class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+									for="energyOffTaker">Tomador da Energia</label
+								>
+									<input
+										class="appearance-none block w-full mb-2 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+										type="text"
+										id="energyOffTaker"
+										on:input={handleChange}
+										bind:value={$form.energyOffTaker}
+									/>
+								{#if $errors.energyOffTaker}
+									<div class="text-red-500 text-xs">{$errors.energyOffTaker}</div>
+								{/if}
+							</div>
+							<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+								<label
+									class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+									for="energyInstalledCapacityInMWp">Potência Instalada</label
+								>
+								<NumberInput bind:value={$form.energyInstalledCapacityInMWp} />
+								{#if $errors.energyInstalledCapacityInMWp}
+									<div class="text-red-500 text-xs">{$errors.energyInstalledCapacityInMWp}</div>
+								{/if}
+							</div>
+						</svelte:fragment>
+					</AccordionItem>
+					<AccordionItem title="Projeto">
+						<svelte:fragment slot="summary"><span class="font-bold">Projeto</span></svelte:fragment>
+						<svelte:fragment slot="content">
+							<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+								<label
+									class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+									for="projectAproveDate">Data de Aprovação</label
+								>
+                  <div class="flex items-center">
+										<MonthYearPicker bind:date={$form.projectAproveDate} />
+                  </div>
+								{#if $errors.projectAproveDate}
+									<div class="text-red-500 text-xs">{$errors.projectAproveDate}</div>
+								{/if}
+							</div>
+							<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+								<label
+									class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+									for="constructionStartDate">Inicio da construção</label
+								>
+                  <div class="flex items-center">
+										<MonthYearPicker bind:date={$form.constructionStartDate} />
+                  </div>
+								{#if $errors.constructionStartDate}
+									<div class="text-red-500 text-xs">{$errors.constructionStartDate}</div>
+								{/if}
+							</div>
+							<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+								<label
+									class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+									for="capexInReais">Capex de Obra</label
+								>
+								<NumberInput bind:value={$form.capexInReais} />
+								{#if $errors.capexInReais}
+									<div class="text-red-500 text-xs">{$errors.capexInReais}</div>
+								{/if}
+							</div>
+						</svelte:fragment>
+					</AccordionItem>
 					<div class="mb-6">
 						<label
 							for="address"

@@ -30,6 +30,12 @@ export interface IAsset {
     constructedAreaM2?: number;
     vgvInReais?: number;
     docLink?: string;
+    energyOffTaker?: string;
+    energyInstalledCapacityInMWp? : number;
+    projectAproveDate?: string;
+    constructionStartDate?: string;
+    ppaInReaisToMWh?: number
+    capexInReais?: number
     address?: string;
     addressComplement?: string;
     contact?: string;
@@ -65,6 +71,12 @@ export const VAssetForm = yup.object().shape({
     partnershipPercentage: yup.number().optional(),
     downPaymentInReais: yup.number().optional(),
     description: yup.string().optional(),
+    energyOffTaker: yup.string().optional(),
+    energyInstalledCapacityInMWp: yup.number().optional(),
+    projectAproveDate: yup.string().optional(),
+    constructionStartDate: yup.string().optional(),
+    ppaInReaisToMWh: yup.number().optional(),
+    capexInReais: yup.number().optional(),
     tenant: yup.string().optional(),
     capRatePercentage: yup.number().optional(),
     monthlyRentInReais: yup.number().optional(),
