@@ -36,13 +36,10 @@
 			assetInfo += `Locatário: ${asset.tenant}\n`
 		}
 		if (isValid(asset.contractTerm)) {
-			assetInfo += `Prazo do Contrato: ${new Date(asset.contractTerm).toLocaleDateString(
-				'pt-BR',
-				{
-					year: 'numeric',
-					month: 'long'
-				}
-			)}\n`
+			assetInfo += `Prazo do Contrato: ${new Date(asset.contractTerm).toLocaleDateString('pt-BR', {
+				year: 'numeric',
+				month: 'long'
+			})}\n`
 		}
 		if (isValid(asset.isAtypicalContract)) {
 			assetInfo += `Contrato Atípico: SIM\n`
@@ -91,9 +88,29 @@
 		if (isValid(asset.numberOfEmployees)) {
 			assetInfo += `Número de Funcionários: ${asset.numberOfEmployees}\n`
 		}
-
+		if (isValid(asset.energyOffTaker)) {
+			assetInfo += `Tomador de Energia: ${asset.energyOffTaker}\n`
+		}
+		if (isValid(asset.energyInstalledCapacityInMWp)) {
+			assetInfo += `Energia em MWp: ${asset.energyInstalledCapacityInMWp}\n`
+		}
+		if (isValid(asset.ppaInReaisToMWh)) {
+			assetInfo += `Valor PPA: ${toLocaleStringBrazil(asset.ppaInReaisToMWh)} R$/MWh\n`
+		}
+		if (isValid(asset.constructionStartDate)) {
+			assetInfo += `Data Início da Construção: ${asset.constructionStartDate}\n`
+		}
+		if (isValid(asset.projectAproveDate)) {
+			assetInfo += `Data de Aprovação Projeto: ${toLocaleStringBrazil(asset.projectAproveDate, {
+				year: 'numeric',
+				month: 'long'
+			})}\n`
+		}
+		if (isValid(asset.capexInReais)) {
+			assetInfo += `Capex de Obra: R$ ${toLocaleStringBrazil(asset.capexInReais)}\n`
+		}
 		navigator.clipboard.writeText(assetInfo).then(() => {
-      toastStore.trigger(toastCopied)
+			toastStore.trigger(toastCopied)
 		})
 	}
 </script>
@@ -286,6 +303,42 @@
 				<span class="text-gray-600">{asset.numberOfEmployees}</span>
 			</li>
 		{/if}
+		{#if isValid(asset.energyOffTaker)}
+			<li>
+				<span class="text-gray-700">Tomador de Energia</span>
+				<span class="text-gray-600">{asset.energyOffTaker}</span>
+			</li>
+		{/if}
+		{#if isValid(asset.energyInstalledCapacityInMWp)}
+			<li>
+				<span class="text-gray-700">Energia em MWp</span>
+				<span class="text-gray-600">{asset.energyInstalledCapacityInMWp}</span>
+			</li>
+		{/if}
+		{#if isValid(asset.ppaInReaisToMWh)}
+			<li>
+				<span class="text-gray-700">Valor PPA R$/MWh</span>
+				<span class="text-gray-600">{asset.ppaInReaisToMWh}</span>
+			</li>
+		{/if}
+		{#if isValid(asset.constructionStartDate)}
+			<li>
+				<span class="text-gray-700">Data Início da Construção</span>
+				<span class="text-gray-600">{asset.constructionStartDate}</span>
+			</li>
+		{/if}
+		{#if isValid(asset.projectAproveDate)}
+			<li>
+				<span class="text-gray-700">Data de Aprovação Projeto</span>
+				<span class="text-gray-600">{asset.projectAproveDate}</span>
+			</li>
+		{/if}
+		{#if isValid(asset.capexInReais)}
+			<li>
+				<span class="text-gray-700">Capex de Obra</span>
+				<span class="text-gray-600">{asset.capexInReais}</span>
+			</li>
+		{/if}
 		<li class="flex flex-col justify-end mt-2">
 			<p class="text-gray-600 text-xs">Criação: {asset?.createdAt}</p>
 			<p class="text-gray-600 text-xs">Última alteração: {asset?.lastUpdated}</p>
@@ -297,7 +350,7 @@
 			class="mr-8 font-bold text-blue-500"
 			on:click={(e) => {
 				e.preventDefault()
-        copyAssetInfo()
+				copyAssetInfo()
 			}}
 		>
 			Copiar Ativo
