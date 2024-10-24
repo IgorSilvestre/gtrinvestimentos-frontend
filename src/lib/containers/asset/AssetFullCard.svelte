@@ -98,10 +98,13 @@
 			assetInfo += `Valor PPA: ${toLocaleStringBrazil(asset.ppaInReaisToMWh)} R$/MWh\n`
 		}
 		if (isValid(asset.constructionStartDate)) {
-			assetInfo += `Data Início da Construção: ${asset.constructionStartDate}\n`
+			assetInfo += `Data Início da Construção: ${new Date(asset.constructionStartDate).toLocaleDateString('pt-BR', {
+				year: 'numeric',
+				month: 'long'
+			})}\n`
 		}
 		if (isValid(asset.projectAproveDate)) {
-			assetInfo += `Data de Aprovação Projeto: ${toLocaleStringBrazil(asset.projectAproveDate, {
+			assetInfo += `Data de Aprovação Projeto: ${new Date(asset.constructionStartDate).toLocaleDateString('pt-BR', {
 				year: 'numeric',
 				month: 'long'
 			})}\n`
