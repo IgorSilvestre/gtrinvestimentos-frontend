@@ -1,35 +1,36 @@
 export const APIEndpoints = {
-  file: 'file/',
+  file: 'v1/file/',
 	person: {
-		getAll: 'person/all',
-		search: 'person/search'
+		getAll: 'v1/person/all',
+		search: 'v1/person/search'
 	},
 	tags: {
-		getAll: 'tag/all',
-		getAllForSelect: 'tag/all-for-select'
+		getAll: 'v1/tag/all',
+		getAllForSelect: 'v1/tag/all-for-select'
 	},
 	zoning: {
-		getAllForSelect: 'zoning/all-for-select'
+		getAllForSelect: 'v1/zoning/all-for-select'
 	},
 	company: {
-		get: 'company/get',
-		search: 'company/search',
-		searchForSelect: 'company/search-for-select'
+		get: 'v1/company/get',
+		search: 'v1/company/search',
+		searchForSelect: 'v1/company/search-for-select'
 	},
-	asset: 'asset/',
+	asset: 'v1/asset/',
 	externalAPI: {
-		fetchCNPJData: 'externalAPI/fetch-cnpj-data/',
-		companySearchEngine: 'externalAPI/company-searchEngine',
+		fetchCNPJData: 'v1/externalAPI/fetch-cnpj-data/',
+		fetchCNPJDataV2: 'v2/external/fetch-cnpj-data/',
+		companySearchEngine: 'v1/externalAPI/company-searchEngine',
 		getLogoByDomain: 'https://logo.clearbit.com/',
     getAddressAutocompleteFullAPI: "https://simple-go-server-production.up.railway.app/external/autocomplete-address?q=",
-		deepSearchCompany: 'externalAPI/deep-search-company',
-		fetchBusinessEmail: 'externalAPI/fetch-business-email',
-        scrapeWebsiteForContacts: 'externalAPI/scrape-website-for-contacts/?domain=https://',
+		deepSearchCompany: 'v1/externalAPI/deep-search-company',
+		fetchBusinessEmail: 'v1/externalAPI/fetch-business-email',
+        scrapeWebsiteForContacts: 'v1/externalAPI/scrape-website-for-contacts/?domain=https://',
 		locations: {
-			getBrazilStates: 'externalAPI/locations/Brazil-states/',
-			getCitiesByState: 'externalAPI/locations/cities-by-state/',
-			getNeighborhoodByCityApiId: 'externalAPI/locations/neighborhood-by-city-apiId/',
-			getStreetByNeighborhoodApiId: 'externalAPI/locations/street-by-neighborhood-apiId/'
+			getBrazilStates: 'v1/externalAPI/locations/Brazil-states/',
+			getCitiesByState: 'v1/externalAPI/locations/cities-by-state/',
+			getNeighborhoodByCityApiId: 'v1/externalAPI/locations/neighborhood-by-city-apiId/',
+			getStreetByNeighborhoodApiId: 'v1/externalAPI/locations/street-by-neighborhood-apiId/'
 		}
 	}
 }

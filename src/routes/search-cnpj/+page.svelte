@@ -14,7 +14,7 @@
 		isLoading = true
 		try {
 			const { data } = await API.get(
-				APIEndpoints.externalAPI.fetchCNPJData + removeSpecialCharacters(cnpj)
+				APIEndpoints.externalAPI.fetchCNPJDataV2 + removeSpecialCharacters(cnpj)
 			)
 			cnpjData = data
 		} catch (err) {
