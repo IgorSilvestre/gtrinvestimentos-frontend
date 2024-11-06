@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fetchBusinessEmail } from '$lib/api/queries/external/featchBusinessEmail'
+	import { fetchBusinessEmail } from '$lib/api/queries/external/fetchBusinessEmail'
 	import { toastCopied } from '$lib/config'
 	import type { ICNPJData } from '$lib/interfaces-validation/ICNPJData'
 	import { copyToClipboard } from '$lib/shared/functions/copyToClipboard'

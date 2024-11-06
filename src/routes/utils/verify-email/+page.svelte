@@ -4,7 +4,7 @@ import { toastCopied } from '$lib/config'
 import { toastStore } from '@skeletonlabs/skeleton'
 import { createEventDispatcher } from "svelte"
 import Loader from "$lib/modules/Loader.svelte"
-import { fetchBusinessEmail } from '$lib/api/queries/external/featchBusinessEmail'
+import { fetchBusinessEmail } from '$lib/api/queries/external/fetchBusinessEmail'
 
 let fullName = ''
 let domain = ''
