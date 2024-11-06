@@ -66,11 +66,11 @@
 			}
 			try {
 				asset
-					? await API.put('asset/' + asset?._id, assetFormUpdated).then(() => {
+					? await API.put('v1/asset/' + asset?._id, assetFormUpdated).then(() => {
 							toastStore.trigger(toastUpdated)
 							goto('/asset/' + asset?._id)
 					  }) // update asset
-					: await API.post('asset', assetFormUpdated).then((response: any) => {
+					: await API.post('v1/asset', assetFormUpdated).then((response: any) => {
 							toastStore.trigger(toastRegistered)
 							goto('/asset/' + response.data._id)
 					  }) // create asset
