@@ -18,7 +18,7 @@
 	const dispatch = createEventDispatcher()
 	async function deleteTag() {
 		try {
-			await API.delete('tag/' + tag._id)
+			await API.delete('v1/tag/' + tag._id)
 
 			// If the request is successful, emit the 'remove' event
 			dispatch('remove', tag._id)
@@ -34,7 +34,7 @@
 		validationSchema: VTag,
 		onSubmit: (tagUpdated) => {
 			try {
-				API.put('tag/' + tag._id, tagUpdated)
+				API.put('v1/tag/' + tag._id, tagUpdated)
 			} catch (e) {
 				console.error(e)
 			}
