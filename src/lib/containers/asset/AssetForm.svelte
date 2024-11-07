@@ -13,6 +13,7 @@
 	import TagInput from '$lib/modules/TagInput.svelte'
 	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
 	import { getSelectZoningOptions } from '$lib/api/queries/zoningQueries'
+  import AssetCheckIfExistAutocomplete from '$lib/containers/asset/AssetCheckIfExistAutocomplete.svelte'
 	import MonthYearPicker from '$lib/modules/MonthYearPicker.svelte'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
 	import { FileDropzone } from '@skeletonlabs/skeleton'
@@ -102,13 +103,7 @@
 								class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 								for="name">Nome <span class="text-red">*</span></label
 							>
-							<input
-								class="appearance-none block w-full text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-								type="text"
-								id="name"
-								on:input={handleChange}
-								bind:value={$form.name}
-							/>
+              <AssetCheckIfExistAutocomplete bind:name={$form.name} />
 							{#if $errors.name}
 								<div class="text-red-500 text-xs">{$errors.name}</div>
 							{/if}
