@@ -41,6 +41,13 @@
 					</p>
 				</div>
 			</div>
+			<div class="flex justify-between">
+        {#if !asset?.isForSale}
+				  <div class="flex flex-col justify-end mt-2">
+            <Tag color={"red"} name={"Não vende ativamente"} />
+				  </div>
+        {/if}
+			</div>
 		</div>
 	</a>
 </div>

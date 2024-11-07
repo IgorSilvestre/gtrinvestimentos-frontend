@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let name: string
 	export let color:
+        | 'red'
         | 'blue'
         | 'black'= 'black'
 </script>
