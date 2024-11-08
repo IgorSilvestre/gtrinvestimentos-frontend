@@ -7,31 +7,28 @@
 
 	export let name: string | null = null;
 
-	let inputValue = '';
 	let suggestions: IOption[] = [];
 
 	// Define the function that fetches suggestions
 	async function fetchSuggestions() {
-		if (inputValue === '') {
+		if (name === '') {
 			suggestions = [];
 			return;
 		}
-		const res = await getAssetsQuery({ search: { query: inputValue }});
+		const res = await getAssetsQuery({ search: { query: name ?? '' }});
     const resJson = await res.json()
     const predictions = resJson.data
-		suggestions = predictions.map((suggestion) => ({
+		suggestions = predictions.map((suggestion: { name: string, _id: string }) => ({
 			label: suggestion.name,
 			value: suggestion._id,
 		}));
-    console.log(suggestions)
 	}
 
 	const debouncedFetchSuggestions = debounce(fetchSuggestions, 500);
 
 	function onInput(event: Event) {
 		const target = event.target as HTMLInputElement;
-		inputValue = target.value;
-		name = null;
+		name = target.value;
 		suggestions = [];
 
 		debouncedFetchSuggestions();
@@ -45,7 +42,7 @@
 <div class="relative">
 	<input
 		type="text"
-		bind:value={inputValue}
+		bind:value={name}
 		on:input={onInput}
 		class="border rounded px-4 py-2 w-full"
 		placeholder="Nome da empresa"
