@@ -36,8 +36,7 @@
 
 <main class="mt-4">
 	<p class="text-center">
-		Caso queira pesquisar o CNPJ clique
-		<a href="https://www.diretoriobrasil.net/" class="text-blue-800">aqui</a>
+		<a href="https://www.redecnpj.com/r/" class="text-blue-800">Busca Avançada</a>
 	</p>
 	<div class="items-center text-center">
 		<label class="text-center block uppercase tracking-wide font-bold" for="name"> Busca </label>
