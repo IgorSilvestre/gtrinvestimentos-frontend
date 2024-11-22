@@ -56,12 +56,12 @@
 
 			try {
 				person
-					? await API.put('person/' + person?._id, personParsed).then((response) => {
+					? await API.put('v1/person/' + person?._id, personParsed).then((response) => {
 							dispatch('personUpdated', response.data)
 							toastStore.trigger(toastUpdated)
 							goto('/person/' + person?._id)
 					  }) // update person
-					: await API.post('person', personParsed).then((response) => {
+					: await API.post('v1/person', personParsed).then((response) => {
 							toastStore.trigger(toastRegistered)
 							goto('/person/' + response.data._id)
 					  }) // create person
