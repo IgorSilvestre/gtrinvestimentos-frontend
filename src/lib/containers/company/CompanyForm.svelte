@@ -12,6 +12,7 @@
 	import { toastStore } from '@skeletonlabs/skeleton'
 	import { toastRegistered, toastUpdated } from '$lib/config'
 	import Loader from '$lib/modules/Loader.svelte'
+	import { APIEndpoints } from '$lib/api/apiEndpoints'
 
 	export let company: ICompany | undefined = undefined
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
@@ -42,11 +43,11 @@
 
 			try {
 				company
-					? await API.put('company/' + company?._id, companyParsed).then(() => {
+					? await API.put(APIEndpoints.company.url_v1 + company?._id, companyParsed).then(() => {
 							toastStore.trigger(toastUpdated)
 							goto('/company/' + company?._id)
 					  }) // update company
-					: await API.post('company', companyParsed).then((response) => {
+					: await API.post(APIEndpoints.company.url_v1, companyParsed).then((response) => {
 							toastStore.trigger(toastRegistered)
 							goto('/company/' + response.data._id)
 					  }) // create company

@@ -12,6 +12,7 @@ export const APIEndpoints = {
 		getAllForSelect: 'v1/zoning/all-for-select'
 	},
 	company: {
+    url_v1: 'v1/company/',
 		get: 'v1/company/get',
 		search: 'v1/company/search',
 		searchForSelect: 'v1/company/search-for-select'
