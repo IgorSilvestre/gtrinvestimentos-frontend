@@ -1,6 +1,7 @@
 export const APIEndpoints = {
   file: 'v1/file/',
 	person: {
+    url_v1: 'v1/person/',
 		getAll: 'v1/person/all',
 		search: 'v1/person/search'
 	},
