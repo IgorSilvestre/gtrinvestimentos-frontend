@@ -144,6 +144,14 @@
 				<span class="text-gray-600">{asset.isForSale ? 'SIM' : 'NÃO'}</span>
 			</li>
 		{/if}
+		{#if isValid(asset.contact)}
+			<li class="">
+				<span class="text-gray-700">Parceiro</span>
+        <a href={`/person/${asset.contact?._id}`}>
+        <Tag name={asset.contact?.name} />
+        </a>
+			</li>
+		{/if}
 		{#if isValid(asset.priceInReais)}
 			<li class="">
 				<span class="text-gray-700">Preço</span>

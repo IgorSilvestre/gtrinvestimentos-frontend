@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import type { IOption } from './IOption';
+import { type IPerson } from './IVPerson';
 
 export interface IAsset {
   _id?: string;
@@ -44,8 +45,9 @@ export interface IAsset {
   updatedAt?: string;
 }
 
-export interface IAssetShow extends Omit<IAsset, 'tags'> {
+export interface IAssetShow extends Omit<IAsset, 'tags' | 'contact'> {
   tags?: IOption[]
+  contact?: IPerson
 }
 
 
