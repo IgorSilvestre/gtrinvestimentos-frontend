@@ -13,10 +13,12 @@
 	import TagInput from '$lib/modules/TagInput.svelte'
 	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
 	import { getSelectZoningOptions } from '$lib/api/queries/zoningQueries'
-  import AssetCheckIfExistAutocomplete from '$lib/containers/asset/AssetCheckIfExistAutocomplete.svelte'
+	import AssetCheckIfExistAutocomplete from '$lib/containers/asset/AssetCheckIfExistAutocomplete.svelte'
 	import MonthYearPicker from '$lib/modules/MonthYearPicker.svelte'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
 	import { FileDropzone } from '@skeletonlabs/skeleton'
+	import { searchPersonForSelectQuery_v1 } from '$lib/api/queries/person/searchPersonForSelectQuery_v1'
+	import TagInputAsync from '$lib/modules/TagInputAsync.svelte'
 
 	export let asset: IAsset | undefined = undefined
 	let selectTagOptionsPromise: Promise<IOption[]> = getSelectTagOptions()
@@ -39,6 +41,17 @@
 				tags: [],
 				isForSale: true
 		  }
+
+	async function handleContactSearch(e: string): Promise<IOption[]> {
+    if(!e) return []
+		const contacts = await searchPersonForSelectQuery_v1(e)
+		return contacts.map((contact: any) => ({
+			label: `${contact.name}
+              ${contact.company ? ` - ${contact.company.name}` : ''}
+              ${contact.tags.some((tag: any) => tag.label.match(/parceiro/gi)) ? ' - Parceiro' : ''}`,
+			value: contact._id
+		}))
+	}
 
 	function removeImage() {
 		$form.imgURL = undefined
@@ -103,7 +116,7 @@
 								class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 								for="name">Nome <span class="text-red">*</span></label
 							>
-              <AssetCheckIfExistAutocomplete bind:name={$form.name} />
+							<AssetCheckIfExistAutocomplete bind:name={$form.name} />
 							{#if $errors.name}
 								<div class="text-red-500 text-xs">{$errors.name}</div>
 							{/if}
@@ -178,6 +191,16 @@
 							/>
 							{#if $errors.description}
 								<div class="text-red-500 text-xs">{$errors.description}</div>
+							{/if}
+						</div>
+						<div class="w-full px-3 mb-4">
+							<label
+								class="block uppercase tracking-wide text-gray-700 text-xs font-bold md:mb-2"
+								for="contact">Parceiro</label
+							>
+              <TagInputAsync bind:selected={$form.contact} loadOptions={handleContactSearch} />
+							{#if $errors.contact}
+								<div class="text-red text-xs">{$errors.contact}</div>
 							{/if}
 						</div>
 					</div>
