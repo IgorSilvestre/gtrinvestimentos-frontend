@@ -19,6 +19,7 @@ export const APIEndpoints = {
 		searchForSelect: 'v1/company/search-for-select'
 	},
 	asset: 'v1/asset/',
+  assetDeepSearch: 'v1/asset/search/',
 	externalAPI: {
 		fetchCNPJData: 'v1/externalAPI/fetch-cnpj-data/',
 		fetchCNPJDataV2: 'v2/external/fetch-cnpj-data/',
