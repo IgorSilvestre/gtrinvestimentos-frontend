@@ -4,7 +4,7 @@
 	import { getSelectTagOptions } from '$lib/api/queries/tagQueries'
 	import type { IOption } from '$lib/interfaces-validation/IOption'
 	import type { ISearchParams } from '$lib/interfaces-validation/ISearchParams'
-	import { convertObjectToBase64 } from '$lib/shared/functions/convertObjectBase64'
+	import { convertBase64ToObject, convertObjectToBase64 } from '$lib/shared/functions/convertObjectBase64'
 	import { customSelectFilter } from '$lib/shared/functions/filterStringSearch'
 	import { getParamsFromURL } from '$lib/shared/functions/getParamsFromURL'
 	import { onMount } from 'svelte'
@@ -18,7 +18,9 @@
 	onMount(async () => {
 		selectTagOptions = await getSelectTagOptions()
 
-		const params = getParamsFromURL(window.location.search)
+    const urlParams = getParamsFromURL(window.location.search)
+    const params = urlParams ? convertBase64ToObject(urlParams.get('data') as string) : null
+    
     if(!params) return isLoadingTags = false
 
 		query = params?.query ?? ''

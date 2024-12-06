@@ -9,6 +9,7 @@
 	import { fly } from 'svelte/transition'
 	import { getAssetsQuery } from '$lib/api/queries/asset/getAssetsQuery'
 	import { getParamsFromURL } from '$lib/shared/functions/getParamsFromURL'
+	import { convertBase64ToObject } from '$lib/shared/functions/convertObjectBase64'
 
 	let assetsPaginated: IAssetPaginated
 	let assets: IAssetShow[] | undefined | null = undefined
@@ -20,7 +21,8 @@
 	onMount(async () => {
 		isLoadingAssets = true
 
-    const params = getParamsFromURL(window.location.search)
+    const urlParams = getParamsFromURL(window.location.search)
+    const params = urlParams ? convertBase64ToObject(urlParams.get('data') as string) : null
    
 		const res = await getAssetsQuery({ search: params, page: currentPage })
 		assetsPaginated = await res.json()
