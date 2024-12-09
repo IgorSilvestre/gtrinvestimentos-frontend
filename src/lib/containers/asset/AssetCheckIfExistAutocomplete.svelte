@@ -15,9 +15,7 @@
 			suggestions = [];
 			return;
 		}
-		const res = await getAssetsQuery({ search: { query: name ?? '' }});
-    const resJson = await res.json()
-    const predictions = resJson.data
+		const predictions: any = await getAssetsQuery({ search: { query: name ?? '' }})
 		suggestions = predictions.map((suggestion: { name: string, _id: string }) => ({
 			label: suggestion.name,
 			value: suggestion._id,

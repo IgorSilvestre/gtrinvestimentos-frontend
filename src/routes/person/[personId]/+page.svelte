@@ -30,14 +30,13 @@
 			searchInputElement.focus()
 		}
 
-		let res
 		if (query) {
-			res = await deepSearchAssetsQuery({ contact: person._id, $text: { $search: query.split(" ").map(term => `"${term}"`).join(" ") } })
+			assetsPaginated = await deepSearchAssetsQuery({ contact: person._id, $text: { $search: query.split(" ").map(term => `"${term}"`).join(" ") } }) as any as IAssetPaginated
 		} else {
-			res = await deepSearchAssetsQuery({ contact: person._id })
+			assetsPaginated = await deepSearchAssetsQuery({ contact: person._id }) as any as IAssetPaginated
 		}
-		assetsPaginated = await res.json()
 		assets = assetsPaginated?.data ?? null
+    console.log('assets', assetsPaginated)
 
 		isLoadingAssets = false
 	})
@@ -82,6 +81,9 @@
 				class={`border rounded px-4 py-2 w-full outline-none focus:ring-0`}
 				placeholder="buscar"
 			/>
+      {#if assetsPaginated?.totalAssets}
+        <p class="mt-1 ml-2 text-grey text-sm">{assetsPaginated?.totalAssets} Resultados</p>
+      {/if}
 		</div>
 		{#if assets && assets.length === 0}
 			<div class="flex justify-center mx-4 my-2">

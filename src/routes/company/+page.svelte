@@ -24,8 +24,7 @@
 	let totalPages = 1
 
 	onMount(async () => {
-		const res = await getCompaniesQuery()
-		companiesPaginated = await res.json()
+		companiesPaginated = await getCompaniesQuery() as any as ICompanyPaginated
 		companies = companiesPaginated?.data ?? null
 		totalPages = companiesPaginated?.totalPages ?? 1
 		isLoadingCompanies = false

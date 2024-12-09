@@ -24,8 +24,7 @@
     const urlParams = getParamsFromURL(window.location.search)
     const params = urlParams ? convertBase64ToObject(urlParams.get('data') as string) : null
    
-		const res = await getAssetsQuery({ search: params, page: currentPage })
-		assetsPaginated = await res.json()
+		assetsPaginated = await getAssetsQuery({ search: params, page: currentPage }) as any
 
 		assets = assetsPaginated?.data ?? null
 		totalPages = assetsPaginated?.totalPages ?? 1
