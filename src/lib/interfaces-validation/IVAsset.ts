@@ -54,7 +54,7 @@ export interface IAssetShow extends Omit<IAsset, 'tags' | 'contact'> {
 export interface IAssetPaginated {
   data: IAssetShow[]
   totalPages: number,
-  totalCompanies: number
+  totalAssets: number
   nextPage: number | null
   previousPage: number | null
 }
