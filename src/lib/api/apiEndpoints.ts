@@ -1,5 +1,8 @@
 export const APIEndpoints = {
   file: 'v1/file/',
+  auth: {
+    login: 'auth/login',
+  },
 	person: {
     url_v1: 'v1/person/',
 		getAll: 'v1/person/all',
