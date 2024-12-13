@@ -39,7 +39,7 @@ export interface IAsset {
   capexInReais?: number
   address?: string;
   addressComplement?: string;
-  contact?: string;
+  contact?: IPerson
   zoning?: string[];
   createdAt?: string;
   updatedAt?: string;
