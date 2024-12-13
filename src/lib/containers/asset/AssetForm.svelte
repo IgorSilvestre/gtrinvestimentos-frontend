@@ -34,7 +34,8 @@
 		? {
 				...asset,
 				tags: asset?.tags ? asset.tags.map((tag: any) => tag.value) : [],
-				zoning: asset?.zoning ? asset.zoning.map((zoning: any) => zoning._id) : undefined
+				zoning: asset?.zoning ? asset.zoning.map((zoning: any) => zoning._id) : undefined,
+				contact: asset?.contact ? asset?.contact._id : undefined
 		  }
 		: {
 				name: '',
@@ -43,14 +44,20 @@
 		  }
 
 	async function handleContactSearch(e: string): Promise<IOption[]> {
-    if(!e) return []
+		if (!e) return []
 		const contacts = await searchPersonForSelectQuery_v1(e)
-		return contacts.map((contact: any) => ({
+		return contacts.map((contact: any) => parseContactToIOption(contact))
+	}
+
+	function parseContactToIOption(contact: any): IOption {
+		return {
 			label: `${contact.name}
               ${contact.company ? ` - ${contact.company.name}` : ''}
-              ${contact.tags.some((tag: any) => tag.label.match(/parceiro/gi)) ? ' - Parceiro' : ''}`,
+              ${
+								contact.tags.some((tag: any) => tag.label.match(/parceiro/gi)) ? ' - Parceiro' : ''
+							}`,
 			value: contact._id
-		}))
+		}
 	}
 
 	function removeImage() {
@@ -198,7 +205,13 @@
 								class="block uppercase tracking-wide text-gray-700 text-xs font-bold md:mb-2"
 								for="contact">Parceiro</label
 							>
-              <TagInputAsync bind:selected={$form.contact} loadOptions={handleContactSearch} />
+							<TagInputAsync
+								bind:selected={$form.contact}
+								loadOptions={handleContactSearch}
+								initialValues={asset?.contact
+									? { label: asset?.contact?.name, value: asset?.contact?._id }
+									: undefined}
+							/>
 							{#if $errors.contact}
 								<div class="text-red text-xs">{$errors.contact}</div>
 							{/if}
