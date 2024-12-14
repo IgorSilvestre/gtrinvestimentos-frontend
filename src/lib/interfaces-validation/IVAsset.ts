@@ -42,7 +42,7 @@ export interface IAsset {
   contact?: IPerson
   zoning?: string[];
   createdAt?: string;
-  updatedAt?: string;
+  lastUpdated?: string;
 }
 
 export interface IAssetShow extends Omit<IAsset, 'tags' | 'contact'> {

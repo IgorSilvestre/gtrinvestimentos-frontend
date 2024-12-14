@@ -8,5 +8,10 @@ export const textKeys = {
   },
   dispatch: {
     search: 'search'
-  }
+  },
+  viewTypes: {
+    cards: 'cards',
+    sheet: 'sheet'
+  },
 }
+

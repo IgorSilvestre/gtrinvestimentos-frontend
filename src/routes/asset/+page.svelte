@@ -10,9 +10,13 @@
 	import { getAssetsQuery } from '$lib/api/queries/asset/getAssetsQuery'
 	import { getParamsFromURL } from '$lib/shared/functions/getParamsFromURL'
 	import { convertBase64ToObject } from '$lib/shared/functions/convertObjectBase64'
+	import ViewSelector from '$lib/modules/ViewSelector.svelte'
+	import { textKeys } from '$lib/shared/textKeys'
+	import AssetSheet from '$lib/containers/asset/AssetSheet.svelte'
 
 	let assetsPaginated: IAssetPaginated
 	let assets: IAssetShow[] | undefined | null = undefined
+	let view = textKeys.viewTypes.sheet
 
 	let currentPage = 1
 	let totalPages = 1
@@ -21,9 +25,9 @@
 	onMount(async () => {
 		isLoadingAssets = true
 
-    const urlParams = getParamsFromURL(window.location.search)
-    const params = urlParams ? convertBase64ToObject(urlParams.get('data') as string) : null
-   
+		const urlParams = getParamsFromURL(window.location.search)
+		const params = urlParams ? convertBase64ToObject(urlParams.get('data') as string) : null
+
 		const res = await getAssetsQuery({ search: params, page: currentPage })
 		assetsPaginated = await res.json()
 
@@ -34,7 +38,7 @@
 	})
 
 	$: {
-		currentPage, assets
+		currentPage, assets, view
 	}
 </script>
 
@@ -50,6 +54,7 @@
 	</div>
 	<div class="p-4">
 		<SearchThroughURL />
+		<ViewSelector bind:view={view} />
 	</div>
 	{#if assets && assets.length === 0}
 		<div class="flex justify-center mx-4 my-2">
@@ -61,11 +66,15 @@
 		</div>
 	{:else if assets && assets.length > 0}
 		<div class="flex flex-wrap justify-start">
-			{#each assets as asset}
-				<div class="w-full sm:w-1/2 md:w-1/3 px-4 mb-8">
-					<span in:fly={transitionOptions.defaultFlyEntry}> <AssetCard {asset} /> </span>
-				</div>
-			{/each}
+			{#if view === textKeys.viewTypes.sheet}
+				<AssetSheet {assets} />
+			{:else}
+				{#each assets as asset}
+					<div class="w-full sm:w-1/2 md:w-1/3 px-4 mb-8">
+						<span in:fly={transitionOptions.defaultFlyEntry}> <AssetCard {asset} /> </span>
+					</div>
+				{/each}
+			{/if}
 		</div>
 	{:else}
 		<div class="flex justify-center mx-4 my-6">
