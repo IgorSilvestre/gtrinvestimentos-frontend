@@ -3,7 +3,7 @@
 	import PersonCard from '$lib/containers/person/PersonCard.svelte'
 	import { fly } from 'svelte/transition'
 	import AssetCard from '$lib/containers/asset/AssetCard.svelte'
-	import type { IAssetShow, IAssetPaginated } from '$lib/interfaces-validation/IVAsset'
+	import type { IAssetShow } from '$lib/interfaces-validation/IVAsset'
 	import Loader from '$lib/modules/Loader.svelte'
 	import { onMount } from 'svelte'
 	import { getParamsFromURL } from '$lib/shared/functions/getParamsFromURL'
@@ -12,7 +12,6 @@
 	export let data
 	let { person } = data
 
-	let assetsPaginated: IAssetPaginated
 	let assets: IAssetShow[] | undefined | null = undefined
 	let isLoadingAssets = true
 
@@ -36,8 +35,7 @@
 		} else {
 			res = await deepSearchAssetsQuery({ contact: person._id })
 		}
-		assetsPaginated = await res.json()
-		assets = assetsPaginated?.data ?? null
+		assets = await res.data.data ?? null
 
 		isLoadingAssets = false
 	})
@@ -101,7 +99,7 @@
 			</div>
 		{:else}
 			<div class="flex justify-center mx-4 my-6">
-				<p>Não foi possível carregar ativos..</p>
+				<p>Nenhum ativo encontrado</p>
 			</div>
 		{/if}
 	</div>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import { APIEndpoints } from '$lib/api/apiEndpoints.js'
-	import { API_URL } from '$lib/config.js'
+	import { API } from '$lib/api/apiFetch'
 	import PersonCard from '$lib/containers/person/PersonCard.svelte'
 	import type { IPerson } from '$lib/interfaces-validation/IVPerson.js'
 	import CopyToClipboardButton from '$lib/modules/CopyToClipboardButton.svelte'
@@ -16,8 +16,8 @@
 
 	let people: IPerson[] | undefined = undefined
 	onMount(async () => {
-		const res = await fetch(API_URL + APIEndpoints.person.getAll)
-		people = ensureArray((await res.json()) as IPerson[])
+		const res = await API.get(APIEndpoints.person.getAll)
+		people = ensureArray((await res.data) as IPerson[])
 	})
 
 	let currentPage = 1
@@ -40,7 +40,6 @@
 	}
 
 	function handleSearchPeople(event: CustomEvent<IPerson | IPerson[]>): void {
-		people = []
 		people = ensureArray(event.detail)
 		
 		// update copy emails-to-clipboard button

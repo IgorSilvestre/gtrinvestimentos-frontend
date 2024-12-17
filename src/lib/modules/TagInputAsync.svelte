@@ -32,9 +32,6 @@
 		componentSelection = initialValues
 		isLoading = false
 	})
-  
-  $: console.log(isLoading)
-  $: console.log(componentSelection)
 </script>
 
 <main class={style}>

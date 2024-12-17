@@ -5,10 +5,16 @@ import type { IOption } from '$lib/interfaces-validation/IOption';
 import type { IAsset } from '$lib/interfaces-validation/IVAsset';
 
 export async function load({ fetch, params }: ILoadFunction): Promise<{ asset: IAsset, tags: IOption[] }> {
-    const assetRes = await fetch(`${API_URL}${APIEndpoints.asset}${params.assetId}`);
+    const assetRes = await fetch(`${API_URL}${APIEndpoints.asset}${params.assetId}`, {
+        method: 'GET',
+        credentials: 'include' // Include cookies or credentials
+    });
     const [ asset ] = await assetRes.json()
 
-    const tagsRes: Response = await fetch(`${API_URL}${APIEndpoints.tags.getAllForSelect}`);
+    const tagsRes: Response = await fetch(`${API_URL}${APIEndpoints.tags.getAllForSelect}`, {
+        method: 'GET',
+        credentials: 'include' // Include cookies or credentials
+    });
     const tags: IOption[] = await tagsRes.json();
 
     return { asset, tags };

@@ -17,10 +17,8 @@
     onSubmit: async (userLoginForm: IUser) => {
       try {
         const response = await loginQuery(userLoginForm);
-        console.log('response', response)
 
         if (response.status === 200) {
-          console.log('redirected to asset')
           goto('/asset')
         } else {
           const { data } = await response

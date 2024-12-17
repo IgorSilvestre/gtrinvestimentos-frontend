@@ -31,7 +31,6 @@
 	const debouncedFetchSuggestions = debounce(fetchSuggestions, 500);
 
 	function onInput(event: Event) {
-    console.log(typeof setTimeout)
 		const target = event.target as HTMLInputElement;
 		inputValue = target.value;
 		selectedPlace = null;

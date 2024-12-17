@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import { APIEndpoints } from '$lib/api/apiEndpoints'
-	import { getCompaniesQuery } from '$lib/api/queries/company/getCompanies'
+	import { getCompaniesQuery } from '$lib/api/queries/company/getCompaniesQuery'
 	import { transitionOptions } from '$lib/config'
 	import CompanyCard from '$lib/containers/company/CompanyCard.svelte'
 	import type { ISearchParams } from '$lib/interfaces-validation/ISearchParams'
@@ -25,7 +25,7 @@
 
 	onMount(async () => {
 		const res = await getCompaniesQuery()
-		companiesPaginated = await res.json()
+		companiesPaginated = await res.data
 		companies = companiesPaginated?.data ?? null
 		totalPages = companiesPaginated?.totalPages ?? 1
 		isLoadingCompanies = false
@@ -97,7 +97,7 @@
 					})
 				} else {
 					const companiesRes = await getCompaniesQuery(page)
-					companiesPaginated = await companiesRes.json()
+					companiesPaginated = await companiesRes.data
 					companies = companiesPaginated?.data
 				}
 				currentPage = page

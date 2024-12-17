@@ -1,8 +1,6 @@
 <script lang="ts">
 	export let data: {}
   
-  console.log('JsonToTable', data)
-
 	function renderValue(value: any) {
 		if (Array.isArray(value)) {
 			if (value.length === 0) {

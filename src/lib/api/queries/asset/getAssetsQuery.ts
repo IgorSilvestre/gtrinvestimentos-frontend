@@ -1,5 +1,5 @@
 import { APIEndpoints } from '$lib/api/apiEndpoints'
-import { API_URL } from '$lib/config'
+import { API } from '$lib/api/apiFetch'
 import { ITEMS_PER_PAGE } from '$lib/shared/stores'
 import { get } from 'svelte/store'
 
@@ -16,7 +16,7 @@ interface IParams {
 export async function getAssetsQuery(params: IParams = {}) {
   let { search, page = defaultPage, limit = defaultLimit } = params;
 
-  let endpoint = `${API_URL}${APIEndpoints.asset}?`;
+  let endpoint = `${APIEndpoints.asset}?`;
 
   endpoint += (limit && limit > 1 && limit < 100) ? `&limit=${limit}` : `&limit=${defaultLimit}`;
   endpoint += (page && page > 1) ? `&page=${page}` : `&page=${defaultPage}`;
@@ -30,5 +30,5 @@ export async function getAssetsQuery(params: IParams = {}) {
     endpoint += params.type ? `&type=${params.type}` : '' // Add type
   }
 
-  return await fetch(endpoint);
+  return await API.get(endpoint);
 }
